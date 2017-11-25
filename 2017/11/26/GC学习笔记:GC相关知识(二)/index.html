@@ -8,17 +8,17 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>GC学习笔记:GC相关知识(二) | oatiz&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="GC中基本概念对象/头／域对象在GC里,对象表示”通过应用程序利用的数据的集合”。对象配置在内存空间中,GC会根据情况将配置好的对象进行移动或销毁操作。因此,对象是GC的基本单位。对象由“头(header)”与“域(field)”组成 头将对象中保存对象本身信息的部分称为“头”,主要包括以下信息:  GC运行所需信息(预先存有) 对象的大小 对象的种类  域把对象使用者在对象中可访问的部分称为“">
+  <meta name="description" content="GC中基本概念对象/头/域对象在GC里,对象表示”通过应用程序利用的数据的集合”。对象配置在内存空间中,GC会根据情况将配置好的对象进行移动或销毁操作。因此,对象是GC的基本单位。对象由“头(header)”与“域(field)”组成 头将对象中保存对象本身信息的部分称为“头”,主要包括以下信息:  GC运行所需信息(预先存有) 对象的大小 对象的种类  域把对象使用者在对象中可访问的部分称为“">
 <meta name="keywords" content="JVM,GC,DASS">
 <meta property="og:type" content="article">
 <meta property="og:title" content="GC学习笔记:GC相关知识(二)">
 <meta property="og:url" content="http://yoursite.com/2017/11/26/GC学习笔记:GC相关知识(二)/index.html">
 <meta property="og:site_name" content="oatiz&#39;s blog">
-<meta property="og:description" content="GC中基本概念对象/头／域对象在GC里,对象表示”通过应用程序利用的数据的集合”。对象配置在内存空间中,GC会根据情况将配置好的对象进行移动或销毁操作。因此,对象是GC的基本单位。对象由“头(header)”与“域(field)”组成 头将对象中保存对象本身信息的部分称为“头”,主要包括以下信息:  GC运行所需信息(预先存有) 对象的大小 对象的种类  域把对象使用者在对象中可访问的部分称为“">
-<meta property="og:updated_time" content="2017-11-25T17:32:51.000Z">
+<meta property="og:description" content="GC中基本概念对象/头/域对象在GC里,对象表示”通过应用程序利用的数据的集合”。对象配置在内存空间中,GC会根据情况将配置好的对象进行移动或销毁操作。因此,对象是GC的基本单位。对象由“头(header)”与“域(field)”组成 头将对象中保存对象本身信息的部分称为“头”,主要包括以下信息:  GC运行所需信息(预先存有) 对象的大小 对象的种类  域把对象使用者在对象中可访问的部分称为“">
+<meta property="og:updated_time" content="2017-11-25T17:37:50.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="GC学习笔记:GC相关知识(二)">
-<meta name="twitter:description" content="GC中基本概念对象/头／域对象在GC里,对象表示”通过应用程序利用的数据的集合”。对象配置在内存空间中,GC会根据情况将配置好的对象进行移动或销毁操作。因此,对象是GC的基本单位。对象由“头(header)”与“域(field)”组成 头将对象中保存对象本身信息的部分称为“头”,主要包括以下信息:  GC运行所需信息(预先存有) 对象的大小 对象的种类  域把对象使用者在对象中可访问的部分称为“">
+<meta name="twitter:description" content="GC中基本概念对象/头/域对象在GC里,对象表示”通过应用程序利用的数据的集合”。对象配置在内存空间中,GC会根据情况将配置好的对象进行移动或销毁操作。因此,对象是GC的基本单位。对象由“头(header)”与“域(field)”组成 头将对象中保存对象本身信息的部分称为“头”,主要包括以下信息:  GC运行所需信息(预先存有) 对象的大小 对象的种类  域把对象使用者在对象中可访问的部分称为“">
   
     <link rel="alternative" href="/atom.xml" title="oatiz&#39;s blog" type="application/atom+xml">
   
@@ -176,7 +176,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="GC中基本概念"><a href="#GC中基本概念" class="headerlink" title="GC中基本概念"></a>GC中基本概念</h2><h3 id="对象-头／域"><a href="#对象-头／域" class="headerlink" title="对象/头／域"></a>对象/头／域</h3><h4 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h4><p>在GC里,对象表示”通过应用程序利用的数据的集合”。对象配置在内存空间中,GC会根据情况将配置好的对象进行移动或销毁操作。因此,对象是GC的基本单位。<br>对象由“头(header)”与“域(field)”组成</p>
+        <h2 id="GC中基本概念"><a href="#GC中基本概念" class="headerlink" title="GC中基本概念"></a>GC中基本概念</h2><h3 id="对象-头-域"><a href="#对象-头-域" class="headerlink" title="对象/头/域"></a>对象/头/域</h3><h4 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h4><p>在GC里,对象表示”通过应用程序利用的数据的集合”。对象配置在内存空间中,GC会根据情况将配置好的对象进行移动或销毁操作。因此,对象是GC的基本单位。<br>对象由“头(header)”与“域(field)”组成</p>
 <h4 id="头"><a href="#头" class="headerlink" title="头"></a>头</h4><p>将对象中保存对象本身信息的部分称为“头”,主要包括以下信息:</p>
 <ul>
 <li>GC运行所需信息(预先存有)</li>
