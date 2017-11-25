@@ -153,6 +153,305 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-GC学习笔记:GC标记-清除算法(三)" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/11/26/GC学习笔记:GC标记-清除算法(三)/">GC学习笔记:GC标记-清除算法(三)</a>
+    </h1>
+  
+
+        
+        <a href="/2017/11/26/GC学习笔记:GC标记-清除算法(三)/" class="archive-article-date">
+  	<time datetime="2017-11-25T16:17:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-26</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="GC标记-清除算法"><a href="#GC标记-清除算法" class="headerlink" title="GC标记-清除算法"></a>GC标记-清除算法</h3><h4 id="标记阶段"><a href="#标记阶段" class="headerlink" title="标记阶段"></a>标记阶段</h4><h4 id="清除阶段"><a href="#清除阶段" class="headerlink" title="清除阶段"></a>清除阶段</h4><h4 id="分配"><a href="#分配" class="headerlink" title="分配"></a>分配</h4><h4 id="合并"><a href="#合并" class="headerlink" title="合并"></a>合并</h4><h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><h4 id="实现简单"><a href="#实现简单" class="headerlink" title="实现简单"></a>实现简单</h4><h4 id="与保守式GC兼容"><a href="#与保守式GC兼容" class="headerlink" title="与保守式GC兼容"></a>与保守式GC兼容</h4><h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><h4 id="碎片化"><a href="#碎片化" class="headerlink" title="碎片化"></a>碎片化</h4><h4 id="分配速度"><a href="#分配速度" class="headerlink" title="分配速度"></a>分配速度</h4><h4 id="与写时复制技术不兼容"><a href="#与写时复制技术不兼容" class="headerlink" title="与写时复制技术不兼容"></a>与写时复制技术不兼容</h4><h3 id="多个空闲链表"><a href="#多个空闲链表" class="headerlink" title="多个空闲链表"></a>多个空闲链表</h3><h3 id="BiBOP算法"><a href="#BiBOP算法" class="headerlink" title="BiBOP算法"></a>BiBOP算法</h3><h3 id="位图标记"><a href="#位图标记" class="headerlink" title="位图标记"></a>位图标记</h3><h4 id="优点-1"><a href="#优点-1" class="headerlink" title="优点"></a>优点</h4><h5 id="与写时复制技术兼容"><a href="#与写时复制技术兼容" class="headerlink" title="与写时复制技术兼容"></a>与写时复制技术兼容</h5><h5 id="清除操作更高效"><a href="#清除操作更高效" class="headerlink" title="清除操作更高效"></a>清除操作更高效</h5><h3 id="延迟清除法"><a href="#延迟清除法" class="headerlink" title="延迟清除法"></a>延迟清除法</h3>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">JVM</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">GC</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DASS</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/11/26/GC学习笔记:GC标记-清除算法(三)/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-GC学习笔记:GC相关知识(二)" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/11/26/GC学习笔记:GC相关知识(二)/">GC学习笔记:GC相关知识(二)</a>
+    </h1>
+  
+
+        
+        <a href="/2017/11/26/GC学习笔记:GC相关知识(二)/" class="archive-article-date">
+  	<time datetime="2017-11-25T16:16:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-26</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="GC中基本概念"><a href="#GC中基本概念" class="headerlink" title="GC中基本概念"></a>GC中基本概念</h2><h3 id="对象-头／域"><a href="#对象-头／域" class="headerlink" title="对象/头／域"></a>对象/头／域</h3><h4 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h4><p>在GC里,对象表示”通过应用程序利用的数据的集合”。对象配置在内存空间中,GC会根据情况将配置好的对象进行移动或销毁操作。因此,对象是GC的基本单位。<br>对象由“头(header)”与“域(field)”组成</p>
+<h4 id="头"><a href="#头" class="headerlink" title="头"></a>头</h4><p>将对象中保存对象本身信息的部分称为“头”,主要包括以下信息:</p>
+<ul>
+<li>GC运行所需信息(预先存有)</li>
+<li>对象的大小</li>
+<li>对象的种类</li>
+</ul>
+<h4 id="域"><a href="#域" class="headerlink" title="域"></a>域</h4><p>把对象使用者在对象中可访问的部分称为“域”,域中的数据类型大致分为2种:</p>
+<ul>
+<li>指针<br>指向内存空间中某块区域的值</li>
+<li>非指针<br>编程中直接使用值本身</li>
+</ul>
+<h4 id="mutator"><a href="#mutator" class="headerlink" title="mutator"></a>mutator</h4><p>mutator有改变某物的意思,即改变GC对象间的引用关系。它的实体即为“应用程序”,它进行的实际操作分为2种:</p>
+<ul>
+<li>生成对象</li>
+<li>更新指针</li>
+</ul>
+<p>mutator在进行这些操作是,会为应用程序的用户进行一些处理,随着这些处理的推进,对象间的引用关系随之也会发生”改变”,伴随着这些变化会产生垃圾,而负责会后这些就是GC</p>
+<h4 id="堆"><a href="#堆" class="headerlink" title="堆"></a>堆</h4><p>堆是用于存放对象的内存空间,在java堆的实现是一种特殊的树型数据结构</p>
+<h4 id="活动对象-非活动对象"><a href="#活动对象-非活动对象" class="headerlink" title="活动对象/非活动对象"></a>活动对象/非活动对象</h4><p>在已分配到堆中的对象,那些能通过程序引用的对象称为”活动对象”,反之,不能通过引用的对象称为”非活动对象”,也就是GC需要回收掉的部分</p>
+<h4 id="分配"><a href="#分配" class="headerlink" title="分配"></a>分配</h4><p>分配(allocation)指的是在内存空间分配对象。<br>当堆被活动对象占满,运行GC也无法配置可用空间时,有以下两种选择:</p>
+<ul>
+<li>销毁所有计算结果,输出错误信息</li>
+<li>扩大堆,分配可用空间</li>
+</ul>
+<h4 id="分块"><a href="#分块" class="headerlink" title="分块"></a>分块</h4><p>分块(chunk)在GC世界里指的是为利用对象而事先准备出来的空间。<br>初始情况下,堆被一个大的分块占据,然后根据mutator的要求把这个分块分割成合适的大小,作为(活动)对象使用。活动对象不久会转化为垃圾回收,此时这部分被回收的内存空间再次分为分块,为下次被利用做准备。周而复始…</p>
+<blockquote>
+<p>流程如下:<br>分块 –&gt; 活动对象 –&gt; 非活动对象 –&gt; 分块 –&gt; …</p>
+</blockquote>
+<h4 id="根"><a href="#根" class="headerlink" title="根"></a>根</h4><p>根是指向对象的指针的“起点部分”。 在Java中,可作为根的主要在全局性的引用(例如常量或类静态属性)与执行上下文(例如栈帧中的本地变量表)中。</p>
+<h4 id="评价标准"><a href="#评价标准" class="headerlink" title="评价标准"></a>评价标准</h4><p>评价GC算法性能时,采用以下4个标准:</p>
+<ul>
+<li>吞吐量<br>吞吐量指的是单位时间内的处理能力,大概为HEAP_SIZE／(GC TIME)</li>
+<li>最大暂停时间<br>因执行GC而暂停执行mutator的最长时间, 如mutator执行过程中,共GC了3次,分别耗时1s,5s,3s那么最大暂停时间为5s</li>
+<li>堆使用效率</li>
+<li>访问的局限性<br>具有引用关系的对象之间通常很可能存在连续访问的情况称为“访问的局限性”。一般会把数据存放到内存中,当cpu访问数据时,仅把要使用的数据从内存中读取到缓存。与此同时,我们还将它附件的所有数据都读取到缓存中,从而压缩读取数据所需要的时间。考虑到访问的局限性,把具有引用关系的对象安排到堆中相近的位置,就能提高在缓存中读取到想利用数据的概率。</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">JVM</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">GC</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DASS</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/11/26/GC学习笔记:GC相关知识(二)/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-GC学习笔记:GC定义及历史(一)" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/11/25/GC学习笔记:GC定义及历史(一)/">GC学习笔记:GC定义及历史(一)</a>
+    </h1>
+  
+
+        
+        <a href="/2017/11/25/GC学习笔记:GC定义及历史(一)/" class="archive-article-date">
+  	<time datetime="2017-11-25T15:11:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-25</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>  现实开发中,业务开发人员其实很少接触到GC相关的工作,本人接触GC纯粹是因为好奇和R大的早期博文与一些论坛的回答。断断续续的接触一些碎片化的知识,借此将其写下来作为自己学习的一个论证吧。</p>
+<p>此系列是阅读中村成洋与相川光著的<a href="https://www.amazon.cn/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%9A%84%E7%AE%97%E6%B3%95%E4%B8%8E%E5%AE%9E%E7%8E%B0-%E6%97%A5-%E4%B8%AD%E6%9D%91%E6%88%90%E6%B4%8B-%E7%9B%B8%E5%B7%9D%E5%85%89/dp/B01JZS0AO8/ref=sr_1_1?s=amazon-global-store&amp;ie=UTF8&amp;qid=1511623644&amp;sr=8-1&amp;keywords=%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%9A%84%E7%AE%97%E6%B3%95%E4%B8%8E%E5%AE%9E%E7%8E%B0" target="_blank" rel="external">垃圾回收的算法与实现</a>的笔记。</p>
+<h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>GC是<code>Garbage Collection</code>的缩写,也就是“垃圾回收”。<br>顾名思义,程序的垃圾回收就是把程序不用的内存空间回收。</p>
+<h4 id="做的事情"><a href="#做的事情" class="headerlink" title="做的事情"></a>做的事情</h4><blockquote>
+<ul>
+<li>找到内存空间的垃圾</li>
+<li>回收垃圾,让空间再次得以利用</li>
+</ul>
+</blockquote>
+<h3 id="GC的好处"><a href="#GC的好处" class="headerlink" title="GC的好处"></a>GC的好处</h3><p>没有GC的世界里,由程序员自己手动进行内存管理,这势必非常地麻烦。<br>可能会发生如下问题:</p>
+<ul>
+<li>忘记释放内存空间会发生<code>内存泄漏</code>问题</li>
+<li>释放空间时,忘记初始化指向释放对象的内存空间指针时,会发生<code>悬垂指针</code>问题</li>
+<li>错误的释放了正在使用中的内存空间,会使程序发生错误</li>
+</ul>
+<p>所以在现在的高级语言中都有GC,避免了程序员手动释放内存的麻烦和可能会出现的安全问题</p>
+<h3 id="GC的历史"><a href="#GC的历史" class="headerlink" title="GC的历史"></a>GC的历史</h3><ul>
+<li>1959: <code>D. Edwards</code>实现了GC</li>
+<li>1960: <code>John McCarthy</code>发布了初代GC算法即<code>标记-清除</code>算法</li>
+<li>1960: <code>George E. Collins</code>发布了<code>引用计数</code>算法</li>
+<li>1963: <code>Marvin L. Minsky</code>发布了复制算法</li>
+<li>1996: 首次出版了<code>Garbage Collection</code>一书</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">JVM</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">GC</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/11/25/GC学习笔记:GC定义及历史(一)/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-建站前言" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -321,6 +620,18 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
             <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
           </label>
           <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">JVM</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">GC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">DASS</a>
+              </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">随笔</a>

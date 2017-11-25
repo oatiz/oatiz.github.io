@@ -6,19 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>建站前言 | oatiz&#39;s blog</title>
+  <title>GC学习笔记:GC标记-清除算法(三) | oatiz&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="组件hexoyilia tips 评论采用Disqus,需翻墙后才可留言  碎碎念其实在建站之前已经有过一个blog了,但是没有保持下去。原因个人觉得别人已经写好了,没必要重复的去抄别人:)。现在重新得去编写,其实觉得现在的生活乏味无趣,不如找个事情来充实自己。再者自己基础知识很不好,借着这个名头坚持下。 说到学习笔记,个人会通过看书,读别人的博客,实践来验证自己所需掌握的知识点。在此站,会将各个">
-<meta name="keywords" content="随笔">
+  <meta name="description" content="GC标记-清除算法标记阶段清除阶段分配合并优点实现简单与保守式GC兼容缺点碎片化分配速度与写时复制技术不兼容多个空闲链表BiBOP算法位图标记优点与写时复制技术兼容清除操作更高效延迟清除法">
+<meta name="keywords" content="JVM,GC,DASS">
 <meta property="og:type" content="article">
-<meta property="og:title" content="建站前言">
-<meta property="og:url" content="http://yoursite.com/2017/07/28/建站前言/index.html">
+<meta property="og:title" content="GC学习笔记:GC标记-清除算法(三)">
+<meta property="og:url" content="http://yoursite.com/2017/11/26/GC学习笔记:GC标记-清除算法(三)/index.html">
 <meta property="og:site_name" content="oatiz&#39;s blog">
-<meta property="og:description" content="组件hexoyilia tips 评论采用Disqus,需翻墙后才可留言  碎碎念其实在建站之前已经有过一个blog了,但是没有保持下去。原因个人觉得别人已经写好了,没必要重复的去抄别人:)。现在重新得去编写,其实觉得现在的生活乏味无趣,不如找个事情来充实自己。再者自己基础知识很不好,借着这个名头坚持下。 说到学习笔记,个人会通过看书,读别人的博客,实践来验证自己所需掌握的知识点。在此站,会将各个">
-<meta property="og:updated_time" content="2017-10-21T12:40:45.000Z">
+<meta property="og:description" content="GC标记-清除算法标记阶段清除阶段分配合并优点实现简单与保守式GC兼容缺点碎片化分配速度与写时复制技术不兼容多个空闲链表BiBOP算法位图标记优点与写时复制技术兼容清除操作更高效延迟清除法">
+<meta property="og:updated_time" content="2017-11-25T17:34:30.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="建站前言">
-<meta name="twitter:description" content="组件hexoyilia tips 评论采用Disqus,需翻墙后才可留言  碎碎念其实在建站之前已经有过一个blog了,但是没有保持下去。原因个人觉得别人已经写好了,没必要重复的去抄别人:)。现在重新得去编写,其实觉得现在的生活乏味无趣,不如找个事情来充实自己。再者自己基础知识很不好,借着这个名头坚持下。 说到学习笔记,个人会通过看书,读别人的博客,实践来验证自己所需掌握的知识点。在此站,会将各个">
+<meta name="twitter:title" content="GC学习笔记:GC标记-清除算法(三)">
+<meta name="twitter:description" content="GC标记-清除算法标记阶段清除阶段分配合并优点实现简单与保守式GC兼容缺点碎片化分配速度与写时复制技术不兼容多个空闲链表BiBOP算法位图标记优点与写时复制技术兼容清除操作更高效延迟清除法">
   
     <link rel="alternative" href="/atom.xml" title="oatiz&#39;s blog" type="application/atom+xml">
   
@@ -156,35 +156,27 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-建站前言" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-GC学习笔记:GC标记-清除算法(三)" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      建站前言
+      GC学习笔记:GC标记-清除算法(三)
     </h1>
   
 
         
-        <a href="/2017/07/28/建站前言/" class="archive-article-date">
-  	<time datetime="2017-07-27T16:24:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-28</time>
+        <a href="/2017/11/26/GC学习笔记:GC标记-清除算法(三)/" class="archive-article-date">
+  	<time datetime="2017-11-25T16:17:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-26</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h4 id="组件"><a href="#组件" class="headerlink" title="组件"></a>组件</h4><p><a href="https://hexo.io/zh-cn/docs/" target="_blank" rel="external">hexo</a><br><a href="https://github.com/litten/hexo-theme-yilia" target="_blank" rel="external">yilia</a></p>
-<h4 id="tips"><a href="#tips" class="headerlink" title="tips"></a>tips</h4><blockquote>
-<p><strong>评论采用Disqus,需翻墙后才可留言</strong></p>
-</blockquote>
-<h4 id="碎碎念"><a href="#碎碎念" class="headerlink" title="碎碎念"></a>碎碎念</h4><p>其实在建站之前已经有过一个blog了,但是没有保持下去。原因个人觉得别人已经写好了,没必要重复的去抄别人:)。现在重新得去编写,其实觉得现在的生活乏味无趣,不如找个事情来充实自己。再者自己基础知识很不好,借着这个名头坚持下。</p>
-<p>说到学习笔记,个人会通过看书,读别人的博客,实践来验证自己所需掌握的知识点。在此站,会将各个出处标识清楚。</p>
-<p>碎碎念结束,愿自己坚持下去。</p>
-<p>祝好:)</p>
-
+        <h3 id="GC标记-清除算法"><a href="#GC标记-清除算法" class="headerlink" title="GC标记-清除算法"></a>GC标记-清除算法</h3><h4 id="标记阶段"><a href="#标记阶段" class="headerlink" title="标记阶段"></a>标记阶段</h4><h4 id="清除阶段"><a href="#清除阶段" class="headerlink" title="清除阶段"></a>清除阶段</h4><h4 id="分配"><a href="#分配" class="headerlink" title="分配"></a>分配</h4><h4 id="合并"><a href="#合并" class="headerlink" title="合并"></a>合并</h4><h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><h4 id="实现简单"><a href="#实现简单" class="headerlink" title="实现简单"></a>实现简单</h4><h4 id="与保守式GC兼容"><a href="#与保守式GC兼容" class="headerlink" title="与保守式GC兼容"></a>与保守式GC兼容</h4><h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><h4 id="碎片化"><a href="#碎片化" class="headerlink" title="碎片化"></a>碎片化</h4><h4 id="分配速度"><a href="#分配速度" class="headerlink" title="分配速度"></a>分配速度</h4><h4 id="与写时复制技术不兼容"><a href="#与写时复制技术不兼容" class="headerlink" title="与写时复制技术不兼容"></a>与写时复制技术不兼容</h4><h3 id="多个空闲链表"><a href="#多个空闲链表" class="headerlink" title="多个空闲链表"></a>多个空闲链表</h3><h3 id="BiBOP算法"><a href="#BiBOP算法" class="headerlink" title="BiBOP算法"></a>BiBOP算法</h3><h3 id="位图标记"><a href="#位图标记" class="headerlink" title="位图标记"></a>位图标记</h3><h4 id="优点-1"><a href="#优点-1" class="headerlink" title="优点"></a>优点</h4><h5 id="与写时复制技术兼容"><a href="#与写时复制技术兼容" class="headerlink" title="与写时复制技术兼容"></a>与写时复制技术兼容</h5><h5 id="清除操作更高效"><a href="#清除操作更高效" class="headerlink" title="清除操作更高效"></a>清除操作更高效</h5><h3 id="延迟清除法"><a href="#延迟清除法" class="headerlink" title="延迟清除法"></a>延迟清除法</h3>
       
 
       
@@ -197,7 +189,15 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">JVM</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">GC</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DASS</a>
         		</li>
       		
 		</ul>
@@ -253,7 +253,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/07/28/建站前言/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/11/26/GC学习笔记:GC标记-清除算法(三)/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -267,15 +267,11 @@
   
 <nav id="article-nav">
   
-    <a href="/2017/11/25/GC学习笔记:GC定义及历史(一)/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          GC学习笔记:GC定义及历史(一)
-        
-      </div>
-    </a>
   
+    <a href="/2017/11/26/GC学习笔记:GC相关知识(二)/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">GC学习笔记:GC相关知识(二)</div>
+      <i class="icon-circle-right"></i>
+    </a>
   
 </nav>
 

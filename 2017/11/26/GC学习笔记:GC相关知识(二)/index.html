@@ -6,19 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>建站前言 | oatiz&#39;s blog</title>
+  <title>GC学习笔记:GC相关知识(二) | oatiz&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="组件hexoyilia tips 评论采用Disqus,需翻墙后才可留言  碎碎念其实在建站之前已经有过一个blog了,但是没有保持下去。原因个人觉得别人已经写好了,没必要重复的去抄别人:)。现在重新得去编写,其实觉得现在的生活乏味无趣,不如找个事情来充实自己。再者自己基础知识很不好,借着这个名头坚持下。 说到学习笔记,个人会通过看书,读别人的博客,实践来验证自己所需掌握的知识点。在此站,会将各个">
-<meta name="keywords" content="随笔">
+  <meta name="description" content="GC中基本概念对象/头／域对象在GC里,对象表示”通过应用程序利用的数据的集合”。对象配置在内存空间中,GC会根据情况将配置好的对象进行移动或销毁操作。因此,对象是GC的基本单位。对象由“头(header)”与“域(field)”组成 头将对象中保存对象本身信息的部分称为“头”,主要包括以下信息:  GC运行所需信息(预先存有) 对象的大小 对象的种类  域把对象使用者在对象中可访问的部分称为“">
+<meta name="keywords" content="JVM,GC,DASS">
 <meta property="og:type" content="article">
-<meta property="og:title" content="建站前言">
-<meta property="og:url" content="http://yoursite.com/2017/07/28/建站前言/index.html">
+<meta property="og:title" content="GC学习笔记:GC相关知识(二)">
+<meta property="og:url" content="http://yoursite.com/2017/11/26/GC学习笔记:GC相关知识(二)/index.html">
 <meta property="og:site_name" content="oatiz&#39;s blog">
-<meta property="og:description" content="组件hexoyilia tips 评论采用Disqus,需翻墙后才可留言  碎碎念其实在建站之前已经有过一个blog了,但是没有保持下去。原因个人觉得别人已经写好了,没必要重复的去抄别人:)。现在重新得去编写,其实觉得现在的生活乏味无趣,不如找个事情来充实自己。再者自己基础知识很不好,借着这个名头坚持下。 说到学习笔记,个人会通过看书,读别人的博客,实践来验证自己所需掌握的知识点。在此站,会将各个">
-<meta property="og:updated_time" content="2017-10-21T12:40:45.000Z">
+<meta property="og:description" content="GC中基本概念对象/头／域对象在GC里,对象表示”通过应用程序利用的数据的集合”。对象配置在内存空间中,GC会根据情况将配置好的对象进行移动或销毁操作。因此,对象是GC的基本单位。对象由“头(header)”与“域(field)”组成 头将对象中保存对象本身信息的部分称为“头”,主要包括以下信息:  GC运行所需信息(预先存有) 对象的大小 对象的种类  域把对象使用者在对象中可访问的部分称为“">
+<meta property="og:updated_time" content="2017-11-25T17:32:51.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="建站前言">
-<meta name="twitter:description" content="组件hexoyilia tips 评论采用Disqus,需翻墙后才可留言  碎碎念其实在建站之前已经有过一个blog了,但是没有保持下去。原因个人觉得别人已经写好了,没必要重复的去抄别人:)。现在重新得去编写,其实觉得现在的生活乏味无趣,不如找个事情来充实自己。再者自己基础知识很不好,借着这个名头坚持下。 说到学习笔记,个人会通过看书,读别人的博客,实践来验证自己所需掌握的知识点。在此站,会将各个">
+<meta name="twitter:title" content="GC学习笔记:GC相关知识(二)">
+<meta name="twitter:description" content="GC中基本概念对象/头／域对象在GC里,对象表示”通过应用程序利用的数据的集合”。对象配置在内存空间中,GC会根据情况将配置好的对象进行移动或销毁操作。因此,对象是GC的基本单位。对象由“头(header)”与“域(field)”组成 头将对象中保存对象本身信息的部分称为“头”,主要包括以下信息:  GC运行所需信息(预先存有) 对象的大小 对象的种类  域把对象使用者在对象中可访问的部分称为“">
   
     <link rel="alternative" href="/atom.xml" title="oatiz&#39;s blog" type="application/atom+xml">
   
@@ -156,34 +156,63 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-建站前言" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-GC学习笔记:GC相关知识(二)" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      建站前言
+      GC学习笔记:GC相关知识(二)
     </h1>
   
 
         
-        <a href="/2017/07/28/建站前言/" class="archive-article-date">
-  	<time datetime="2017-07-27T16:24:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-28</time>
+        <a href="/2017/11/26/GC学习笔记:GC相关知识(二)/" class="archive-article-date">
+  	<time datetime="2017-11-25T16:16:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-26</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h4 id="组件"><a href="#组件" class="headerlink" title="组件"></a>组件</h4><p><a href="https://hexo.io/zh-cn/docs/" target="_blank" rel="external">hexo</a><br><a href="https://github.com/litten/hexo-theme-yilia" target="_blank" rel="external">yilia</a></p>
-<h4 id="tips"><a href="#tips" class="headerlink" title="tips"></a>tips</h4><blockquote>
-<p><strong>评论采用Disqus,需翻墙后才可留言</strong></p>
+        <h2 id="GC中基本概念"><a href="#GC中基本概念" class="headerlink" title="GC中基本概念"></a>GC中基本概念</h2><h3 id="对象-头／域"><a href="#对象-头／域" class="headerlink" title="对象/头／域"></a>对象/头／域</h3><h4 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h4><p>在GC里,对象表示”通过应用程序利用的数据的集合”。对象配置在内存空间中,GC会根据情况将配置好的对象进行移动或销毁操作。因此,对象是GC的基本单位。<br>对象由“头(header)”与“域(field)”组成</p>
+<h4 id="头"><a href="#头" class="headerlink" title="头"></a>头</h4><p>将对象中保存对象本身信息的部分称为“头”,主要包括以下信息:</p>
+<ul>
+<li>GC运行所需信息(预先存有)</li>
+<li>对象的大小</li>
+<li>对象的种类</li>
+</ul>
+<h4 id="域"><a href="#域" class="headerlink" title="域"></a>域</h4><p>把对象使用者在对象中可访问的部分称为“域”,域中的数据类型大致分为2种:</p>
+<ul>
+<li>指针<br>指向内存空间中某块区域的值</li>
+<li>非指针<br>编程中直接使用值本身</li>
+</ul>
+<h4 id="mutator"><a href="#mutator" class="headerlink" title="mutator"></a>mutator</h4><p>mutator有改变某物的意思,即改变GC对象间的引用关系。它的实体即为“应用程序”,它进行的实际操作分为2种:</p>
+<ul>
+<li>生成对象</li>
+<li>更新指针</li>
+</ul>
+<p>mutator在进行这些操作是,会为应用程序的用户进行一些处理,随着这些处理的推进,对象间的引用关系随之也会发生”改变”,伴随着这些变化会产生垃圾,而负责会后这些就是GC</p>
+<h4 id="堆"><a href="#堆" class="headerlink" title="堆"></a>堆</h4><p>堆是用于存放对象的内存空间,在java堆的实现是一种特殊的树型数据结构</p>
+<h4 id="活动对象-非活动对象"><a href="#活动对象-非活动对象" class="headerlink" title="活动对象/非活动对象"></a>活动对象/非活动对象</h4><p>在已分配到堆中的对象,那些能通过程序引用的对象称为”活动对象”,反之,不能通过引用的对象称为”非活动对象”,也就是GC需要回收掉的部分</p>
+<h4 id="分配"><a href="#分配" class="headerlink" title="分配"></a>分配</h4><p>分配(allocation)指的是在内存空间分配对象。<br>当堆被活动对象占满,运行GC也无法配置可用空间时,有以下两种选择:</p>
+<ul>
+<li>销毁所有计算结果,输出错误信息</li>
+<li>扩大堆,分配可用空间</li>
+</ul>
+<h4 id="分块"><a href="#分块" class="headerlink" title="分块"></a>分块</h4><p>分块(chunk)在GC世界里指的是为利用对象而事先准备出来的空间。<br>初始情况下,堆被一个大的分块占据,然后根据mutator的要求把这个分块分割成合适的大小,作为(活动)对象使用。活动对象不久会转化为垃圾回收,此时这部分被回收的内存空间再次分为分块,为下次被利用做准备。周而复始…</p>
+<blockquote>
+<p>流程如下:<br>分块 –&gt; 活动对象 –&gt; 非活动对象 –&gt; 分块 –&gt; …</p>
 </blockquote>
-<h4 id="碎碎念"><a href="#碎碎念" class="headerlink" title="碎碎念"></a>碎碎念</h4><p>其实在建站之前已经有过一个blog了,但是没有保持下去。原因个人觉得别人已经写好了,没必要重复的去抄别人:)。现在重新得去编写,其实觉得现在的生活乏味无趣,不如找个事情来充实自己。再者自己基础知识很不好,借着这个名头坚持下。</p>
-<p>说到学习笔记,个人会通过看书,读别人的博客,实践来验证自己所需掌握的知识点。在此站,会将各个出处标识清楚。</p>
-<p>碎碎念结束,愿自己坚持下去。</p>
-<p>祝好:)</p>
+<h4 id="根"><a href="#根" class="headerlink" title="根"></a>根</h4><p>根是指向对象的指针的“起点部分”。 在Java中,可作为根的主要在全局性的引用(例如常量或类静态属性)与执行上下文(例如栈帧中的本地变量表)中。</p>
+<h4 id="评价标准"><a href="#评价标准" class="headerlink" title="评价标准"></a>评价标准</h4><p>评价GC算法性能时,采用以下4个标准:</p>
+<ul>
+<li>吞吐量<br>吞吐量指的是单位时间内的处理能力,大概为HEAP_SIZE／(GC TIME)</li>
+<li>最大暂停时间<br>因执行GC而暂停执行mutator的最长时间, 如mutator执行过程中,共GC了3次,分别耗时1s,5s,3s那么最大暂停时间为5s</li>
+<li>堆使用效率</li>
+<li>访问的局限性<br>具有引用关系的对象之间通常很可能存在连续访问的情况称为“访问的局限性”。一般会把数据存放到内存中,当cpu访问数据时,仅把要使用的数据从内存中读取到缓存。与此同时,我们还将它附件的所有数据都读取到缓存中,从而压缩读取数据所需要的时间。考虑到访问的局限性,把具有引用关系的对象安排到堆中相近的位置,就能提高在缓存中读取到想利用数据的概率。</li>
+</ul>
 
       
 
@@ -197,7 +226,15 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">JVM</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">GC</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DASS</a>
         		</li>
       		
 		</ul>
@@ -253,7 +290,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/07/28/建站前言/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/11/26/GC学习笔记:GC相关知识(二)/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -267,15 +304,20 @@
   
 <nav id="article-nav">
   
-    <a href="/2017/11/25/GC学习笔记:GC定义及历史(一)/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2017/11/26/GC学习笔记:GC标记-清除算法(三)/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          GC学习笔记:GC定义及历史(一)
+          GC学习笔记:GC标记-清除算法(三)
         
       </div>
     </a>
   
+  
+    <a href="/2017/11/25/GC学习笔记:GC定义及历史(一)/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">GC学习笔记:GC定义及历史(一)</div>
+      <i class="icon-circle-right"></i>
+    </a>
   
 </nav>
 
