@@ -12,19 +12,19 @@
   <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/mermaid/6.0.0/mermaid.forest.min.css">
   <script type="text/javascript" src="//cdn.bootcss.com/mermaid/6.0.0/mermaid.min.js"></script>
 
-  <title>GC学习笔记:GC标记-清除算法(三) | oatiz&#39;s blog</title>
+  <title>post | oatiz&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="GC标记-清除算法标记阶段清除阶段分配合并优点实现简单与保守式GC兼容缺点碎片化分配速度与写时复制技术不兼容多个空闲链表BiBOP算法位图标记优点与写时复制技术兼容清除操作更高效延迟清除法">
-<meta name="keywords" content="JVM,GC,DASS">
+  <meta name="description" content="[toc] daas-push 定时任务使用多线程方式进行推送原始需求jira-DA379 设计原始代码逻辑每晚0点定时启动:单线程利用ES scroll的方式,拉取数据解析,发送给notifyServer拉取数据 -&amp;gt; 解析数据 -&amp;gt; 推送至notifyServer -&amp;gt; 拉取数据 -&amp;gt; … repo修改daas-push服务中PushScheduleService类">
+<meta name="keywords" content="mermaid">
 <meta property="og:type" content="article">
-<meta property="og:title" content="GC学习笔记:GC标记-清除算法(三)">
-<meta property="og:url" content="http://yoursite.com/2017/11/26/GC学习笔记:GC标记-清除算法(三)/index.html">
+<meta property="og:title" content="post">
+<meta property="og:url" content="http://yoursite.com/2017/12/04/post/index.html">
 <meta property="og:site_name" content="oatiz&#39;s blog">
-<meta property="og:description" content="GC标记-清除算法标记阶段清除阶段分配合并优点实现简单与保守式GC兼容缺点碎片化分配速度与写时复制技术不兼容多个空闲链表BiBOP算法位图标记优点与写时复制技术兼容清除操作更高效延迟清除法">
-<meta property="og:updated_time" content="2017-11-25T17:34:30.000Z">
+<meta property="og:description" content="[toc] daas-push 定时任务使用多线程方式进行推送原始需求jira-DA379 设计原始代码逻辑每晚0点定时启动:单线程利用ES scroll的方式,拉取数据解析,发送给notifyServer拉取数据 -&amp;gt; 解析数据 -&amp;gt; 推送至notifyServer -&amp;gt; 拉取数据 -&amp;gt; … repo修改daas-push服务中PushScheduleService类">
+<meta property="og:updated_time" content="2017-12-04T07:34:27.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="GC学习笔记:GC标记-清除算法(三)">
-<meta name="twitter:description" content="GC标记-清除算法标记阶段清除阶段分配合并优点实现简单与保守式GC兼容缺点碎片化分配速度与写时复制技术不兼容多个空闲链表BiBOP算法位图标记优点与写时复制技术兼容清除操作更高效延迟清除法">
+<meta name="twitter:title" content="post">
+<meta name="twitter:description" content="[toc] daas-push 定时任务使用多线程方式进行推送原始需求jira-DA379 设计原始代码逻辑每晚0点定时启动:单线程利用ES scroll的方式,拉取数据解析,发送给notifyServer拉取数据 -&amp;gt; 解析数据 -&amp;gt; 推送至notifyServer -&amp;gt; 拉取数据 -&amp;gt; … repo修改daas-push服务中PushScheduleService类">
   
     <link rel="alternative" href="/atom.xml" title="oatiz&#39;s blog" type="application/atom+xml">
   
@@ -187,27 +187,161 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-GC学习笔记:GC标记-清除算法(三)" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-post" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      GC学习笔记:GC标记-清除算法(三)
+      post
     </h1>
   
 
         
-        <a href="/2017/11/26/GC学习笔记:GC标记-清除算法(三)/" class="archive-article-date">
-  	<time datetime="2017-11-25T16:17:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-26</time>
+        <a href="/2017/12/04/post/" class="archive-article-date">
+  	<time datetime="2017-12-04T07:15:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-04</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="GC标记-清除算法"><a href="#GC标记-清除算法" class="headerlink" title="GC标记-清除算法"></a>GC标记-清除算法</h3><h4 id="标记阶段"><a href="#标记阶段" class="headerlink" title="标记阶段"></a>标记阶段</h4><h4 id="清除阶段"><a href="#清除阶段" class="headerlink" title="清除阶段"></a>清除阶段</h4><h4 id="分配"><a href="#分配" class="headerlink" title="分配"></a>分配</h4><h4 id="合并"><a href="#合并" class="headerlink" title="合并"></a>合并</h4><h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><h4 id="实现简单"><a href="#实现简单" class="headerlink" title="实现简单"></a>实现简单</h4><h4 id="与保守式GC兼容"><a href="#与保守式GC兼容" class="headerlink" title="与保守式GC兼容"></a>与保守式GC兼容</h4><h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><h4 id="碎片化"><a href="#碎片化" class="headerlink" title="碎片化"></a>碎片化</h4><h4 id="分配速度"><a href="#分配速度" class="headerlink" title="分配速度"></a>分配速度</h4><h4 id="与写时复制技术不兼容"><a href="#与写时复制技术不兼容" class="headerlink" title="与写时复制技术不兼容"></a>与写时复制技术不兼容</h4><h3 id="多个空闲链表"><a href="#多个空闲链表" class="headerlink" title="多个空闲链表"></a>多个空闲链表</h3><h3 id="BiBOP算法"><a href="#BiBOP算法" class="headerlink" title="BiBOP算法"></a>BiBOP算法</h3><h3 id="位图标记"><a href="#位图标记" class="headerlink" title="位图标记"></a>位图标记</h3><h4 id="优点-1"><a href="#优点-1" class="headerlink" title="优点"></a>优点</h4><h5 id="与写时复制技术兼容"><a href="#与写时复制技术兼容" class="headerlink" title="与写时复制技术兼容"></a>与写时复制技术兼容</h5><h5 id="清除操作更高效"><a href="#清除操作更高效" class="headerlink" title="清除操作更高效"></a>清除操作更高效</h5><h3 id="延迟清除法"><a href="#延迟清除法" class="headerlink" title="延迟清除法"></a>延迟清除法</h3>
+        <p>[toc]</p>
+<h1 id="daas-push-定时任务使用多线程方式进行推送"><a href="#daas-push-定时任务使用多线程方式进行推送" class="headerlink" title="daas-push 定时任务使用多线程方式进行推送"></a>daas-push 定时任务使用多线程方式进行推送</h1><h2 id="原始需求"><a href="#原始需求" class="headerlink" title="原始需求"></a>原始需求</h2><p><a href="http://j1.private.easemob.com/browse/DA-379" target="_blank" rel="external">jira-DA379</a></p>
+<h2 id="设计"><a href="#设计" class="headerlink" title="设计"></a>设计</h2><h3 id="原始代码逻辑"><a href="#原始代码逻辑" class="headerlink" title="原始代码逻辑"></a>原始代码逻辑</h3><p>每晚0点定时启动:<br>单线程利用ES scroll的方式,拉取数据解析,发送给notifyServer<br>拉取数据 -&gt; 解析数据 -&gt; 推送至notifyServer -&gt; 拉取数据 -&gt; …</p>
+<h3 id="repo修改"><a href="#repo修改" class="headerlink" title="repo修改"></a>repo修改</h3><p>daas-push服务中PushScheduleService类是相关逻辑的启动类</p>
+<h3 id="改进方式"><a href="#改进方式" class="headerlink" title="改进方式"></a>改进方式</h3><h4 id="接入consul"><a href="#接入consul" class="headerlink" title="接入consul"></a>接入consul</h4><p>接入consul,服务在启动时先拉取consul中该服务的实例数据,然后根据tenantId对数据进行逻辑路由。</p>
+<p>伪代码如下:</p>
+<pre><code class="java">public class PushRouteService {
+  @Autowired
+  private DiscoveryClient discoveryClient;
+  @Autowired
+  private TransportClient transportClient;
+
+  public RouteInfo routing() {
+    // 1,从consul中拉取服务信息
+    // 2,从ES中获取最大的tenantId
+    // 2,找到服务对应的index,根据max_tenantId,serverInstansNumber切割分区
+    // 3,将分区最小值,最大值封装进实体
+  }
+
+}
+</code></pre>
+<h4 id="单线程改为多线程"><a href="#单线程改为多线程" class="headerlink" title="单线程改为多线程"></a>单线程改为多线程</h4><p>加入队列,把拉取es数据线程当作生产者,每一次拉回来的数据放到队列中,起消费者线程去消费这些信息,当生产者不在生产,消费者消费完队列中当数据时,关闭线程。</p>
+<p>伪代码如下:</p>
+<pre><code class="java">public class PushScheduleService {
+    private LinkedBlockingQueue&lt;SearchHits&gt; queue = new LinkedBlockingQueue&lt;&gt;();
+    //消费者线程池
+    private ExecutorService pool;
+    //生产者标志
+    private volatile boolean isProducing;
+
+    // 定时任务启动
+    @Scheduled(cron = &quot;${push.schedule.time}&quot;)
+    public void sendNotification() {
+        //创建线程池
+        init();
+        //开始生产数据(传入路由分区信息)
+        produce(RouteInfo);
+        //开始消费数据
+        consume();
+    }
+
+
+    private void produce() {
+        // 设置标志,开始生产
+        isProducing = true;
+        pool.submit(() -&gt; {
+            //获取es数据
+            SearchResponse scrollResp = getScrollResp();
+            while (true) {
+                // end of scroll
+                if (scrollResp == null || scrollResp.getHits().getHits().length == 0) {
+                    break;
+                }
+                try {
+                    // 将数据放入队列
+                    queue.put(scrollResp.getHits());
+                } catch (InterruptedException e) {
+                    // does not happen
+                }
+                // get es scroll
+            }
+
+            // 生产完成后,设置生产标志符
+            isProducing = false;
+            // 启动监控线程,监控生产者消费者状态,符合要求后关闭线程池
+            monitoring();
+        });
+    }
+
+    private void consume() {
+        while (isProducing || queue.size() &gt; 0) {
+            SearchHits hits = queue.poll();
+            if (Objects.nonNull(hits)) {
+                pool.submit(() -&gt; pushToNotifyServer(hits));
+            }
+        }
+    }
+
+    private void monitoring() {
+        new Thread(() -&gt; {
+            while (true){
+                // 当生产者不在生产,消费者消费完数据后,关闭线程池
+                if (!isProducing &amp;&amp; queue.size() &lt; 1) {
+                    pool.shutdown();
+                    while (!pool.isTerminated()) {
+                      // 等待线程池中 线程消费完成
+                    }
+                    // 将线程池置空
+                    pool = null;
+                    break;
+                }
+            }
+        }, &quot;push-monitor&quot;).start();
+    }
+
+
+    //创建线程池  
+    private void init() {}
+
+    // 推送消息至notify server
+    private void pushToNotifyServer(SearchHits hits) {}
+
+    // get es scroll response
+    private SearchResponse getScrollResp() {}
+}
+</code></pre>
+<h4 id="批量发送"><a href="#批量发送" class="headerlink" title="批量发送"></a>批量发送</h4><p>有原来的一条数据一条http请求,改为批量发送(需notifyServer支持)</p>
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><pre><code>4C16G
+ES数据: agentserve -&gt; 2w条
+服务实例: 1
+</code></pre><h4 id="原方案"><a href="#原方案" class="headerlink" title="原方案"></a>原方案</h4><p>原方案平均执行时间: <code>54000</code>ms</p>
+<h4 id="多线程方案"><a href="#多线程方案" class="headerlink" title="多线程方案"></a>多线程方案</h4><p>所有线程执行完成平均时间:<code>9090</code>ms</p>
+<h4 id="测试数据"><a href="#测试数据" class="headerlink" title="测试数据"></a>测试数据</h4><pre><code class="java">4C16G
+jvm配置: -Xms768m -Xmx768m
+ES数据: agentserve -&gt; 5w条
+服务实例: 2
+</code></pre>
+<h4 id="分布式方案"><a href="#分布式方案" class="headerlink" title="分布式方案"></a>分布式方案</h4><p>执行时间: <code>13416</code>ms</p>
+<h4 id="单机批量"><a href="#单机批量" class="headerlink" title="单机批量"></a>单机批量</h4><p>执行时间: <code>1673</code> ms</p>
+<h4 id="分布式批量"><a href="#分布式批量" class="headerlink" title="分布式批量"></a>分布式批量</h4><p>执行时间: <code>1307</code>ms</p>
+<h2 id="连接方式"><a href="#连接方式" class="headerlink" title="连接方式"></a>连接方式</h2><pre><code class="mermaid">graph LR
+
+main --&gt; table
+main -.-&gt; teamMember
+teamMember --&gt; employee
+main -.-&gt; relation
+relation --&gt; relationTable
+relationTable -.-&gt; others
+main -.-&gt; actionStage
+actionStage --&gt; action
+main -.-&gt; v_xxTable
+v_xxTable --&gt; xxTable
+xxTable -.-&gt; other
+</code></pre>
+
       
 
       
@@ -220,15 +354,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">JVM</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">GC</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DASS</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">mermaid</a>
         		</li>
       		
 		</ul>
@@ -284,7 +410,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/11/26/GC学习笔记:GC标记-清除算法(三)/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/12/04/post/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -298,18 +424,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2017/12/04/post/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          post
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/11/26/GC学习笔记:GC相关知识(二)/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">GC学习笔记:GC相关知识(二)</div>
+    <a href="/2017/11/26/GC学习笔记:GC标记-清除算法(三)/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">GC学习笔记:GC标记-清除算法(三)</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -336,7 +453,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#GC标记-清除算法"><span class="toc-number">1.</span> <span class="toc-text">GC标记-清除算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#标记阶段"><span class="toc-number">1.1.</span> <span class="toc-text">标记阶段</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#清除阶段"><span class="toc-number">1.2.</span> <span class="toc-text">清除阶段</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#分配"><span class="toc-number">1.3.</span> <span class="toc-text">分配</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#合并"><span class="toc-number">1.4.</span> <span class="toc-text">合并</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#优点"><span class="toc-number">2.</span> <span class="toc-text">优点</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#实现简单"><span class="toc-number">2.1.</span> <span class="toc-text">实现简单</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#与保守式GC兼容"><span class="toc-number">2.2.</span> <span class="toc-text">与保守式GC兼容</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#缺点"><span class="toc-number">3.</span> <span class="toc-text">缺点</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#碎片化"><span class="toc-number">3.1.</span> <span class="toc-text">碎片化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#分配速度"><span class="toc-number">3.2.</span> <span class="toc-text">分配速度</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#与写时复制技术不兼容"><span class="toc-number">3.3.</span> <span class="toc-text">与写时复制技术不兼容</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#多个空闲链表"><span class="toc-number">4.</span> <span class="toc-text">多个空闲链表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BiBOP算法"><span class="toc-number">5.</span> <span class="toc-text">BiBOP算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#位图标记"><span class="toc-number">6.</span> <span class="toc-text">位图标记</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#优点-1"><span class="toc-number">6.1.</span> <span class="toc-text">优点</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#与写时复制技术兼容"><span class="toc-number">6.1.1.</span> <span class="toc-text">与写时复制技术兼容</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#清除操作更高效"><span class="toc-number">6.1.2.</span> <span class="toc-text">清除操作更高效</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#延迟清除法"><span class="toc-number">7.</span> <span class="toc-text">延迟清除法</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#daas-push-定时任务使用多线程方式进行推送"><span class="toc-number">1.</span> <span class="toc-text">daas-push 定时任务使用多线程方式进行推送</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#原始需求"><span class="toc-number">1.1.</span> <span class="toc-text">原始需求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#设计"><span class="toc-number">1.2.</span> <span class="toc-text">设计</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#原始代码逻辑"><span class="toc-number">1.2.1.</span> <span class="toc-text">原始代码逻辑</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#repo修改"><span class="toc-number">1.2.2.</span> <span class="toc-text">repo修改</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#改进方式"><span class="toc-number">1.2.3.</span> <span class="toc-text">改进方式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#接入consul"><span class="toc-number">1.2.3.1.</span> <span class="toc-text">接入consul</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#单线程改为多线程"><span class="toc-number">1.2.3.2.</span> <span class="toc-text">单线程改为多线程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#批量发送"><span class="toc-number">1.2.3.3.</span> <span class="toc-text">批量发送</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#测试"><span class="toc-number">1.2.4.</span> <span class="toc-text">测试</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#原方案"><span class="toc-number">1.2.4.1.</span> <span class="toc-text">原方案</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#多线程方案"><span class="toc-number">1.2.4.2.</span> <span class="toc-text">多线程方案</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#测试数据"><span class="toc-number">1.2.4.3.</span> <span class="toc-text">测试数据</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#分布式方案"><span class="toc-number">1.2.4.4.</span> <span class="toc-text">分布式方案</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#单机批量"><span class="toc-number">1.2.4.5.</span> <span class="toc-text">单机批量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#分布式批量"><span class="toc-number">1.2.4.6.</span> <span class="toc-text">分布式批量</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#连接方式"><span class="toc-number">1.3.</span> <span class="toc-text">连接方式</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
