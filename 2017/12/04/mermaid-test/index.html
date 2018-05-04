@@ -8,17 +8,18 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>mermaid-test | oatiz&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="codemermaidgraph TD A--&amp;gt;B I&amp;gt;XX]">
+  <meta name="description" content="codeecho &amp;quot;helloworld&amp;quot;  mermaidflowchartgraph TD     A--&amp;gt;B;     A--&amp;gt;C;     B--&amp;gt;D;     C--&amp;gt;D;  sequencesequenceDiagram     participant Alice     participant Bob     Alice-&amp;gt;&amp;gt;John: Hello John, h">
 <meta name="keywords" content="mermaid">
 <meta property="og:type" content="article">
 <meta property="og:title" content="mermaid-test">
 <meta property="og:url" content="http://yoursite.com/2017/12/04/mermaid-test/index.html">
 <meta property="og:site_name" content="oatiz&#39;s blog">
-<meta property="og:description" content="codemermaidgraph TD A--&amp;gt;B I&amp;gt;XX]">
-<meta property="og:updated_time" content="2018-04-26T15:14:24.835Z">
+<meta property="og:description" content="codeecho &amp;quot;helloworld&amp;quot;  mermaidflowchartgraph TD     A--&amp;gt;B;     A--&amp;gt;C;     B--&amp;gt;D;     C--&amp;gt;D;  sequencesequenceDiagram     participant Alice     participant Bob     Alice-&amp;gt;&amp;gt;John: Hello John, h">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-05-04T10:45:20.788Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mermaid-test">
-<meta name="twitter:description" content="codemermaidgraph TD A--&amp;gt;B I&amp;gt;XX]">
+<meta name="twitter:description" content="codeecho &amp;quot;helloworld&amp;quot;  mermaidflowchartgraph TD     A--&amp;gt;B;     A--&amp;gt;C;     B--&amp;gt;D;     C--&amp;gt;D;  sequencesequenceDiagram     participant Alice     participant Bob     Alice-&amp;gt;&amp;gt;John: Hello John, h">
   
     <link rel="alternative" href="/atom.xml" title="oatiz&#39;s blog" type="application/atom+xml">
   
@@ -47,7 +48,7 @@
 <div class="intrude-less">
 	<header id="header" class="inner">
 		<a href="/" class="profilepic">
-			<img src="/img/avatar.jpg" class="js-avatar">
+			<img src="/avatar.jpg" class="js-avatar">
 		</a>
 		<hgroup>
 		  <h1 class="header-author"><a href="/">oatiz</a></h1>
@@ -107,7 +108,7 @@
 	<div class="intrude-less">
 		<header id="header" class="inner">
 			<div class="profilepic">
-				<img src="/img/avatar.jpg" class="js-avatar">
+				<img src="/avatar.jpg" class="js-avatar">
 			</div>
 			<hgroup>
 			  <h1 class="header-author js-header-author">oatiz</h1>
@@ -178,11 +179,63 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="code"><a href="#code" class="headerlink" title="code"></a>code</h3><h3 id="mermaid"><a href="#mermaid" class="headerlink" title="mermaid"></a>mermaid</h3><pre><code class="mermaid">graph TD
-A--&gt;B
-I&gt;XX]
+        <h3 id="code"><a href="#code" class="headerlink" title="code"></a>code</h3><pre><code class="shell">echo &quot;helloworld&quot;
 </code></pre>
+<h3 id="mermaid"><a href="#mermaid" class="headerlink" title="mermaid"></a>mermaid</h3><h4 id="flowchart"><a href="#flowchart" class="headerlink" title="flowchart"></a>flowchart</h4><pre class="mermaid">graph TD
+    A-->B;
+    A-->C;
+    B-->D;
+    C-->D;</pre>
 
+<h4 id="sequence"><a href="#sequence" class="headerlink" title="sequence"></a>sequence</h4><pre class="mermaid">sequenceDiagram
+    participant Alice
+    participant Bob
+    Alice->>John: Hello John, how are you?
+    loop Healthcheck
+        John->>John: Fight against hypochondria
+    end
+    Note right of John: Rational thoughts <br>prevail...
+    John-->>Alice: Great!
+    John->>Bob: How about you?
+    Bob-->>John: Jolly good!</pre>
+
+<h4 id="gantt"><a href="#gantt" class="headerlink" title="gantt"></a>gantt</h4><pre class="mermaid">gantt
+dateFormat  YYYY-MM-DD
+title Adding GANTT diagram to mermaid
+
+section A section
+Completed task            :done,    des1, 2014-01-06,2014-01-08
+Active task               :active,  des2, 2014-01-09, 3d
+Future task               :         des3, after des2, 5d
+Future task2               :         des4, after des3, 5d</pre>
+
+<h4 id="class-diagram"><a href="#class-diagram" class="headerlink" title="class diagram"></a>class diagram</h4><pre class="mermaid">classDiagram
+Class01 <|-- averylongclass="" :="" cool="" class03="" *--="" class04="" class05="" o--="" class06="" class07="" ..="" class08="" class09="" --=""> C2 : Where am i?
+Class09 --* C3
+Class09 --|> Class07
+Class07 : equals()
+Class07 : Object[] elementData
+Class01 : size()
+Class01 : int chimp
+Class01 : int gorilla
+Class08 <--> C2: Cool label</--></|--></pre>
+
+<h4 id="git-graph"><a href="#git-graph" class="headerlink" title="git graph"></a>git graph</h4><pre class="mermaid">gitGraph:
+options
+{
+    "nodeSpacing": 150,
+    "nodeRadius": 10
+}
+end
+commit
+branch newbranch
+checkout newbranch
+commit
+commit
+checkout master
+commit
+commit
+merge newbranch</pre>
       
 
       
@@ -294,7 +347,7 @@ I&gt;XX]
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#code"><span class="toc-number">1.</span> <span class="toc-text">code</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mermaid"><span class="toc-number">2.</span> <span class="toc-text">mermaid</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#code"><span class="toc-number">1.</span> <span class="toc-text">code</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mermaid"><span class="toc-number">2.</span> <span class="toc-text">mermaid</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#flowchart"><span class="toc-number">2.1.</span> <span class="toc-text">flowchart</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#sequence"><span class="toc-number">2.2.</span> <span class="toc-text">sequence</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#gantt"><span class="toc-number">2.3.</span> <span class="toc-text">gantt</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#class-diagram"><span class="toc-number">2.4.</span> <span class="toc-text">class diagram</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#git-graph"><span class="toc-number">2.5.</span> <span class="toc-text">git graph</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
@@ -390,6 +443,14 @@ MathJax.Hub.Queue(function() {
 <script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
 
+
+
+  <script src='https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js'></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({theme: 'forest'});
+    }
+  </script>
 
     
 <div class="tools-col" q-class="show:isShow,hide:isShow|isFalse" q-on="click:stop(e)">
@@ -542,7 +603,7 @@ MathJax.Hub.Queue(function() {
     
     	<section class="tools-section tools-section-me" q-show="aboutme">
   	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">很惭愧&lt;br&gt;&lt;br&gt;只做了一点微小的工作&lt;br&gt;谢谢大家</div>
+  	  		<div class="aboutme-wrap" id="js-aboutme">祖传六代贫农&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;尘世中迷途的羔羊</div>
   	  	
     	</section>
     
