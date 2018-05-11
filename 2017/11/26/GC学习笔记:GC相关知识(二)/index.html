@@ -6,14 +6,14 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>GC学习笔记:GC相关知识(二) | oatiz&#39;s blog</title>
+  <title>GC学习笔记:GC相关知识(二) | oatiz</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="GC中基本概念对象/头/域对象在GC里,对象表示”通过应用程序利用的数据的集合”。对象配置在内存空间中,GC会根据情况将配置好的对象进行移动或销毁操作。因此,对象是GC的基本单位。对象由“头(header)”与“域(field)”组成 头将对象中保存对象本身信息的部分称为“头”,主要包括以下信息:  GC运行所需信息(预先存有) 对象的大小 对象的种类  域把对象使用者在对象中可访问的部分称为“">
 <meta name="keywords" content="JVM,GC,DASS">
 <meta property="og:type" content="article">
 <meta property="og:title" content="GC学习笔记:GC相关知识(二)">
 <meta property="og:url" content="http://yoursite.com/2017/11/26/GC学习笔记:GC相关知识(二)/index.html">
-<meta property="og:site_name" content="oatiz&#39;s blog">
+<meta property="og:site_name" content="oatiz">
 <meta property="og:description" content="GC中基本概念对象/头/域对象在GC里,对象表示”通过应用程序利用的数据的集合”。对象配置在内存空间中,GC会根据情况将配置好的对象进行移动或销毁操作。因此,对象是GC的基本单位。对象由“头(header)”与“域(field)”组成 头将对象中保存对象本身信息的部分称为“头”,主要包括以下信息:  GC运行所需信息(预先存有) 对象的大小 对象的种类  域把对象使用者在对象中可访问的部分称为“">
 <meta property="og:locale" content="default">
 <meta property="og:updated_time" content="2017-11-27T02:28:31.000Z">
@@ -21,10 +21,10 @@
 <meta name="twitter:title" content="GC学习笔记:GC相关知识(二)">
 <meta name="twitter:description" content="GC中基本概念对象/头/域对象在GC里,对象表示”通过应用程序利用的数据的集合”。对象配置在内存空间中,GC会根据情况将配置好的对象进行移动或销毁操作。因此,对象是GC的基本单位。对象由“头(header)”与“域(field)”组成 头将对象中保存对象本身信息的部分称为“头”,主要包括以下信息:  GC运行所需信息(预先存有) 对象的大小 对象的种类  域把对象使用者在对象中可访问的部分称为“">
   
-    <link rel="alternative" href="/atom.xml" title="oatiz&#39;s blog" type="application/atom+xml">
+    <link rel="alternative" href="/atom.xml" title="oatiz" type="application/atom+xml">
   
   
-    <link rel="icon" href="/favicon.png">
+    <link rel="icon" href="/brick.png">
   
   <link rel="stylesheet" type="text/css" href="/./main.0cf68a.css">
   <style type="text/css">
@@ -73,10 +73,6 @@
     			
             
     			
-    			<a q-on="click: openSlider(e, 'friends')" href="javascript:void(0)">友链</a>
-    			
-            
-    			
     			<a q-on="click: openSlider(e, 'aboutme')" href="javascript:void(0)">关于我</a>
     			
             
@@ -84,13 +80,7 @@
 		<nav class="header-nav">
 			<div class="social">
 				
-					<a class="github" target="_blank" href="#" title="github"><i class="icon-github"></i></a>
-		        
-					<a class="weibo" target="_blank" href="#" title="weibo"><i class="icon-weibo"></i></a>
-		        
-					<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
-		        
-					<a class="zhihu" target="_blank" href="#" title="zhihu"><i class="icon-zhihu"></i></a>
+					<a class="github" target="_blank" href="https://github.com/oatiz" title="github"><i class="icon-github"></i></a>
 		        
 			</div>
 		</nav>
@@ -127,13 +117,7 @@
 			<nav class="header-nav">
 				<div class="social">
 					
-						<a class="github" target="_blank" href="#" title="github"><i class="icon-github"></i></a>
-			        
-						<a class="weibo" target="_blank" href="#" title="weibo"><i class="icon-weibo"></i></a>
-			        
-						<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
-			        
-						<a class="zhihu" target="_blank" href="#" title="zhihu"><i class="icon-zhihu"></i></a>
+						<a class="github" target="_blank" href="https://github.com/oatiz" title="github"><i class="icon-github"></i></a>
 			        
 				</div>
 			</nav>
@@ -411,7 +395,7 @@
 		toc_hide_index: true,
 		root: "/",
 		innerArchive: true,
-		showTags: false
+		showTags: true
 	}
 </script>
 
@@ -463,25 +447,17 @@ MathJax.Hub.Queue(function() {
       
       
     
-      
-      
-      
-    
     
 
     <ul style="width: 70%">
     
     
       
-      <li style="width: 33.333333333333336%" q-on="click: openSlider(e, 'innerArchive')"><a href="javascript:void(0)" q-class="active:innerArchive">所有文章</a></li>
+      <li style="width: 50%" q-on="click: openSlider(e, 'innerArchive')"><a href="javascript:void(0)" q-class="active:innerArchive">所有文章</a></li>
       
         
       
-      <li style="width: 33.333333333333336%" q-on="click: openSlider(e, 'friends')"><a href="javascript:void(0)" q-class="active:friends">友链</a></li>
-      
-        
-      
-      <li style="width: 33.333333333333336%" q-on="click: openSlider(e, 'aboutme')"><a href="javascript:void(0)" q-class="active:aboutme">关于我</a></li>
+      <li style="width: 50%" q-on="click: openSlider(e, 'aboutme')"><a href="javascript:void(0)" q-class="active:aboutme">关于我</a></li>
       
         
     </ul>
@@ -565,43 +541,11 @@ MathJax.Hub.Queue(function() {
     
 
     
-    	<section class="tools-section tools-section-friends" q-show="friends">
-  		
-        <ul class="search-ul">
-          
-            <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接1</a>
-            </li>
-          
-            <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接2</a>
-            </li>
-          
-            <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接3</a>
-            </li>
-          
-            <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接4</a>
-            </li>
-          
-            <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接5</a>
-            </li>
-          
-            <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接6</a>
-            </li>
-          
-        </ul>
-  		
-    	</section>
-    
 
     
     	<section class="tools-section tools-section-me" q-show="aboutme">
   	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">祖传六代贫农&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;尘世中迷途的羔羊</div>
+  	  		<div class="aboutme-wrap" id="js-aboutme">祖传六代贫农&lt;br&gt;&lt;br&gt;&lt;br&gt;尘世中迷途的羔羊</div>
   	  	
     	</section>
     
