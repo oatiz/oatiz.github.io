@@ -8,18 +8,18 @@
   <link rel="dns-prefetch" href="https://oatiz.github.io">
   <title>skywalking5.0部署搭建 | oatiz</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="介绍skywalking官网skywalking-github 背景基于之前我用过zipkin与pinpoint,可以做下简单的对比(基于我自己的理解):  部署简易度(由低到高) zipkin –&amp;gt; skywalking –&amp;gt; pinpoint   性能方面(由低到高) pinpoint –&amp;gt; zipnkin –&amp;gt; skywaling     相关文章:几种分布式调用">
+  <meta name="description" content="介绍skywalking官网 skywalking-github 背景基于之前我用过zipkin与pinpoint,可以做下简单的对比(基于我自己的理解):  部署简易度(由低到高) zipkin –&amp;gt; skywalking –&amp;gt; pinpoint   性能方面(由低到高) pinpoint –&amp;gt; zipnkin –&amp;gt; skywaling     相关文章:几种分布式调">
 <meta name="keywords" content="apm,skywalking">
 <meta property="og:type" content="article">
 <meta property="og:title" content="skywalking5.0部署搭建">
 <meta property="og:url" content="https://oatiz.github.io/2018/05/15/skywalking5-0部署搭建/index.html">
 <meta property="og:site_name" content="oatiz">
-<meta property="og:description" content="介绍skywalking官网skywalking-github 背景基于之前我用过zipkin与pinpoint,可以做下简单的对比(基于我自己的理解):  部署简易度(由低到高) zipkin –&amp;gt; skywalking –&amp;gt; pinpoint   性能方面(由低到高) pinpoint –&amp;gt; zipnkin –&amp;gt; skywaling     相关文章:几种分布式调用">
+<meta property="og:description" content="介绍skywalking官网 skywalking-github 背景基于之前我用过zipkin与pinpoint,可以做下简单的对比(基于我自己的理解):  部署简易度(由低到高) zipkin –&amp;gt; skywalking –&amp;gt; pinpoint   性能方面(由低到高) pinpoint –&amp;gt; zipnkin –&amp;gt; skywaling     相关文章:几种分布式调">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-05-15T12:47:29.099Z">
+<meta property="og:updated_time" content="2018-05-15T14:25:47.910Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="skywalking5.0部署搭建">
-<meta name="twitter:description" content="介绍skywalking官网skywalking-github 背景基于之前我用过zipkin与pinpoint,可以做下简单的对比(基于我自己的理解):  部署简易度(由低到高) zipkin –&amp;gt; skywalking –&amp;gt; pinpoint   性能方面(由低到高) pinpoint –&amp;gt; zipnkin –&amp;gt; skywaling     相关文章:几种分布式调用">
+<meta name="twitter:description" content="介绍skywalking官网 skywalking-github 背景基于之前我用过zipkin与pinpoint,可以做下简单的对比(基于我自己的理解):  部署简易度(由低到高) zipkin –&amp;gt; skywalking –&amp;gt; pinpoint   性能方面(由低到高) pinpoint –&amp;gt; zipnkin –&amp;gt; skywaling     相关文章:几种分布式调">
   
     <link rel="alternative" href="/atom.xml" title="oatiz" type="application/atom+xml">
   
@@ -163,7 +163,8 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p><a href="http://skywalking.io/" target="_blank" rel="noopener">skywalking官网</a><br><a href="https://github.com/apache/incubator-skywalking" target="_blank" rel="noopener">skywalking-github</a></p>
+        <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p><a href="http://skywalking.io/" target="_blank" rel="noopener">skywalking官网</a></p>
+<p><a href="https://github.com/apache/incubator-skywalking" target="_blank" rel="noopener">skywalking-github</a></p>
 <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>基于之前我用过zipkin与pinpoint,可以做下简单的对比(基于我自己的理解):</p>
 <ul>
 <li>部署简易度(由低到高)<ul>
@@ -291,6 +292,11 @@ thread_pool.bulk.queue_size: 1000
 </li>
 </ul>
 <p>打包成功后对应的skywalking存放在apm-dist/target目录下,根据上面的部署步骤使用</p>
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><ul>
+<li>agent中的collector.ip需要与collector 中配置文件中的相同(agent与collector在不同机器时,注意将ip改为对应机器的ip)</li>
+<li>部署agent,collector机器的系统时区必须一致(不同时dashboard中查看不到数据)</li>
+<li>编译时替换npm源</li>
+</ul>
 <h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://github.com/apache/incubator-skywalking/blob/master/docs/README_ZH.md" target="_blank" rel="noopener">skywalking-中文文档</a><br></p>
 
       
@@ -408,7 +414,7 @@ thread_pool.bulk.queue_size: 1000
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#介绍"><span class="toc-number">1.</span> <span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#背景"><span class="toc-number">2.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#部署"><span class="toc-number">3.</span> <span class="toc-text">部署</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#下载"><span class="toc-number">3.1.</span> <span class="toc-text">下载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解压"><span class="toc-number">3.2.</span> <span class="toc-text">解压</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#后端部署"><span class="toc-number">3.3.</span> <span class="toc-text">后端部署</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#agent部署"><span class="toc-number">3.4.</span> <span class="toc-text">agent部署</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他"><span class="toc-number">4.</span> <span class="toc-text">其他</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-number">5.</span> <span class="toc-text">参考链接</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#介绍"><span class="toc-number">1.</span> <span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#背景"><span class="toc-number">2.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#部署"><span class="toc-number">3.</span> <span class="toc-text">部署</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#下载"><span class="toc-number">3.1.</span> <span class="toc-text">下载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解压"><span class="toc-number">3.2.</span> <span class="toc-text">解压</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#后端部署"><span class="toc-number">3.3.</span> <span class="toc-text">后端部署</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#agent部署"><span class="toc-number">3.4.</span> <span class="toc-text">agent部署</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他"><span class="toc-number">4.</span> <span class="toc-text">其他</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#注意事项"><span class="toc-number">5.</span> <span class="toc-text">注意事项</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-number">6.</span> <span class="toc-text">参考链接</span></a></li></ol>
                     </div>
                 </span>
             </div>
@@ -557,7 +563,15 @@ MathJax.Hub.Queue(function() {
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">mermaid</a>
+                <a href="javascript:void(0)" class="js-tag color4">JVM</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">GC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">DASS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -569,15 +583,7 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">JVM</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">GC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">DASS</a>
+                <a href="javascript:void(0)" class="js-tag color3">mermaid</a>
               </li>
              
               <li class="article-tag-list-item">
