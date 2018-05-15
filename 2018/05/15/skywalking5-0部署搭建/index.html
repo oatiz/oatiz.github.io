@@ -6,20 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://oatiz.github.io">
-  <title>建站前言 | oatiz</title>
+  <title>skywalking5.0部署搭建 | oatiz</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="组件hexoyilia tips 评论采用Disqus,需翻墙后才可留言  碎碎念其实在建站之前已经有过一个blog了,但是没有保持下去。原因个人觉得别人已经写好了,没必要重复的去抄别人:)。现在重新得去编写,其实觉得现在的生活乏味无趣,不如找个事情来充实自己。再者自己基础知识很不好,借着这个名头坚持下。 说到学习笔记,个人会通过看书,读别人的博客,实践来验证自己所需掌握的知识点。在此站,会将各个">
-<meta name="keywords" content="随笔">
+  <meta name="description" content="介绍skywalking官网skywalking-github 背景基于之前我用过zipkin与pinpoint,可以做下简单的对比(基于我自己的理解):  部署简易度(由低到高) zipkin –&amp;gt; skywalking –&amp;gt; pinpoint   性能方面(由低到高) pinpoint –&amp;gt; zipnkin –&amp;gt; skywaling     相关文章:几种分布式调用">
+<meta name="keywords" content="apm,skywalking">
 <meta property="og:type" content="article">
-<meta property="og:title" content="建站前言">
-<meta property="og:url" content="https://oatiz.github.io/2017/07/28/建站前言/index.html">
+<meta property="og:title" content="skywalking5.0部署搭建">
+<meta property="og:url" content="https://oatiz.github.io/2018/05/15/skywalking5-0部署搭建/index.html">
 <meta property="og:site_name" content="oatiz">
-<meta property="og:description" content="组件hexoyilia tips 评论采用Disqus,需翻墙后才可留言  碎碎念其实在建站之前已经有过一个blog了,但是没有保持下去。原因个人觉得别人已经写好了,没必要重复的去抄别人:)。现在重新得去编写,其实觉得现在的生活乏味无趣,不如找个事情来充实自己。再者自己基础知识很不好,借着这个名头坚持下。 说到学习笔记,个人会通过看书,读别人的博客,实践来验证自己所需掌握的知识点。在此站,会将各个">
+<meta property="og:description" content="介绍skywalking官网skywalking-github 背景基于之前我用过zipkin与pinpoint,可以做下简单的对比(基于我自己的理解):  部署简易度(由低到高) zipkin –&amp;gt; skywalking –&amp;gt; pinpoint   性能方面(由低到高) pinpoint –&amp;gt; zipnkin –&amp;gt; skywaling     相关文章:几种分布式调用">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2017-10-21T12:40:45.000Z">
+<meta property="og:updated_time" content="2018-05-15T12:26:01.135Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="建站前言">
-<meta name="twitter:description" content="组件hexoyilia tips 评论采用Disqus,需翻墙后才可留言  碎碎念其实在建站之前已经有过一个blog了,但是没有保持下去。原因个人觉得别人已经写好了,没必要重复的去抄别人:)。现在重新得去编写,其实觉得现在的生活乏味无趣,不如找个事情来充实自己。再者自己基础知识很不好,借着这个名头坚持下。 说到学习笔记,个人会通过看书,读别人的博客,实践来验证自己所需掌握的知识点。在此站,会将各个">
+<meta name="twitter:title" content="skywalking5.0部署搭建">
+<meta name="twitter:description" content="介绍skywalking官网skywalking-github 背景基于之前我用过zipkin与pinpoint,可以做下简单的对比(基于我自己的理解):  部署简易度(由低到高) zipkin –&amp;gt; skywalking –&amp;gt; pinpoint   性能方面(由低到高) pinpoint –&amp;gt; zipnkin –&amp;gt; skywaling     相关文章:几种分布式调用">
   
     <link rel="alternative" href="/atom.xml" title="oatiz" type="application/atom+xml">
   
@@ -143,34 +143,155 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-建站前言" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-skywalking5-0部署搭建" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      建站前言
+      skywalking5.0部署搭建
     </h1>
   
 
         
-        <a href="/2017/07/28/建站前言/" class="archive-article-date">
-  	<time datetime="2017-07-27T16:24:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-28</time>
+        <a href="/2018/05/15/skywalking5-0部署搭建/" class="archive-article-date">
+  	<time datetime="2018-05-15T02:41:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-05-15</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h4 id="组件"><a href="#组件" class="headerlink" title="组件"></a>组件</h4><p><a href="https://hexo.io/zh-cn/docs/" target="_blank" rel="noopener">hexo</a><br><a href="https://github.com/litten/hexo-theme-yilia" target="_blank" rel="noopener">yilia</a></p>
-<h4 id="tips"><a href="#tips" class="headerlink" title="tips"></a>tips</h4><blockquote>
-<p><strong>评论采用Disqus,需翻墙后才可留言</strong></p>
+        <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p><a href="http://skywalking.io/" target="_blank" rel="noopener">skywalking官网</a><br><a href="https://github.com/apache/incubator-skywalking" target="_blank" rel="noopener">skywalking-github</a></p>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>基于之前我用过zipkin与pinpoint,可以做下简单的对比(基于我自己的理解):</p>
+<ul>
+<li>部署简易度(由低到高)<ul>
+<li>zipkin –&gt; skywalking –&gt; pinpoint</li>
+</ul>
+</li>
+<li>性能方面(由低到高)<ul>
+<li>pinpoint –&gt; zipnkin –&gt; skywaling </li>
+</ul>
+</li>
+</ul>
+<p>相关文章:<br><a href="https://juejin.im/post/5a274614518825592c07f8b8" target="_blank" rel="noopener">几种分布式调用链监控组件的实践与比较</a></p>
+<p>我们生产使用的spring cloud体系, eureka来做服务发现,feign进行通信,默认使用 hystrix做服务熔断.</p>
+<p>结合上述相关介绍,我们最终采用skywalking</p>
+<h2 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h2><h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><p>点击<a href="http://skywalking.io/downloads/" target="_blank" rel="noopener">下载地址</a>,然后选择对应版本进行下载,解压</p>
+<h3 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h3><p>下载后解压,文件目录可以分为三部分:</p>
+<ul>
+<li>agent: 需要监控的应用的代理</li>
+<li>collector: 应用trace信息收集器(被监控应用内数据会被收集起来)</li>
+<li>webapp: 前端页面展示</li>
+</ul>
+<p>结构如下:</p>
+<pre><code class="shell">apache-skywalking-apm-incubating
+|-- agent
+|   |-- activations
+|   |   |-- apm-toolkit-log4j-1.x-activation-5.0.0-beta-SNAPSHOT.jar
+|   |   |-- apm-toolkit-log4j-2.x-activation-5.0.0-beta-SNAPSHOT.jar
+|   |   |-- apm-toolkit-logback-1.x-activation-5.0.0-beta-SNAPSHOT.jar
+|   |   |-- apm-toolkit-opentracing-activation-5.0.0-beta-SNAPSHOT.jar
+|   |   `-- apm-toolkit-trace-activation-5.0.0-beta-SNAPSHOT.jar
+|   |-- config
+|   |   `-- agent.config
+|   |-- logs
+|   |-- optional-plugins
+|   |   `-- apm-spring-annotation-plugin-5.0.0-beta-SNAPSHOT.jar
+|   |-- plugins
+|   |   |-- apm-dubbo-plugin-5.0.0-beta-SNAPSHOT.jar
+|   |   |-- apm-elastic-job-2.x-plugin-5.0.0-beta-SNAPSHOT.jar
+|   |   |-- ......
+|   |   `-- tomcat-7.x-8.x-plugin-5.0.0-beta-SNAPSHOT.jar
+|   `-- skywalking-agent.jar
+|-- bin
+|   |-- collectorService.bat
+|   |-- collectorService.sh
+|   |-- startup.bat
+|   |-- startup.sh
+|   |-- webappService.bat
+|   `-- webappService.sh
+|-- collector-libs
+|   |-- agent-grpc-define-5.0.0-beta-SNAPSHOT.jar
+|   |-- agent-grpc-provider-5.0.0-beta-SNAPSHOT.jar
+|   |-- agent-jetty-define-5.0.0-beta-SNAPSHOT.jar
+|   |-- ......
+|   `-- zookeeper-3.4.10.jar
+|-- config
+|   |-- application.yml
+|   |-- component-libraries.yml
+|   `-- log4j2.xml
+|-- DISCLAIMER
+|-- LICENSE
+|-- licenses
+|   |-- LICENSE-annotations.txt
+|   |-- LICENSE-antlr4-runtime.txt
+|   |-- ......
+|   |-- LICENSE-zuul.txt
+|   `-- ui-licenses
+|       |-- LICENSE-add-dom-event-listener
+|       |-- LICENSE-antd
+|       |-- ......
+|       `-- LICENSE-whatwg-fetch
+|-- logs
+|   |-- collector.log
+|   |-- skywalking-collector-server.log
+|   |-- webapp-console.log
+|   `-- webapp.log
+|-- NOTICE
+|-- README.txt
+`-- webapp
+    `-- skywalking-webapp.jar
+</code></pre>
+<h3 id="后端部署"><a href="#后端部署" class="headerlink" title="后端部署"></a>后端部署</h3><ul>
+<li>修改config/application.yml,将里面所有host改为物理机ip</li>
+<li>修改bin/webappService.sh,将collector.ribbon.listOfServers=103.45.5.61:10800,改为config/application.yml里面ui.jetty.host与port</li>
+<li>执行bin/startup.sh</li>
+</ul>
+<p>需要注意的是,skywalking数据采用elasticsearch 存储.需要部署es,并且修改es的配置文件 elasticsearch.yml,将对应配置改为以下配置:</p>
+<pre><code class="yaml">network.host: 0.0.0.0
+thread_pool.bulk.queue_size: 1000
+</code></pre>
+<h3 id="agent部署"><a href="#agent部署" class="headerlink" title="agent部署"></a>agent部署</h3><ul>
+<li>复制skywalking-agent到任意目录</li>
+<li>配置agent/config/agent.config文件<ul>
+<li>将collector.servers填写为collector配置文件(config/application.yml)中naming/jetty/ip:port</li>
+</ul>
+</li>
+<li>添加参数<ul>
+<li>在jvm启动参数添加:<strong>-javaagent:/path/to/skywalking-agent/skywalking-agent.jar</strong></li>
+</ul>
+</li>
+</ul>
+<p>假设我们已经将skywalking-agent放到/opt/skywalking/目录下,那么我们的启动命令应该写为:</p>
+<blockquote>
+<p>java -javaagent:/opt/skywalking/agent/skywalking-agent.jar -Dskywalking.agent.application_code=gateway -jar gateway.jar</p>
 </blockquote>
-<h4 id="碎碎念"><a href="#碎碎念" class="headerlink" title="碎碎念"></a>碎碎念</h4><p>其实在建站之前已经有过一个blog了,但是没有保持下去。原因个人觉得别人已经写好了,没必要重复的去抄别人:)。现在重新得去编写,其实觉得现在的生活乏味无趣,不如找个事情来充实自己。再者自己基础知识很不好,借着这个名头坚持下。</p>
-<p>说到学习笔记,个人会通过看书,读别人的博客,实践来验证自己所需掌握的知识点。在此站,会将各个出处标识清楚。</p>
-<p>碎碎念结束,愿自己坚持下去。</p>
-<p>祝好:)</p>
+<p>配置除了通过/config/agent.config文件外,可以通过环境变量和VM参数(-D)来进行设置</p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>因为现有版本5.0.0-alpha有bug,所以需要使用新发布的5.0.0-beta版,所以需要编译对应分支源码</p>
+<ul>
+<li>拉取skywalking对应分支代码<ul>
+<li>git clone -b release/5.0.0-beta <a href="https://github.com/apache/incubator-skywalking.git" target="_blank" rel="noopener">https://github.com/apache/incubator-skywalking.git</a></li>
+</ul>
+</li>
+<li>拉取子模块<ul>
+<li>git submodule init</li>
+<li>git submodule update</li>
+</ul>
+</li>
+<li>修改npm源<ul>
+<li>打开apm-webapp/pom.xml,搜索frontend-maven-plugin</li>
+<li>将install –registry=<a href="https://registry.npmjs.org/" target="_blank" rel="noopener">https://registry.npmjs.org/</a> 替换为 install –registry=<a href="https://registry.npm.taobao.org/" target="_blank" rel="noopener">https://registry.npm.taobao.org/</a></li>
+</ul>
+</li>
+<li>编译<ul>
+<li>mvn clean package -DskipTests</li>
+</ul>
+</li>
+</ul>
+<p>打包成功后对应的skywalking存放在apm-dist/target目录下,根据上面的部署步骤使用</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://github.com/apache/incubator-skywalking/blob/master/docs/README_ZH.md" target="_blank" rel="noopener">skywalking-中文文档</a><br></p>
 
       
 
@@ -184,7 +305,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">apm</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">skywalking</a>
         		</li>
       		
 		</ul>
@@ -240,7 +365,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=https://oatiz.github.io/2017/07/28/建站前言/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=https://oatiz.github.io/2018/05/15/skywalking5-0部署搭建/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -254,15 +379,11 @@
   
 <nav id="article-nav">
   
-    <a href="/2017/11/25/GC学习笔记:GC定义及历史(一)/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          GC学习笔记:GC定义及历史(一)
-        
-      </div>
-    </a>
   
+    <a href="/2017/12/04/mermaid-test/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">mermaid</div>
+      <i class="icon-circle-right"></i>
+    </a>
   
 </nav>
 
@@ -287,7 +408,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#组件"><span class="toc-number">1.</span> <span class="toc-text">组件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#tips"><span class="toc-number">2.</span> <span class="toc-text">tips</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#碎碎念"><span class="toc-number">3.</span> <span class="toc-text">碎碎念</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#介绍"><span class="toc-number">1.</span> <span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#背景"><span class="toc-number">2.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#部署"><span class="toc-number">3.</span> <span class="toc-text">部署</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#下载"><span class="toc-number">3.1.</span> <span class="toc-text">下载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解压"><span class="toc-number">3.2.</span> <span class="toc-text">解压</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#后端部署"><span class="toc-number">3.3.</span> <span class="toc-text">后端部署</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#agent部署"><span class="toc-number">3.4.</span> <span class="toc-text">agent部署</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他"><span class="toc-number">4.</span> <span class="toc-text">其他</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-number">5.</span> <span class="toc-text">参考链接</span></a></li></ol>
                     </div>
                 </span>
             </div>

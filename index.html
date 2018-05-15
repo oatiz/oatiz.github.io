@@ -140,6 +140,212 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-skywalking5-0部署搭建" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/05/15/skywalking5-0部署搭建/">skywalking5.0部署搭建</a>
+    </h1>
+  
+
+        
+        <a href="/2018/05/15/skywalking5-0部署搭建/" class="archive-article-date">
+  	<time datetime="2018-05-15T02:41:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-05-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p><a href="http://skywalking.io/" target="_blank" rel="noopener">skywalking官网</a><br><a href="https://github.com/apache/incubator-skywalking" target="_blank" rel="noopener">skywalking-github</a></p>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>基于之前我用过zipkin与pinpoint,可以做下简单的对比(基于我自己的理解):</p>
+<ul>
+<li>部署简易度(由低到高)<ul>
+<li>zipkin –&gt; skywalking –&gt; pinpoint</li>
+</ul>
+</li>
+<li>性能方面(由低到高)<ul>
+<li>pinpoint –&gt; zipnkin –&gt; skywaling </li>
+</ul>
+</li>
+</ul>
+<p>相关文章:<br><a href="https://juejin.im/post/5a274614518825592c07f8b8" target="_blank" rel="noopener">几种分布式调用链监控组件的实践与比较</a></p>
+<p>我们生产使用的spring cloud体系, eureka来做服务发现,feign进行通信,默认使用 hystrix做服务熔断.</p>
+<p>结合上述相关介绍,我们最终采用skywalking</p>
+<h2 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h2><h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><p>点击<a href="http://skywalking.io/downloads/" target="_blank" rel="noopener">下载地址</a>,然后选择对应版本进行下载,解压</p>
+<h3 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h3><p>下载后解压,文件目录可以分为三部分:</p>
+<ul>
+<li>agent: 需要监控的应用的代理</li>
+<li>collector: 应用trace信息收集器(被监控应用内数据会被收集起来)</li>
+<li>webapp: 前端页面展示</li>
+</ul>
+<p>结构如下:</p>
+<pre><code class="shell">apache-skywalking-apm-incubating
+|-- agent
+|   |-- activations
+|   |   |-- apm-toolkit-log4j-1.x-activation-5.0.0-beta-SNAPSHOT.jar
+|   |   |-- apm-toolkit-log4j-2.x-activation-5.0.0-beta-SNAPSHOT.jar
+|   |   |-- apm-toolkit-logback-1.x-activation-5.0.0-beta-SNAPSHOT.jar
+|   |   |-- apm-toolkit-opentracing-activation-5.0.0-beta-SNAPSHOT.jar
+|   |   `-- apm-toolkit-trace-activation-5.0.0-beta-SNAPSHOT.jar
+|   |-- config
+|   |   `-- agent.config
+|   |-- logs
+|   |-- optional-plugins
+|   |   `-- apm-spring-annotation-plugin-5.0.0-beta-SNAPSHOT.jar
+|   |-- plugins
+|   |   |-- apm-dubbo-plugin-5.0.0-beta-SNAPSHOT.jar
+|   |   |-- apm-elastic-job-2.x-plugin-5.0.0-beta-SNAPSHOT.jar
+|   |   |-- ......
+|   |   `-- tomcat-7.x-8.x-plugin-5.0.0-beta-SNAPSHOT.jar
+|   `-- skywalking-agent.jar
+|-- bin
+|   |-- collectorService.bat
+|   |-- collectorService.sh
+|   |-- startup.bat
+|   |-- startup.sh
+|   |-- webappService.bat
+|   `-- webappService.sh
+|-- collector-libs
+|   |-- agent-grpc-define-5.0.0-beta-SNAPSHOT.jar
+|   |-- agent-grpc-provider-5.0.0-beta-SNAPSHOT.jar
+|   |-- agent-jetty-define-5.0.0-beta-SNAPSHOT.jar
+|   |-- ......
+|   `-- zookeeper-3.4.10.jar
+|-- config
+|   |-- application.yml
+|   |-- component-libraries.yml
+|   `-- log4j2.xml
+|-- DISCLAIMER
+|-- LICENSE
+|-- licenses
+|   |-- LICENSE-annotations.txt
+|   |-- LICENSE-antlr4-runtime.txt
+|   |-- ......
+|   |-- LICENSE-zuul.txt
+|   `-- ui-licenses
+|       |-- LICENSE-add-dom-event-listener
+|       |-- LICENSE-antd
+|       |-- ......
+|       `-- LICENSE-whatwg-fetch
+|-- logs
+|   |-- collector.log
+|   |-- skywalking-collector-server.log
+|   |-- webapp-console.log
+|   `-- webapp.log
+|-- NOTICE
+|-- README.txt
+`-- webapp
+    `-- skywalking-webapp.jar
+</code></pre>
+<h3 id="后端部署"><a href="#后端部署" class="headerlink" title="后端部署"></a>后端部署</h3><ul>
+<li>修改config/application.yml,将里面所有host改为物理机ip</li>
+<li>修改bin/webappService.sh,将collector.ribbon.listOfServers=103.45.5.61:10800,改为config/application.yml里面ui.jetty.host与port</li>
+<li>执行bin/startup.sh</li>
+</ul>
+<p>需要注意的是,skywalking数据采用elasticsearch 存储.需要部署es,并且修改es的配置文件 elasticsearch.yml,将对应配置改为以下配置:</p>
+<pre><code class="yaml">network.host: 0.0.0.0
+thread_pool.bulk.queue_size: 1000
+</code></pre>
+<h3 id="agent部署"><a href="#agent部署" class="headerlink" title="agent部署"></a>agent部署</h3><ul>
+<li>复制skywalking-agent到任意目录</li>
+<li>配置agent/config/agent.config文件<ul>
+<li>将collector.servers填写为collector配置文件(config/application.yml)中naming/jetty/ip:port</li>
+</ul>
+</li>
+<li>添加参数<ul>
+<li>在jvm启动参数添加:<strong>-javaagent:/path/to/skywalking-agent/skywalking-agent.jar</strong></li>
+</ul>
+</li>
+</ul>
+<p>假设我们已经将skywalking-agent放到/opt/skywalking/目录下,那么我们的启动命令应该写为:</p>
+<blockquote>
+<p>java -javaagent:/opt/skywalking/agent/skywalking-agent.jar -Dskywalking.agent.application_code=gateway -jar gateway.jar</p>
+</blockquote>
+<p>配置除了通过/config/agent.config文件外,可以通过环境变量和VM参数(-D)来进行设置</p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>因为现有版本5.0.0-alpha有bug,所以需要使用新发布的5.0.0-beta版,所以需要编译对应分支源码</p>
+<ul>
+<li>拉取skywalking对应分支代码<ul>
+<li>git clone -b release/5.0.0-beta <a href="https://github.com/apache/incubator-skywalking.git" target="_blank" rel="noopener">https://github.com/apache/incubator-skywalking.git</a></li>
+</ul>
+</li>
+<li>拉取子模块<ul>
+<li>git submodule init</li>
+<li>git submodule update</li>
+</ul>
+</li>
+<li>修改npm源<ul>
+<li>打开apm-webapp/pom.xml,搜索frontend-maven-plugin</li>
+<li>将install –registry=<a href="https://registry.npmjs.org/" target="_blank" rel="noopener">https://registry.npmjs.org/</a> 替换为 install –registry=<a href="https://registry.npm.taobao.org/" target="_blank" rel="noopener">https://registry.npm.taobao.org/</a></li>
+</ul>
+</li>
+<li>编译<ul>
+<li>mvn clean package -DskipTests</li>
+</ul>
+</li>
+</ul>
+<p>打包成功后对应的skywalking存放在apm-dist/target目录下,根据上面的部署步骤使用</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://github.com/apache/incubator-skywalking/blob/master/docs/README_ZH.md" target="_blank" rel="noopener">skywalking-中文文档</a><br></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">apm</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">skywalking</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/05/15/skywalking5-0部署搭建/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-mermaid-test" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -777,6 +983,14 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">mermaid</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">apm</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">skywalking</a>
               </li>
              
               <li class="article-tag-list-item">
