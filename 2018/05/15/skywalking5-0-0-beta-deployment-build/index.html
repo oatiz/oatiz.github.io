@@ -155,8 +155,8 @@
 <main class="app-body flex-box">
   <!-- Article START -->
   <article class="post-article">
-    <section class="markdown-content"><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p><a href="http://skywalking.io/" target="_blank" rel="noopener">skywalking官网</a></p>
-<p><a href="https://github.com/apache/incubator-skywalking" target="_blank" rel="noopener">skywalking-github</a></p>
+    <section class="markdown-content"><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p><a href="http://skywalking.io/" target="_blank" rel="external">skywalking官网</a></p>
+<p><a href="https://github.com/apache/incubator-skywalking" target="_blank" rel="external">skywalking-github</a></p>
 <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>基于之前我用过zipkin与pinpoint,可以做下简单的对比(基于我自己的理解):</p>
 <ul>
 <li>部署简易度(由低到高)<ul>
@@ -168,10 +168,10 @@
 </ul>
 </li>
 </ul>
-<p>相关文章:<br><a href="https://juejin.im/post/5a274614518825592c07f8b8" target="_blank" rel="noopener">几种分布式调用链监控组件的实践与比较</a></p>
+<p>相关文章:<br><a href="https://juejin.im/post/5a274614518825592c07f8b8" target="_blank" rel="external">几种分布式调用链监控组件的实践与比较</a></p>
 <p>我们生产使用的spring cloud体系, eureka来做服务发现,feign进行通信,默认使用 hystrix做服务熔断.</p>
 <p>结合上述相关介绍,我们最终采用skywalking</p>
-<h2 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h2><h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><p>点击<a href="http://skywalking.io/downloads/" target="_blank" rel="noopener">下载地址</a>,然后选择对应版本进行下载,解压</p>
+<h2 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h2><h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><p>点击<a href="http://skywalking.io/downloads/" target="_blank" rel="external">下载地址</a>,然后选择对应版本进行下载,解压</p>
 <h3 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h3><p>下载后解压,文件目录可以分为三部分:</p>
 <ul>
 <li>agent: 需要监控的应用的代理</li>
@@ -265,7 +265,7 @@ thread_pool.bulk.queue_size: 1000
 <h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>因为现有版本5.0.0-alpha有bug,所以需要使用新发布的5.0.0-beta版,所以需要编译对应分支源码</p>
 <ul>
 <li>拉取skywalking对应分支代码<ul>
-<li>git clone -b release/5.0.0-beta <a href="https://github.com/apache/incubator-skywalking.git" target="_blank" rel="noopener">https://github.com/apache/incubator-skywalking.git</a></li>
+<li>git clone -b release/5.0.0-beta <a href="https://github.com/apache/incubator-skywalking.git" target="_blank" rel="external">https://github.com/apache/incubator-skywalking.git</a></li>
 </ul>
 </li>
 <li>拉取子模块<ul>
@@ -275,7 +275,7 @@ thread_pool.bulk.queue_size: 1000
 </li>
 <li>修改npm源<ul>
 <li>打开apm-webapp/pom.xml,搜索frontend-maven-plugin</li>
-<li>将install --registry=<a href="https://registry.npmjs.org/" target="_blank" rel="noopener">https://registry.npmjs.org/</a> 替换为 install --registry=<a href="https://registry.npm.taobao.org/" target="_blank" rel="noopener">https://registry.npm.taobao.org/</a></li>
+<li>将install --registry=<a href="https://registry.npmjs.org/" target="_blank" rel="external">https://registry.npmjs.org/</a> 替换为 install --registry=<a href="https://registry.npm.taobao.org/" target="_blank" rel="external">https://registry.npm.taobao.org/</a></li>
 </ul>
 </li>
 <li>编译<ul>
@@ -289,7 +289,7 @@ thread_pool.bulk.queue_size: 1000
 <li>部署agent,collector机器的系统时区必须一致(不同时dashboard中查看不到数据)</li>
 <li>编译时替换npm源</li>
 </ul>
-<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://github.com/apache/incubator-skywalking/blob/master/docs/README_ZH.md" target="_blank" rel="noopener">skywalking-中文文档</a><br></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://github.com/apache/incubator-skywalking/blob/master/docs/README_ZH.md" target="_blank" rel="external">skywalking-中文文档</a><br></p>
 </section>
     <!-- Tags START -->
     
