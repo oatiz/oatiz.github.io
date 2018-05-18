@@ -10,7 +10,7 @@
   
   <title>
     
-      oatiz 的博客
+      About | oatiz 的博客
     
   </title>
   <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -145,73 +145,45 @@
   </div>
 </header>
 
-    <div id="article-banner">
-  <h2>Archives</h2>
-  <p class="post-date">文章归档</p>
+    <div id="about-banner" style="background-image: url(http://file.muyutech.com/about.jpg)"></div>
+<div class="author">
+  <div class="head">
+    <img src="https://raw.githubusercontent.com/oatiz/oatiz.github.io/master/img/avatar.jpg" />
+  </div>
+  <h3>oatiz</h3>
+  
+    <p class="description">Stay hungry, Stay foolish</p>
+  
+  <section class="share-icons">
+    
+    
+    
+      <a class="icon-github" href="https://github.com/oatiz" target="_blank">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+    
+    
+    
+  </section>
 </div>
-<main class="app-body" id="archives">
-  
-  
-  
-    <section class="time-section">
-  <h1 class="section-year">
-    2018
-  </h1>
-  <div class="section-list">
-    
-    
-      <div class="section-list-item">
-        <a href="/2018/05/15/skywalking5-0部署搭建/" class="archive-title">skywalking5.0部署搭建</a>
-        <p class="archive-date">05-15</p>
-      </div>
-    
-  </div>
-</section>
-  
-    <section class="time-section">
-  <h1 class="section-year">
-    2017
-  </h1>
-  <div class="section-list">
-    
-    
-      <div class="section-list-item">
-        <a href="/2017/12/04/mermaid-test/" class="archive-title">hexo mermaid</a>
-        <p class="archive-date">12-04</p>
-      </div>
-    
-      <div class="section-list-item">
-        <a href="/2017/11/26/GC学习笔记:GC标记-清除算法(三)/" class="archive-title">GC学习笔记:GC标记-清除算法(三)</a>
-        <p class="archive-date">11-26</p>
-      </div>
-    
-      <div class="section-list-item">
-        <a href="/2017/11/26/GC学习笔记:GC相关知识(二)/" class="archive-title">GC学习笔记:GC相关知识(二)</a>
-        <p class="archive-date">11-26</p>
-      </div>
-    
-      <div class="section-list-item">
-        <a href="/2017/11/25/GC学习笔记:GC定义及历史(一)/" class="archive-title">GC学习笔记:GC定义及历史(一)</a>
-        <p class="archive-date">11-25</p>
-      </div>
-    
-      <div class="section-list-item">
-        <a href="/2017/07/28/建站前言/" class="archive-title">建站前言</a>
-        <p class="archive-date">07-28</p>
-      </div>
-    
-  </div>
-</section>
-  
-</main>
 
 <script>
   (function () {
-    var url = 'https://oatiz.me/tags/JVM/index.html';
-    $('#article-banner').geopattern(url);
-    $('.header').removeClass('fixed-header');
+    $('.header').removeClass('fixed-header')
+    var windowH = $(window).height();
+    var author = $('.author')
+    var bodyH = author.offset().top + author[0].offsetHeight + 71;
+    if (bodyH < windowH) {
+      author.css({
+        'margin-bottom': windowH - bodyH
+      })
+    }
   })();
 </script>
+
     <div class="scroll-top">
   <span class="arrow-icon"></span>
 </div>
