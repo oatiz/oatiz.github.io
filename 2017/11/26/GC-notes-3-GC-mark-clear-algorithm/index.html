@@ -10,7 +10,7 @@
   
   <title>
     
-      skywalking5.0部署搭建 | oatiz 的博客
+      GC学习笔记:GC标记-清除算法(三) | oatiz 的博客
     
   </title>
   <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -146,8 +146,8 @@
 </header>
 
     <div id="article-banner">
-  <h2>skywalking5.0部署搭建</h2>
-  <p class="post-date">2018-05-15</p>
+  <h2>GC学习笔记:GC标记-清除算法(三)</h2>
+  <p class="post-date">2017-11-26</p>
   <div class="arrow-down">
     <a href="javascript:;"></a>
   </div>
@@ -155,153 +155,22 @@
 <main class="app-body flex-box">
   <!-- Article START -->
   <article class="post-article">
-    <section class="markdown-content"><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p><a href="http://skywalking.io/" target="_blank" rel="noopener">skywalking官网</a></p>
-<p><a href="https://github.com/apache/incubator-skywalking" target="_blank" rel="noopener">skywalking-github</a></p>
-<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>基于之前我用过zipkin与pinpoint,可以做下简单的对比(基于我自己的理解):</p>
-<ul>
-<li>部署简易度(由低到高)<ul>
-<li>zipkin –&gt; skywalking –&gt; pinpoint</li>
-</ul>
-</li>
-<li>性能方面(由低到高)<ul>
-<li>pinpoint –&gt; zipnkin –&gt; skywaling </li>
-</ul>
-</li>
-</ul>
-<p>相关文章:<br><a href="https://juejin.im/post/5a274614518825592c07f8b8" target="_blank" rel="noopener">几种分布式调用链监控组件的实践与比较</a></p>
-<p>我们生产使用的spring cloud体系, eureka来做服务发现,feign进行通信,默认使用 hystrix做服务熔断.</p>
-<p>结合上述相关介绍,我们最终采用skywalking</p>
-<h2 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h2><h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><p>点击<a href="http://skywalking.io/downloads/" target="_blank" rel="noopener">下载地址</a>,然后选择对应版本进行下载,解压</p>
-<h3 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h3><p>下载后解压,文件目录可以分为三部分:</p>
-<ul>
-<li>agent: 需要监控的应用的代理</li>
-<li>collector: 应用trace信息收集器(被监控应用内数据会被收集起来)</li>
-<li>webapp: 前端页面展示</li>
-</ul>
-<p>结构如下:</p>
-<pre><code class="shell">apache-skywalking-apm-incubating
-|-- agent
-|   |-- activations
-|   |   |-- apm-toolkit-log4j-1.x-activation-5.0.0-beta-SNAPSHOT.jar
-|   |   |-- apm-toolkit-log4j-2.x-activation-5.0.0-beta-SNAPSHOT.jar
-|   |   |-- apm-toolkit-logback-1.x-activation-5.0.0-beta-SNAPSHOT.jar
-|   |   |-- apm-toolkit-opentracing-activation-5.0.0-beta-SNAPSHOT.jar
-|   |   `-- apm-toolkit-trace-activation-5.0.0-beta-SNAPSHOT.jar
-|   |-- config
-|   |   `-- agent.config
-|   |-- logs
-|   |-- optional-plugins
-|   |   `-- apm-spring-annotation-plugin-5.0.0-beta-SNAPSHOT.jar
-|   |-- plugins
-|   |   |-- apm-dubbo-plugin-5.0.0-beta-SNAPSHOT.jar
-|   |   |-- apm-elastic-job-2.x-plugin-5.0.0-beta-SNAPSHOT.jar
-|   |   |-- ......
-|   |   `-- tomcat-7.x-8.x-plugin-5.0.0-beta-SNAPSHOT.jar
-|   `-- skywalking-agent.jar
-|-- bin
-|   |-- collectorService.bat
-|   |-- collectorService.sh
-|   |-- startup.bat
-|   |-- startup.sh
-|   |-- webappService.bat
-|   `-- webappService.sh
-|-- collector-libs
-|   |-- agent-grpc-define-5.0.0-beta-SNAPSHOT.jar
-|   |-- agent-grpc-provider-5.0.0-beta-SNAPSHOT.jar
-|   |-- agent-jetty-define-5.0.0-beta-SNAPSHOT.jar
-|   |-- ......
-|   `-- zookeeper-3.4.10.jar
-|-- config
-|   |-- application.yml
-|   |-- component-libraries.yml
-|   `-- log4j2.xml
-|-- DISCLAIMER
-|-- LICENSE
-|-- licenses
-|   |-- LICENSE-annotations.txt
-|   |-- LICENSE-antlr4-runtime.txt
-|   |-- ......
-|   |-- LICENSE-zuul.txt
-|   `-- ui-licenses
-|       |-- LICENSE-add-dom-event-listener
-|       |-- LICENSE-antd
-|       |-- ......
-|       `-- LICENSE-whatwg-fetch
-|-- logs
-|   |-- collector.log
-|   |-- skywalking-collector-server.log
-|   |-- webapp-console.log
-|   `-- webapp.log
-|-- NOTICE
-|-- README.txt
-`-- webapp
-    `-- skywalking-webapp.jar
-</code></pre>
-<h3 id="后端部署"><a href="#后端部署" class="headerlink" title="后端部署"></a>后端部署</h3><ul>
-<li>修改config/application.yml,将里面所有host改为物理机ip</li>
-<li>修改bin/webappService.sh,将collector.ribbon.listOfServers=127.0.0.1:10800,改为config/application.yml里面ui.jetty.host与port</li>
-<li>执行bin/startup.sh</li>
-</ul>
-<p>需要注意的是,skywalking数据采用elasticsearch 存储.需要部署es,并且修改es的配置文件 elasticsearch.yml,将对应配置改为以下配置:</p>
-<pre><code class="yaml">network.host: 0.0.0.0
-thread_pool.bulk.queue_size: 1000
-</code></pre>
-<h3 id="agent部署"><a href="#agent部署" class="headerlink" title="agent部署"></a>agent部署</h3><ul>
-<li>复制skywalking-agent到任意目录</li>
-<li>配置agent/config/agent.config文件<ul>
-<li>将collector.servers填写为collector配置文件(config/application.yml)中naming/jetty/ip:port</li>
-</ul>
-</li>
-<li>添加参数<ul>
-<li>在jvm启动参数添加:<strong>-javaagent:/path/to/skywalking-agent/skywalking-agent.jar</strong></li>
-</ul>
-</li>
-</ul>
-<p>假设我们已经将skywalking-agent放到/opt/skywalking/目录下,那么我们的启动命令应该写为:</p>
-<blockquote>
-<p>java -javaagent:/opt/skywalking/agent/skywalking-agent.jar -Dskywalking.agent.application_code=gateway -jar gateway.jar</p>
-</blockquote>
-<p>配置除了通过/config/agent.config文件外,可以通过环境变量和VM参数(-D)来进行设置</p>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>因为现有版本5.0.0-alpha有bug,所以需要使用新发布的5.0.0-beta版,所以需要编译对应分支源码</p>
-<ul>
-<li>拉取skywalking对应分支代码<ul>
-<li>git clone -b release/5.0.0-beta <a href="https://github.com/apache/incubator-skywalking.git" target="_blank" rel="noopener">https://github.com/apache/incubator-skywalking.git</a></li>
-</ul>
-</li>
-<li>拉取子模块<ul>
-<li>git submodule init</li>
-<li>git submodule update</li>
-</ul>
-</li>
-<li>修改npm源<ul>
-<li>打开apm-webapp/pom.xml,搜索frontend-maven-plugin</li>
-<li>将install --registry=<a href="https://registry.npmjs.org/" target="_blank" rel="noopener">https://registry.npmjs.org/</a> 替换为 install --registry=<a href="https://registry.npm.taobao.org/" target="_blank" rel="noopener">https://registry.npm.taobao.org/</a></li>
-</ul>
-</li>
-<li>编译<ul>
-<li>mvn clean package -DskipTests</li>
-</ul>
-</li>
-</ul>
-<p>打包成功后对应的skywalking存放在apm-dist/target目录下,根据上面的部署步骤使用</p>
-<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><ul>
-<li>agent中的collector.ip需要与collector 中配置文件中的相同(agent与collector在不同机器时,注意将ip改为对应机器的ip)</li>
-<li>部署agent,collector机器的系统时区必须一致(不同时dashboard中查看不到数据)</li>
-<li>编译时替换npm源</li>
-</ul>
-<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://github.com/apache/incubator-skywalking/blob/master/docs/README_ZH.md" target="_blank" rel="noopener">skywalking-中文文档</a><br></p>
-</section>
+    <section class="markdown-content"><h3 id="GC标记-清除算法"><a href="#GC标记-清除算法" class="headerlink" title="GC标记-清除算法"></a>GC标记-清除算法</h3><h4 id="标记阶段"><a href="#标记阶段" class="headerlink" title="标记阶段"></a>标记阶段</h4><h4 id="清除阶段"><a href="#清除阶段" class="headerlink" title="清除阶段"></a>清除阶段</h4><h4 id="分配"><a href="#分配" class="headerlink" title="分配"></a>分配</h4><h4 id="合并"><a href="#合并" class="headerlink" title="合并"></a>合并</h4><h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><h4 id="实现简单"><a href="#实现简单" class="headerlink" title="实现简单"></a>实现简单</h4><h4 id="与保守式GC兼容"><a href="#与保守式GC兼容" class="headerlink" title="与保守式GC兼容"></a>与保守式GC兼容</h4><h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><h4 id="碎片化"><a href="#碎片化" class="headerlink" title="碎片化"></a>碎片化</h4><h4 id="分配速度"><a href="#分配速度" class="headerlink" title="分配速度"></a>分配速度</h4><h4 id="与写时复制技术不兼容"><a href="#与写时复制技术不兼容" class="headerlink" title="与写时复制技术不兼容"></a>与写时复制技术不兼容</h4><h3 id="多个空闲链表"><a href="#多个空闲链表" class="headerlink" title="多个空闲链表"></a>多个空闲链表</h3><h3 id="BiBOP算法"><a href="#BiBOP算法" class="headerlink" title="BiBOP算法"></a>BiBOP算法</h3><h3 id="位图标记"><a href="#位图标记" class="headerlink" title="位图标记"></a>位图标记</h3><h4 id="优点-1"><a href="#优点-1" class="headerlink" title="优点"></a>优点</h4><h5 id="与写时复制技术兼容"><a href="#与写时复制技术兼容" class="headerlink" title="与写时复制技术兼容"></a>与写时复制技术兼容</h5><h5 id="清除操作更高效"><a href="#清除操作更高效" class="headerlink" title="清除操作更高效"></a>清除操作更高效</h5><h3 id="延迟清除法"><a href="#延迟清除法" class="headerlink" title="延迟清除法"></a>延迟清除法</h3></section>
     <!-- Tags START -->
     
       <div class="tags">
         <span>Tags:</span>
         
-  <a href="/tags#apm" >
-    <span class="tag-code">apm</span>
+  <a href="/tags#JVM" >
+    <span class="tag-code">JVM</span>
   </a>
 
-  <a href="/tags#skywalking" >
-    <span class="tag-code">skywalking</span>
+  <a href="/tags#GC" >
+    <span class="tag-code">GC</span>
+  </a>
+
+  <a href="/tags#DASS" >
+    <span class="tag-code">DASS</span>
   </a>
 
       </div>
@@ -312,13 +181,20 @@ thread_pool.bulk.queue_size: 1000
   <div class="nav-container">
     <!-- reverse left and right to put prev and next in a more logic postition -->
     
-      <a class="nav-left" href="/2017/12/04/mermaid-test/">
+      <a class="nav-left" href="/2017/11/26/GC-notes-2-GC-related-knowledge/">
         <span class="nav-arrow">← </span>
         
-          hexo mermaid
+          GC学习笔记:GC相关知识(二)
         
       </a>
     
+    
+      <a class="nav-right" href="/2017/12/04/mermaid-test/">
+        
+          hexo mermaid
+        
+        <span class="nav-arrow"> →</span>
+      </a>
     
   </div>
 
@@ -347,7 +223,7 @@ thread_pool.bulk.queue_size: 1000
   <div class="toc-main">
     <strong class="toc-title">Catalog</strong>
     
-      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#介绍"><span class="toc-nav-text">介绍</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#背景"><span class="toc-nav-text">背景</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#部署"><span class="toc-nav-text">部署</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#下载"><span class="toc-nav-text">下载</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#解压"><span class="toc-nav-text">解压</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#后端部署"><span class="toc-nav-text">后端部署</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#agent部署"><span class="toc-nav-text">agent部署</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#其他"><span class="toc-nav-text">其他</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#注意事项"><span class="toc-nav-text">注意事项</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#参考链接"><span class="toc-nav-text">参考链接</span></a></li></ol>
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#GC标记-清除算法"><span class="toc-nav-text">GC标记-清除算法</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#标记阶段"><span class="toc-nav-text">标记阶段</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#清除阶段"><span class="toc-nav-text">清除阶段</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#分配"><span class="toc-nav-text">分配</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#合并"><span class="toc-nav-text">合并</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#优点"><span class="toc-nav-text">优点</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#实现简单"><span class="toc-nav-text">实现简单</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#与保守式GC兼容"><span class="toc-nav-text">与保守式GC兼容</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#缺点"><span class="toc-nav-text">缺点</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#碎片化"><span class="toc-nav-text">碎片化</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#分配速度"><span class="toc-nav-text">分配速度</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#与写时复制技术不兼容"><span class="toc-nav-text">与写时复制技术不兼容</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#多个空闲链表"><span class="toc-nav-text">多个空闲链表</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#BiBOP算法"><span class="toc-nav-text">BiBOP算法</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#位图标记"><span class="toc-nav-text">位图标记</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#优点-1"><span class="toc-nav-text">优点</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#与写时复制技术兼容"><span class="toc-nav-text">与写时复制技术兼容</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#清除操作更高效"><span class="toc-nav-text">清除操作更高效</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#延迟清除法"><span class="toc-nav-text">延迟清除法</span></a></li></ol>
     
   </div>
 </aside>
@@ -357,7 +233,7 @@ thread_pool.bulk.queue_size: 1000
 
 <script>
   (function () {
-    var url = 'https://oatiz.me/2018/05/15/skywalking5-0部署搭建/';
+    var url = 'https://oatiz.me/2017/11/26/GC-notes-3-GC-mark-clear-algorithm/';
     var banner = 'undefined'
     if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
       $('#article-banner').css({
@@ -413,7 +289,7 @@ thread_pool.bulk.queue_size: 1000
     var gitmentConfig = "oatiz";
     if (gitmentConfig !== 'undefined') {
       var gitment = new Gitment({
-        id: "skywalking5.0部署搭建",
+        id: "GC学习笔记:GC标记-清除算法(三)",
         owner: "oatiz",
         repo: "blog-comments",
         oauth: {
