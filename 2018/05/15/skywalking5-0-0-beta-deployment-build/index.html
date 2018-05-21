@@ -262,10 +262,11 @@ thread_pool.bulk.queue_size: 1000
 <p>java -javaagent:/opt/skywalking/agent/skywalking-agent.jar -Dskywalking.agent.application_code=gateway -jar gateway.jar</p>
 </blockquote>
 <p>配置除了通过/config/agent.config文件外,可以通过环境变量和VM参数(-D)来进行设置</p>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>因为现有版本5.0.0-alpha有bug,所以需要使用新发布的5.0.0-beta版,所以需要编译对应分支源码</p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>因为现有版本5.0.0-alpha有bug,所以需要使用新发布的5.0.0-beta版,所以需要编译对应版本源码</p>
 <ul>
-<li>拉取skywalking对应分支代码<ul>
-<li>git clone -b release/5.0.0-beta <a href="https://github.com/apache/incubator-skywalking.git" target="_blank" rel="external">https://github.com/apache/incubator-skywalking.git</a></li>
+<li>拉取skywalking对应版本代码<ul>
+<li>git clone <a href="https://github.com/apache/incubator-skywalking.git" target="_blank" rel="external">https://github.com/apache/incubator-skywalking.git</a></li>
+<li>git checkout v5.0.0-beta</li>
 </ul>
 </li>
 <li>拉取子模块<ul>
@@ -285,6 +286,7 @@ thread_pool.bulk.queue_size: 1000
 </ul>
 <p>打包成功后对应的skywalking存放在apm-dist/target目录下,根据上面的部署步骤使用</p>
 <h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><ul>
+<li>ES版本问题:5.3.x有问题,请使用5.5.x或5.6.x</li>
 <li>agent中的collector.ip需要与collector 中配置文件中的相同(agent与collector在不同机器时,注意将ip改为对应机器的ip)</li>
 <li>部署agent,collector机器的系统时区必须一致(不同时dashboard中查看不到数据)</li>
 <li>编译时替换npm源</li>
