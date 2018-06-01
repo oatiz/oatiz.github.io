@@ -1,12 +1,12 @@
 ---
-title: mermaid-test
+title: hexo mermaid
 date: 2017-12-04 16:25:06
 tags: mermaid
 ---
 
 ### code
 ```shell
-echo "helloworld"
+echo "HelloWorld"
 ```
 
 ### mermaid
