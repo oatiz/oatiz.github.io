@@ -179,73 +179,14 @@
 <li>webapp: 前端页面展示</li>
 </ul>
 <p>结构如下:</p>
-<pre><code class="shell">apache-skywalking-apm-incubating
-|-- agent
-|   |-- activations
-|   |   |-- apm-toolkit-log4j-1.x-activation-5.0.0-beta-SNAPSHOT.jar
-|   |   |-- apm-toolkit-log4j-2.x-activation-5.0.0-beta-SNAPSHOT.jar
-|   |   |-- apm-toolkit-logback-1.x-activation-5.0.0-beta-SNAPSHOT.jar
-|   |   |-- apm-toolkit-opentracing-activation-5.0.0-beta-SNAPSHOT.jar
-|   |   `-- apm-toolkit-trace-activation-5.0.0-beta-SNAPSHOT.jar
-|   |-- config
-|   |   `-- agent.config
-|   |-- logs
-|   |-- optional-plugins
-|   |   `-- apm-spring-annotation-plugin-5.0.0-beta-SNAPSHOT.jar
-|   |-- plugins
-|   |   |-- apm-dubbo-plugin-5.0.0-beta-SNAPSHOT.jar
-|   |   |-- apm-elastic-job-2.x-plugin-5.0.0-beta-SNAPSHOT.jar
-|   |   |-- ......
-|   |   `-- tomcat-7.x-8.x-plugin-5.0.0-beta-SNAPSHOT.jar
-|   `-- skywalking-agent.jar
-|-- bin
-|   |-- collectorService.bat
-|   |-- collectorService.sh
-|   |-- startup.bat
-|   |-- startup.sh
-|   |-- webappService.bat
-|   `-- webappService.sh
-|-- collector-libs
-|   |-- agent-grpc-define-5.0.0-beta-SNAPSHOT.jar
-|   |-- agent-grpc-provider-5.0.0-beta-SNAPSHOT.jar
-|   |-- agent-jetty-define-5.0.0-beta-SNAPSHOT.jar
-|   |-- ......
-|   `-- zookeeper-3.4.10.jar
-|-- config
-|   |-- application.yml
-|   |-- component-libraries.yml
-|   `-- log4j2.xml
-|-- DISCLAIMER
-|-- LICENSE
-|-- licenses
-|   |-- LICENSE-annotations.txt
-|   |-- LICENSE-antlr4-runtime.txt
-|   |-- ......
-|   |-- LICENSE-zuul.txt
-|   `-- ui-licenses
-|       |-- LICENSE-add-dom-event-listener
-|       |-- LICENSE-antd
-|       |-- ......
-|       `-- LICENSE-whatwg-fetch
-|-- logs
-|   |-- collector.log
-|   |-- skywalking-collector-server.log
-|   |-- webapp-console.log
-|   `-- webapp.log
-|-- NOTICE
-|-- README.txt
-`-- webapp
-    `-- skywalking-webapp.jar
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">apache-skywalking-apm-incubating</span><br><span class="line">|-- agent</span><br><span class="line">|   |-- activations</span><br><span class="line">|   |   |-- apm-toolkit-log4j-1.x-activation-5.0.0-beta-SNAPSHOT.jar</span><br><span class="line">|   |   |-- apm-toolkit-log4j-2.x-activation-5.0.0-beta-SNAPSHOT.jar</span><br><span class="line">|   |   |-- apm-toolkit-logback-1.x-activation-5.0.0-beta-SNAPSHOT.jar</span><br><span class="line">|   |   |-- apm-toolkit-opentracing-activation-5.0.0-beta-SNAPSHOT.jar</span><br><span class="line">|   |   `-- apm-toolkit-trace-activation-5.0.0-beta-SNAPSHOT.jar</span><br><span class="line">|   |-- config</span><br><span class="line">|   |   `-- agent.config</span><br><span class="line">|   |-- logs</span><br><span class="line">|   |-- optional-plugins</span><br><span class="line">|   |   `-- apm-spring-annotation-plugin-5.0.0-beta-SNAPSHOT.jar</span><br><span class="line">|   |-- plugins</span><br><span class="line">|   |   |-- apm-dubbo-plugin-5.0.0-beta-SNAPSHOT.jar</span><br><span class="line">|   |   |-- apm-elastic-job-2.x-plugin-5.0.0-beta-SNAPSHOT.jar</span><br><span class="line">|   |   |-- ......</span><br><span class="line">|   |   `-- tomcat-7.x-8.x-plugin-5.0.0-beta-SNAPSHOT.jar</span><br><span class="line">|   `-- skywalking-agent.jar</span><br><span class="line">|-- bin</span><br><span class="line">|   |-- collectorService.bat</span><br><span class="line">|   |-- collectorService.sh</span><br><span class="line">|   |-- startup.bat</span><br><span class="line">|   |-- startup.sh</span><br><span class="line">|   |-- webappService.bat</span><br><span class="line">|   `-- webappService.sh</span><br><span class="line">|-- collector-libs</span><br><span class="line">|   |-- agent-grpc-define-5.0.0-beta-SNAPSHOT.jar</span><br><span class="line">|   |-- agent-grpc-provider-5.0.0-beta-SNAPSHOT.jar</span><br><span class="line">|   |-- agent-jetty-define-5.0.0-beta-SNAPSHOT.jar</span><br><span class="line">|   |-- ......</span><br><span class="line">|   `-- zookeeper-3.4.10.jar</span><br><span class="line">|-- config</span><br><span class="line">|   |-- application.yml</span><br><span class="line">|   |-- component-libraries.yml</span><br><span class="line">|   `-- log4j2.xml</span><br><span class="line">|-- DISCLAIMER</span><br><span class="line">|-- LICENSE</span><br><span class="line">|-- licenses</span><br><span class="line">|   |-- LICENSE-annotations.txt</span><br><span class="line">|   |-- LICENSE-antlr4-runtime.txt</span><br><span class="line">|   |-- ......</span><br><span class="line">|   |-- LICENSE-zuul.txt</span><br><span class="line">|   `-- ui-licenses</span><br><span class="line">|       |-- LICENSE-add-dom-event-listener</span><br><span class="line">|       |-- LICENSE-antd</span><br><span class="line">|       |-- ......</span><br><span class="line">|       `-- LICENSE-whatwg-fetch</span><br><span class="line">|-- logs</span><br><span class="line">|   |-- collector.log</span><br><span class="line">|   |-- skywalking-collector-server.log</span><br><span class="line">|   |-- webapp-console.log</span><br><span class="line">|   `-- webapp.log</span><br><span class="line">|-- NOTICE</span><br><span class="line">|-- README.txt</span><br><span class="line">`-- webapp</span><br><span class="line">    `-- skywalking-webapp.jar</span><br></pre></td></tr></table></figure>
 <h3 id="后端部署"><a href="#后端部署" class="headerlink" title="后端部署"></a>后端部署</h3><ul>
 <li>修改config/application.yml,将里面所有host改为物理机ip</li>
 <li>修改bin/webappService.sh,将collector.ribbon.listOfServers=127.0.0.1:10800,改为config/application.yml里面naming.jetty.host与port</li>
 <li>执行bin/startup.sh</li>
 </ul>
 <p>需要注意的是,skywalking数据采用elasticsearch 存储.需要部署es,并且修改es的配置文件 elasticsearch.yml,将对应配置改为以下配置:</p>
-<pre><code class="yaml">network.host: 0.0.0.0
-thread_pool.bulk.queue_size: 1000
-</code></pre>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">network.host:</span> <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span></span><br><span class="line"><span class="string">thread_pool.bulk.queue_size:</span> <span class="number">1000</span></span><br></pre></td></tr></table></figure>
 <h3 id="agent部署"><a href="#agent部署" class="headerlink" title="agent部署"></a>agent部署</h3><ul>
 <li>复制skywalking-agent到任意目录</li>
 <li>配置agent/config/agent.config文件<ul>
