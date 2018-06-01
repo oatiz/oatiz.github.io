@@ -28,8 +28,10 @@ install:
 script:
 - hexo clean
 - hexo generate
-after_success:
-- ".travis/deploy.sh"
+- hexo d
+- rm -rf ~/.ssh
+# after_success:
+# - ".travis/deploy.sh"
 dd:
 - openssl aes-256-cbc -K $encrypted_a96780f20394_key -iv $encrypted_a96780f20394_iv
   -in travis.key.enc -out ~\/.ssh/travis.key -d

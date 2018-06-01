@@ -1,3 +1,6 @@
 [submodule "themes/yilia"]
 	path = themes/yilia
 	url = https://github.com/oatiz/hexo-theme-yilia.git
+[submodule "themes/vexo"]
+	path = themes/vexo
+	url = https://github.com/oatiz/hexo-theme-vexo.git
