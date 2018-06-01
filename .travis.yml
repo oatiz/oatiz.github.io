@@ -7,6 +7,10 @@ addons:
 branches:
   only:
   - master
+env:
+  global:
+    - GH_REF: github.com/oatiz/oatiz.github.io.git
+    - CO_REF: git.coding.net/oatiz/oatiz.git
 cache:
   yarn: true
   directories:
@@ -17,9 +21,6 @@ before_install:
   -in .travis/travis.key.enc -out ~/.ssh/id_rsa -d
 - chmod 600 ~/.ssh/id_rsa
 - sudo cp .travis/ssh_config /etc/ssh/ssh_config
-- sudo chmod 755 /etc/ssh/ssh_config
-- eval "$(ssh-agent -s)"
-- ssh-add ~/.ssh/id_rsa
 # - mv -fv .travis/ssh-config ~/.ssh/config
 - git config --global user.name "oatiz"
 - git config --global user.email "2278966200@qq.com"
@@ -32,10 +33,18 @@ install:
 script:
 - hexo clean
 - hexo generate
-- hexo d
-- rm -rf ~/.ssh
 # after_success:
 # - ".travis/deploy.sh"
+after_script:
+  - cd ./public
+  - git init
+  - git add .
+  - git commit -m "Site updated: `date +"%Y-%m-%d %H:%M:%S"`"
+  - git push --force --quiet "https://${Travis-ci}@${GH_REF}" master:master
+  - git push --force --quiet "https://${CO_TOKEN}@${CO_REF}" master:master
+  - git tag v0.0.$TRAVIS_BUILD_NUMBER -a -m "Auto Taged By TravisCI With Build $TRAVIS_BUILD_NUMBER"
+  - git push --force --quiet "https://${Travis-ci}@${GH_REF}" master:master --tags
+
 dd:
 - openssl aes-256-cbc -K $encrypted_a96780f20394_key -iv $encrypted_a96780f20394_iv
   -in travis.key.enc -out ~\/.ssh/travis.key -d
