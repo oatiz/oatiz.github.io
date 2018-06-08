@@ -59,8 +59,14 @@
   
   
     <script src="//cdn1.lncld.net/static/js/2.5.0/av-min.js"></script>
-  <script>AV.initialize("{{config.leancloud_visitors.app_id}}", "{{config.leancloud_visitors.app_key}}");</script>
   <script>
+    var APP_ID = 'hSA9zIWVnlMtWiRWj3moDXYB-gzGzoHsz';
+    var APP_KEY = 'QMHtExy8JF1LXMOj58DFLYVp';
+    AV.init({
+        appId: APP_ID,
+        appKey: APP_KEY
+    });
+    
     function showTime(Counter) {
       var query = new AV.Query(Counter);
       var entries = [];
