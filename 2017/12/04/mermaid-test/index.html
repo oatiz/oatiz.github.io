@@ -13,6 +13,86 @@
       hexo mermaid | oatiz 的博客
     
   </title>
+  
+    <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+    <script>AV.initialize("hSA9zIWVnlMtWiRWj3moDXYB-gzGzoHsz", "QMHtExy8JF1LXMOj58DFLYVp");</script>
+    <script>
+    function showTime(Counter) {
+        var query = new AV.Query(Counter);
+        document.querySelectorAll(".leancloud_visitors").forEach(function(item) {
+            console.log(item.id);
+            var url = item.id.trim();
+            query.equalTo("url", url);
+            query.find({
+                success: function(results) {
+                    if (results.length == 0) {
+                        document.getElementById(url).innerHTML = 0;
+                        return;
+                    }
+                    for (var i = 0; i < results.length; i++) {
+                        var object = results[i];
+                        document.getElementById(url).innerHTML = object.get('time');
+                    }
+                },
+                error: function(object, error) {
+                    console.log("Error: " + error.code + " " + error.message);
+                }
+            });
+        });
+    }
+    function addCount(Counter) {
+        var Counter = AV.Object.extend("Counter");
+        url = document.querySelector(".leancloud_visitors").id.trim();
+        title = document.querySelector(".leancloud_visitors").getAttribute('data-title').trim();
+        var query = new AV.Query(Counter);
+        query.equalTo("url", url);
+        query.find({
+            success: function(results) {
+                if (results.length > 0) {
+                    var counter = results[0];
+                    counter.fetchWhenSave(true);
+                    counter.increment("time");
+                    counter.save(null, {
+                        success: function(counter) {
+                            document.getElementById(url).innerHTML = counter.get('time');
+                        },
+                        error: function(counter, error) {
+                            console.log('Failed to save Visitor num, with error message: ' + error.message);
+                        }
+                    });
+                } else {
+                    var newcounter = new Counter();
+                    newcounter.set("title", title);
+                    newcounter.set("url", url);
+                    newcounter.set("time", 1);
+                    newcounter.save(null, {
+                        success: function(newcounter) {
+                            console.log("newcounter.get('time')="+newcounter.get('time'));
+                            document.getElementById(url).innerHTML = newcounter.get('time');
+                        },
+                        error: function(newcounter, error) {
+                            console.log('Failed to create');
+                        }
+                    });
+                }
+            },
+            error: function(error) {
+                console.log('Error:' + error.code + " " + error.message);
+            }
+        });
+    }
+    (function() {
+        var Counter = AV.Object.extend("Counter");
+        // 如果页面只有一个 leancloud_visitors 则认为它是文章页面
+        // 如果有多个，认为它是列表页
+        if (document.querySelectorAll('.leancloud_visitors').length == 1) {
+            addCount(Counter);
+        } else if (document.querySelectorAll('.leancloud_visitors').length > 1) {
+            showTime(Counter);
+        }
+    })();
+    </script>
+    
   <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
   <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
   <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
@@ -155,9 +235,7 @@
 <main class="app-body flex-box">
   <!-- Article START -->
   <article class="post-article">
-    <section class="markdown-content"><h3 id="code"><a href="#code" class="headerlink" title="code"></a>code</h3><pre><code class="shell">echo &quot;HelloWorld&quot;
-</code></pre>
-<h3 id="mermaid"><a href="#mermaid" class="headerlink" title="mermaid"></a>mermaid</h3><h4 id="flowchart"><a href="#flowchart" class="headerlink" title="flowchart"></a>flowchart</h4><pre class="mermaid">graph TD
+    <section class="markdown-content"><h3 id="mermaid"><a href="#mermaid" class="headerlink" title="mermaid"></a>mermaid</h3><h4 id="flowchart"><a href="#flowchart" class="headerlink" title="flowchart"></a>flowchart</h4><pre class="mermaid">graph TD
     A-->B;
     A-->C;
     B-->D;
@@ -185,17 +263,6 @@ Active task               :active,  des2, 2014-01-09, 3d
 Future task               :         des3, after des2, 5d
 Future task2               :         des4, after des3, 5d</pre>
 
-<h4 id="class-diagram"><a href="#class-diagram" class="headerlink" title="class diagram"></a>class diagram</h4><pre class="mermaid">classDiagram
-Class01 <|-- averylongclass="" :="" cool="" class03="" *--="" class04="" class05="" o--="" class06="" class07="" ..="" class08="" class09="" --=""> C2 : Where am i?
-Class09 --* C3
-Class09 --|> Class07
-Class07 : equals()
-Class07 : Object[] elementData
-Class01 : size()
-Class01 : int chimp
-Class01 : int gorilla
-Class08 <--> C2: Cool label</--></|--></pre>
-
 <h4 id="git-graph"><a href="#git-graph" class="headerlink" title="git graph"></a>git graph</h4><pre class="mermaid">gitGraph:
 options
 {
@@ -212,7 +279,9 @@ checkout master
 commit
 commit
 merge newbranch</pre>
-</section>
+
+<h3 id="code"><a href="#code" class="headerlink" title="code"></a>code</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">echo "HelloWorld"</div></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@requires_authorization</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">somefunc</span><span class="params">(param1=<span class="string">''</span>, param2=<span class="number">0</span>)</span>:</span></div><div class="line">    <span class="string">r'''A docstring'''</span></div><div class="line">    <span class="comment"># interesting</span></div><div class="line">    <span class="keyword">if</span> param1 &gt; param2: </div><div class="line">        <span class="keyword">print</span> <span class="string">'Gre\'ater'</span></div><div class="line">    <span class="keyword">return</span> (param2 - param1 + <span class="number">1</span>) <span class="keyword">or</span> <span class="keyword">None</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">SomeClass</span>:</span></div><div class="line">    <span class="keyword">pass</span></div></pre></td></tr></table></figure></section>
     <!-- Tags START -->
     
       <div class="tags">
@@ -275,7 +344,7 @@ merge newbranch</pre>
   <div class="toc-main">
     <strong class="toc-title">Catalog</strong>
     
-      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#code"><span class="toc-nav-text">code</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#mermaid"><span class="toc-nav-text">mermaid</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#flowchart"><span class="toc-nav-text">flowchart</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#sequence"><span class="toc-nav-text">sequence</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#gantt"><span class="toc-nav-text">gantt</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#class-diagram"><span class="toc-nav-text">class diagram</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#git-graph"><span class="toc-nav-text">git graph</span></a></li></ol></li></ol>
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#mermaid"><span class="toc-nav-text">mermaid</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#flowchart"><span class="toc-nav-text">flowchart</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#sequence"><span class="toc-nav-text">sequence</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#gantt"><span class="toc-nav-text">gantt</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#git-graph"><span class="toc-nav-text">git graph</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#code"><span class="toc-nav-text">code</span></a></li></ol>
     
   </div>
 </aside>
