@@ -274,18 +274,7 @@
   <article class="post-article">
     <section class="markdown-content"><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p><a href="http://skywalking.io/" target="_blank" rel="noopener">skywalking官网</a></p>
 <p><a href="https://github.com/apache/incubator-skywalking" target="_blank" rel="noopener">skywalking-github</a></p>
-<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>基于之前我用过zipkin与pinpoint,可以做下简单的对比(基于我自己的理解):</p>
-<ul>
-<li>部署简易度(由低到高)<ul>
-<li>zipkin –&gt; skywalking –&gt; pinpoint</li>
-</ul>
-</li>
-<li>性能方面(由低到高)<ul>
-<li>pinpoint –&gt; zipnkin –&gt; skywaling </li>
-</ul>
-</li>
-</ul>
-<p>相关文章:<br><a href="https://juejin.im/post/5a274614518825592c07f8b8" target="_blank" rel="noopener">几种分布式调用链监控组件的实践与比较</a></p>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>相关文章:<br><a href="https://juejin.im/post/5a274614518825592c07f8b8" target="_blank" rel="noopener">几种分布式调用链监控组件的实践与比较</a></p>
 <p>我们生产使用的spring cloud体系, eureka来做服务发现,feign进行通信,默认使用 hystrix做服务熔断.</p>
 <p>结合上述相关介绍,我们最终采用skywalking</p>
 <h2 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h2><h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><p>点击<a href="http://skywalking.io/downloads/" target="_blank" rel="noopener">下载地址</a>,然后选择对应版本进行下载,解压</p>
@@ -344,7 +333,6 @@
 </ul>
 <p>打包成功后对应的skywalking存放在apm-dist/target目录下,根据上面的部署步骤使用</p>
 <h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><ul>
-<li>ES版本问题:5.3.x有问题,请使用5.5.x或5.6.x</li>
 <li>agent中的collector.ip需要与collector 中配置文件中的相同(agent与collector在不同机器时,注意将ip改为对应机器的ip)</li>
 <li>部署agent,collector机器的系统时区必须一致(不同时dashboard中查看不到数据)</li>
 <li>编译时替换npm源</li>
