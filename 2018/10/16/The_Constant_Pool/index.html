@@ -284,7 +284,7 @@
 <blockquote>
 <p>Java Virtual Machine instructions do not rely on the run-time layout of classes, interfaces, class instances, or arrays. Instead, instructions refer to symbolic information in the constant_pool table.</p>
 </blockquote>
-<p><strong>Java 虚拟机指令执行时不依赖与类、接口,实例或数组的运行时布局,而是依赖常量池<br>(constant_pool)表中的符号信息</strong></p>
+<p><strong>Java 虚拟机指令执行时不依赖与类、接口,实例或数组的运行时布局,而是依赖常量池(constant_pool)表中的符号信息</strong></p>
 <p>以上是jvm规范中定义的,简单点来说:<br>在程序运行期间有块区域叫运行时常量池,运行时常量池里面存储着一些常量池结构的数据(每个结构里面都是class文件中的某种类型的字面量)</p>
 <h2 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cp_info &#123;</span><br><span class="line">    u1 tag;</span><br><span class="line">    u1 info[];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>jvm规定了不同的tag值和不同类型的字面量对应关系,如下图所示:</p>
