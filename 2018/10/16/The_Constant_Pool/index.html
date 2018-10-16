@@ -287,7 +287,73 @@
 <p><strong>Java 虚拟机指令执行时不依赖与类、接口,实例或数组的运行时布局,而是依赖常量池<br>(constant_pool)表中的符号信息</strong></p>
 <p>以上是jvm规范中定义的,简单点来说:<br>在程序运行期间有块区域叫运行时常量池,运行时常量池里面存储着一些常量池结构的数据(每个结构里面都是class文件中的某种类型的字面量)</p>
 <h2 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cp_info &#123;</span><br><span class="line">    u1 tag;</span><br><span class="line">    u1 info[];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>jvm规定了不同的tag值和不同类型的字面量对应关系如下:<br>|Constant Type| Value |<br>| :——: |:——: |<br>| CONSTANT_Class | 7 |<br>| CONSTANT_Fieldref| 9 |<br>| CONSTANT_Methodref | 10 |<br>| CONSTANT_InterfaceMethodref| 11 |<br>| CONSTANT_String | 8 |<br>| CONSTANT_Integer | 3 |<br>| CONSTANT_Float | 4 |<br>| CONSTANT_Long | 5 |<br>| CONSTANT_Double | 6 |<br>| CONSTANT_NameAndType | 12 |<br>| CONSTANT_Utf8 | 1 |<br>| CONSTANT_MethodHandle | 15 |<br>| CONSTANT_MethodType | 16 |<br>| CONSTANT_InvokeDynamic | 18 |</p>
+<p>jvm规定了不同的tag值和不同类型的字面量对应关系,如下图所示:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Constant Type</th>
+<th style="text-align:center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">CONSTANT_Class</td>
+<td style="text-align:center">7</td>
+</tr>
+<tr>
+<td style="text-align:center">CONSTANT_Fieldref</td>
+<td style="text-align:center">9</td>
+</tr>
+<tr>
+<td style="text-align:center">CONSTANT_Methodref</td>
+<td style="text-align:center">10</td>
+</tr>
+<tr>
+<td style="text-align:center">CONSTANT_InterfaceMethodref</td>
+<td style="text-align:center">11</td>
+</tr>
+<tr>
+<td style="text-align:center">CONSTANT_String</td>
+<td style="text-align:center">8</td>
+</tr>
+<tr>
+<td style="text-align:center">CONSTANT_Integer</td>
+<td style="text-align:center">3</td>
+</tr>
+<tr>
+<td style="text-align:center">CONSTANT_Float</td>
+<td style="text-align:center">4</td>
+</tr>
+<tr>
+<td style="text-align:center">CONSTANT_Long</td>
+<td style="text-align:center">5</td>
+</tr>
+<tr>
+<td style="text-align:center">CONSTANT_Double</td>
+<td style="text-align:center">6</td>
+</tr>
+<tr>
+<td style="text-align:center">CONSTANT_NameAndType</td>
+<td style="text-align:center">12</td>
+</tr>
+<tr>
+<td style="text-align:center">CONSTANT_Utf8</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center">CONSTANT_MethodHandle</td>
+<td style="text-align:center">15</td>
+</tr>
+<tr>
+<td style="text-align:center">CONSTANT_MethodType</td>
+<td style="text-align:center">16</td>
+</tr>
+<tr>
+<td style="text-align:center">CONSTANT_InvokeDynamic</td>
+<td style="text-align:center">18</td>
+</tr>
+</tbody>
+</table>
 <p>此次只分析基本类型与String:</p>
 <h3 id="CONSTANT-String-info"><a href="#CONSTANT-String-info" class="headerlink" title="CONSTANT_String_info"></a>CONSTANT_String_info</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">CONSTANT_String_info &#123;</span><br><span class="line">    u1 tag;</span><br><span class="line">    u2 string_index;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>u1表示1个无符号字节,u2表示2个无符号字节<br>tag: 8<br>string_index: 指向CONSTANT_Utf8_info结构体</p>
@@ -301,7 +367,43 @@
 <p>u1表示1个无符号字节,u4表示4个无符号字节<br>tag: 5</p>
 <h3 id="CONSTANT-Double-info"><a href="#CONSTANT-Double-info" class="headerlink" title="CONSTANT_Double_info"></a>CONSTANT_Double_info</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">CONSTANT_Double_info &#123;</span><br><span class="line">    u1 tag;</span><br><span class="line">    u4 high_bytes;</span><br><span class="line">    u4 low_bytes;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>u1表示1个无符号字节,u4表示4个无符号字节<br>tag: 6</p>
-<h3 id="bytecode-op"><a href="#bytecode-op" class="headerlink" title="bytecode op"></a>bytecode op</h3><p>有人可能就奇怪了,怎么少了byte/short/char/boolean这几个基本类型的呢?<br>jvm在此处有对应的指令支持:<br>| 类型 | 范围 | 指令 |<br>| :——: | :——: | :——: |<br>| boolean | [0, 1] | iconst_n |<br>| byte | [-128, 127] | iconst_m1, iconst_n, bipush |<br>| short | [-32768, 32767] | iconst_m1, iconst_n, bipush, sipush|<br>| char | [0, 65535] | iconst_m1,iconst_n, bipush, sipush, ldc |<br>| int | [-2147483648, 2147483647] | iconst_m1, iconst_n, bipush, sipush, ldc|</p>
+<h3 id="bytecode-op"><a href="#bytecode-op" class="headerlink" title="bytecode op"></a>bytecode op</h3><p>有人可能就奇怪了,怎么少了byte/short/char/boolean这几个基本类型的呢?<br>jvm在此处有对应的指令支持:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"> 类型</th>
+<th style="text-align:center">范围</th>
+<th style="text-align:center">指令</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">boolean</td>
+<td style="text-align:center">[0, 1]</td>
+<td style="text-align:center">iconst_n</td>
+</tr>
+<tr>
+<td style="text-align:center">byte</td>
+<td style="text-align:center">[-128, 127]</td>
+<td style="text-align:center">iconst_m1, iconst_n, bipush</td>
+</tr>
+<tr>
+<td style="text-align:center">short</td>
+<td style="text-align:center">[-32768, 32767]</td>
+<td style="text-align:center">iconst_m1, iconst_n, bipush, sipush</td>
+</tr>
+<tr>
+<td style="text-align:center">char</td>
+<td style="text-align:center">[0, 65535]</td>
+<td style="text-align:center">iconst_m1,iconst_n, bipush, sipush, ldc</td>
+</tr>
+<tr>
+<td style="text-align:center">int</td>
+<td style="text-align:center">[-2147483648, 2147483647]</td>
+<td style="text-align:center">iconst_m1, iconst_n, bipush, sipush, ldc</td>
+</tr>
+</tbody>
+</table>
 <blockquote>
 <p>byte,short,char其实都是int与boolean类似.也是在编译时就已经变成了int,然后执行int的一些操作符。</p>
 </blockquote>
