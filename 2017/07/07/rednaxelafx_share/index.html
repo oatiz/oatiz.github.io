@@ -10,7 +10,7 @@
   
   <title>
     
-      建站前言 | oatiz 的博客
+      JVM分享_莫枢 | oatiz 的博客
     
   </title>
   <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -253,10 +253,10 @@
 </header>
 
     <div id="article-banner">
-  <h2>建站前言</h2>
-  <p class="post-date">2017-07-28
+  <h2>JVM分享_莫枢</h2>
+  <p class="post-date">2017-07-07
     
-      <span id="/2017/07/28/preface/" class="leancloud_visitors" data-flag-title="建站前言">
+      <span id="/2017/07/07/rednaxelafx_share/" class="leancloud_visitors" data-flag-title="JVM分享_莫枢">
           <span class="post-meta-divider">&emsp;</span>
           <span class="post-meta-item-icon">
             <i class="fa fa-eye"></i>
@@ -272,22 +272,86 @@
 <main class="app-body flex-box">
   <!-- Article START -->
   <article class="post-article">
-    <section class="markdown-content"><h4 id="组件"><a href="#组件" class="headerlink" title="组件"></a>组件</h4><p><a href="https://hexo.io/zh-cn/docs/" target="_blank" rel="noopener">hexo</a><br><a href="https://github.com/litten/hexo-theme-yilia" target="_blank" rel="noopener">yilia</a></p>
-<h4 id="tips"><a href="#tips" class="headerlink" title="tips"></a>tips</h4><blockquote>
-<p><strong>评论采用Disqus,需翻墙后才可留言</strong></p>
-</blockquote>
-<h4 id="碎碎念"><a href="#碎碎念" class="headerlink" title="碎碎念"></a>碎碎念</h4><p>其实在建站之前已经有过一个blog了,但是没有保持下去。原因个人觉得别人已经写好了,没必要重复的去抄别人:)。现在重新得去编写,其实觉得现在的生活乏味无趣,不如找个事情来充实自己。再者自己基础知识很不好,借着这个名头坚持下。</p>
-<p>说到学习笔记,个人会通过看书,读别人的博客,实践来验证自己所需掌握的知识点。在此站,会将各个出处标识清楚。</p>
-<p>碎碎念结束,愿自己坚持下去。</p>
-<p>祝好:)</p>
-</section>
+    <section class="markdown-content"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这篇文章是2010年R大做的一次jvm分享</p>
+<h2 id="语言处理器的基本结构"><a href="#语言处理器的基本结构" class="headerlink" title="语言处理器的基本结构"></a>语言处理器的基本结构</h2><h3 id="语言处理器的种类"><a href="#语言处理器的种类" class="headerlink" title="语言处理器的种类"></a>语言处理器的种类</h3><ul>
+<li>编译器<ul>
+<li><a href="http://gcc.gnu.org/" target="_blank" rel="noopener">gcc</a>, <a href="http://openjdk.java.net/groups/compiler/" target="_blank" rel="noopener">javac</a></li>
+</ul>
+</li>
+<li>解释器<ul>
+<li>Ruby,Pythond等一些实现</li>
+</ul>
+</li>
+<li>IDE<ul>
+<li>Eclipse,NetBeans等</li>
+</ul>
+</li>
+<li>代码分析器<ul>
+<li><a href="http://findbugs.sourceforge.net/" target="_blank" rel="noopener">FindBugs</a>等</li>
+</ul>
+</li>
+<li>反编译器<ul>
+<li><a href="http://jd.benow.ca/" target="_blank" rel="noopener">JD</a>,<a href="https://varaneckas.com/jad/" target="_blank" rel="noopener">Jad</a>, <a href="https://www.red-gate.com/products/dotnet-development/reflector/" target="_blank" rel="noopener">Reflector.NET</a>等</li>
+</ul>
+</li>
+</ul>
+<h4 id="编译器"><a href="#编译器" class="headerlink" title="编译器"></a>编译器</h4><pre class="mermaid">graph LR
+    source[源代码] --> lexicalAnalyzer[词法分析器]
+    lexicalAnalyzer --> tokens[TOKEN流]
+    tokens1[TOKEN流] --> parser[语法分析器]
+    parser --> ast[语法树/抽象语法树]
+    ast1[语法树/抽象语法树] --> semanticAnalyzer[语义分析器]
+    semanticAnalyzer --> annotationAst[注解抽象语法树]
+    annotationAst1[注解抽象语法树] --> intermediateCodeGen[中间代码生成器]
+    intermediateCodeGen --> intermediateCode[中间代码]
+    intermediateCode1[中间代码] --> independentOptimizingMachines[机器无关优化]
+    independentOptimizingMachines --> intermediateCode2[中间代码]
+    intermediateCode3[中间代码] --> machineRelatedOptimization[机器相关优化]
+    machineRelatedOptimization --> intermediateCode4[中间代码]
+    intermediateCode5[中间代码] --> registerAllocator[寄存器分配器]
+    registerAllocator --> intermediateCode6[中间代码]
+    intermediateCode7[中间代码] --> targetCodeGen[目标代码生成器]
+    targetCodeGen --> target[目标代码]
+
+style source fill:#EDB784
+style tokens fill:#EDB784
+style tokens1 fill:#EDB784
+style ast fill:#EDB784
+style ast1 fill:#EDB784
+style annotationAst fill:#EDB784
+style annotationAst1 fill:#EDB784
+style intermediateCode fill:#EDB784
+style intermediateCode1 fill:#EDB784
+style intermediateCode2 fill:#EDB784
+style intermediateCode2 fill:#EDB784
+style intermediateCode3 fill:#EDB784
+style intermediateCode4 fill:#EDB784
+style intermediateCode5 fill:#EDB784
+style intermediateCode6 fill:#EDB784
+style intermediateCode7 fill:#EDB784
+style target fill:#EDB784
+
+style lexicalAnalyzer fill:#DAF7A6
+style parser fill:#DAF7A6
+style semanticAnalyzer fill:#DAF7A6
+style intermediateCodeGen fill:#DAF7A6
+style independentOptimizingMachines fill:#DAF7A6
+style machineRelatedOptimization fill:#DAF7A6
+style registerAllocator fill:#DAF7A6
+style targetCodeGen fill:#DAF7A6</pre>
+
+<h2 id="Java语言与平台"><a href="#Java语言与平台" class="headerlink" title="Java语言与平台"></a>Java语言与平台</h2><h2 id="Java源码级编译器-javac"><a href="#Java源码级编译器-javac" class="headerlink" title="Java源码级编译器(javac)"></a>Java源码级编译器(javac)</h2><h2 id="Class文件"><a href="#Class文件" class="headerlink" title="Class文件"></a>Class文件</h2><h2 id="虚拟机与JVM"><a href="#虚拟机与JVM" class="headerlink" title="虚拟机与JVM"></a>虚拟机与JVM</h2><h2 id="HotSpot-VM"><a href="#HotSpot-VM" class="headerlink" title="HotSpot VM"></a>HotSpot VM</h2><h2 id="HotSpot-VM的运行时支持"><a href="#HotSpot-VM的运行时支持" class="headerlink" title="HotSpot VM的运行时支持"></a>HotSpot VM的运行时支持</h2><h2 id="HotSpot与解释器"><a href="#HotSpot与解释器" class="headerlink" title="HotSpot与解释器"></a>HotSpot与解释器</h2><h2 id="HotSpot与JIT编译器"><a href="#HotSpot与JIT编译器" class="headerlink" title="HotSpot与JIT编译器"></a>HotSpot与JIT编译器</h2><h2 id="HotSpot-VM与JSR-292"><a href="#HotSpot-VM与JSR-292" class="headerlink" title="HotSpot VM与JSR 292"></a>HotSpot VM与JSR 292</h2></section>
     <!-- Tags START -->
     
       <div class="tags">
         <span>Tags:</span>
         
-  <a href="/tags#随笔" >
-    <span class="tag-code">随笔</span>
+  <a href="/tags#JVM" >
+    <span class="tag-code">JVM</span>
+  </a>
+
+  <a href="/tags#JAVA" >
+    <span class="tag-code">JAVA</span>
   </a>
 
       </div>
@@ -301,17 +365,10 @@
   <div class="nav-container">
     <!-- reverse left and right to put prev and next in a more logic postition -->
     
-      <a class="nav-left" href="/2017/07/07/rednaxelafx_share/">
-        <span class="nav-arrow">← </span>
-        
-          JVM分享_莫枢
-        
-      </a>
     
-    
-      <a class="nav-right" href="/2017/11/25/GC-notes-1-GC-history/">
+      <a class="nav-right" href="/2017/07/28/preface/">
         
-          GC学习笔记:GC定义及历史(一)
+          建站前言
         
         <span class="nav-arrow"> →</span>
       </a>
@@ -343,7 +400,7 @@
   <div class="toc-main">
     <strong class="toc-title">Catalog</strong>
     
-      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#组件"><span class="toc-nav-text">组件</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#tips"><span class="toc-nav-text">tips</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#碎碎念"><span class="toc-nav-text">碎碎念</span></a></li></ol>
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#前言"><span class="toc-nav-text">前言</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#语言处理器的基本结构"><span class="toc-nav-text">语言处理器的基本结构</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#语言处理器的种类"><span class="toc-nav-text">语言处理器的种类</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#编译器"><span class="toc-nav-text">编译器</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Java语言与平台"><span class="toc-nav-text">Java语言与平台</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Java源码级编译器-javac"><span class="toc-nav-text">Java源码级编译器(javac)</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Class文件"><span class="toc-nav-text">Class文件</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#虚拟机与JVM"><span class="toc-nav-text">虚拟机与JVM</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#HotSpot-VM"><span class="toc-nav-text">HotSpot VM</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#HotSpot-VM的运行时支持"><span class="toc-nav-text">HotSpot VM的运行时支持</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#HotSpot与解释器"><span class="toc-nav-text">HotSpot与解释器</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#HotSpot与JIT编译器"><span class="toc-nav-text">HotSpot与JIT编译器</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#HotSpot-VM与JSR-292"><span class="toc-nav-text">HotSpot VM与JSR 292</span></a></li></ol>
     
   </div>
 </aside>
@@ -353,7 +410,7 @@
 
 <script>
   (function () {
-    var url = 'https://oatiz.me/2017/07/28/preface/';
+    var url = 'https://oatiz.me/2017/07/07/rednaxelafx_share/';
     var banner = 'undefined'
     if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
       $('#article-banner').css({
@@ -409,7 +466,7 @@
     var gitmentConfig = "oatiz";
     if (gitmentConfig !== 'undefined') {
       var gitment = new Gitment({
-        id: "建站前言",
+        id: "JVM分享_莫枢",
         owner: "oatiz",
         repo: "oatiz.github.io.source",
         oauth: {
