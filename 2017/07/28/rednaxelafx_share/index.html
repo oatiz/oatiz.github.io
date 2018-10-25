@@ -340,7 +340,138 @@ style machineRelatedOptimization fill:#DAF7A6
 style registerAllocator fill:#DAF7A6
 style targetCodeGen fill:#DAF7A6</pre>
 
-<h2 id="Java语言与平台"><a href="#Java语言与平台" class="headerlink" title="Java语言与平台"></a>Java语言与平台</h2><h2 id="Java源码级编译器-javac"><a href="#Java源码级编译器-javac" class="headerlink" title="Java源码级编译器(javac)"></a>Java源码级编译器(javac)</h2><h2 id="Class文件"><a href="#Class文件" class="headerlink" title="Class文件"></a>Class文件</h2><h2 id="虚拟机与JVM"><a href="#虚拟机与JVM" class="headerlink" title="虚拟机与JVM"></a>虚拟机与JVM</h2><h2 id="HotSpot-VM"><a href="#HotSpot-VM" class="headerlink" title="HotSpot VM"></a>HotSpot VM</h2><h2 id="HotSpot-VM的运行时支持"><a href="#HotSpot-VM的运行时支持" class="headerlink" title="HotSpot VM的运行时支持"></a>HotSpot VM的运行时支持</h2><h2 id="HotSpot与解释器"><a href="#HotSpot与解释器" class="headerlink" title="HotSpot与解释器"></a>HotSpot与解释器</h2><h2 id="HotSpot与JIT编译器"><a href="#HotSpot与JIT编译器" class="headerlink" title="HotSpot与JIT编译器"></a>HotSpot与JIT编译器</h2><h2 id="HotSpot-VM与JSR-292"><a href="#HotSpot-VM与JSR-292" class="headerlink" title="HotSpot VM与JSR 292"></a>HotSpot VM与JSR 292</h2></section>
+<h2 id="Java语言与平台"><a href="#Java语言与平台" class="headerlink" title="Java语言与平台"></a>Java语言与平台</h2><h3 id="Java-Conceptual-Diagram"><a href="#Java-Conceptual-Diagram" class="headerlink" title="Java Conceptual Diagram"></a>Java Conceptual Diagram</h3><p><table summary="" class="table" cellspacing="0" cellpadding="0"><br><!-- Row 1 of 9 --></table></p>
+<p><tr valign="top"></tr></p>
+<p><td class="tdleftside" rowspan="9"><a href="technotes/guides/index.html#jre-jdk" class="atext">JDK</a></td></p>
+<p><td rowspan="2">&nbsp;</td></p>
+<p><td class="tdhead" title="Java programming language"><a href="technotes/guides/language/index.html" class="ahead"><b>Java<br>Language</b></a></td><br><!-- Java Language --></p>
+<p><td></td></p>
+<p><table class="tablerows" summary=""></table></p>
+<p><tr></tr></p>
+<p><td class="tdbody" bgcolor="#BDBEC0"><a href="technotes/guides/language/index.html" class="atext">Java<br>Language</a></td><br><br><br></p>
+<p><td rowspan="5">&nbsp;</td></p>
+<p><td rowspan="4">&nbsp;</td><br><br><!-- Row 2 of 9 --></p>
+<p><tr valign="top"></tr></p>
+<p><td class="tdhead" title="Tools and Tool APIs"><a href="technotes/tools/index.html" class="ahead"><b>Tools &amp;<br><br>Tool APIs</b></a></td></p>
+<p><td></td></p>
+<p><table class="tablerows" summary=""></table></p>
+<p><tr></tr></p>
+<p><td class="tdbody" bgcolor="#A3B8CB" title="Java runtime launcher"><br><a href="technotes/tools/windows/java.html" class="atext">java</a></td></p>
+<p><td class="tdbody" bgcolor="#A3B8CB" title="Java compiler"><a href="technotes/guides/javac/index.html" class="atext">javac</a></td></p>
+<p><td class="tdbody" bgcolor="#A3B8CB" title="Java documentation generator"><a href="technotes/guides/javadoc/index.html" class="atext">javadoc</a></td></p>
+<p><td class="tdbody" bgcolor="#A3B8CB" title="Java archive tool"><br><a href="technotes/guides/jar/index.html" class="atext">jar</a></td></p>
+<p><td class="tdbody" bgcolor="#A3B8CB" title="Java class file disassembler"><a href="technotes/tools/windows/javap.html" class="atext">javap</a></td></p>
+<p><td class="tdbody" bgcolor="#A3B8CB" title="Java class dependency analyzer"><a href="technotes/tools/windows/jdeps.html" class="atext">jdeps</a></td></p>
+<p><td class="tdbody" bgcolor="#A3B8CB" title="Scripting tools"><br><a href="technotes/tools/index.html#scripting" class="atext">Scripting</a></td><br></p>
+<p><tr></tr></p>
+<p><td class="tdbody" bgcolor="#A3B8CB" title="Security tools"><br><a href="technotes/tools/index.html#security" class="atext">Security</a></td></p>
+<p><td class="tdbody" bgcolor="#A3B8CB" title="Monitoring and Management tools"><a href="technotes/tools/index.html#monitor" class="atext">Monitoring</a></td></p>
+<p><td class="tdbody" bgcolor="#A3B8CB" title="jconsole"><a href="technotes/tools/index.html#jconsole" class="atext">JConsole</a></td></p>
+<p><td class="tdbody" bgcolor="#A3B8CB" title="Java VisualVM"><a href="technotes/guides/visualvm/index.html" class="atext">VisualVM</a></td></p>
+<p><td class="tdbody" bgcolor="#A3B8CB" title="Java Mission Control"><br><a href="technotes/guides/jmc" class="atext">JMC</a></td></p>
+<p><td class="tdbody" bgcolor="#A3B8CB" title="Java Flight Recorder" colspan="2"><br><a href="technotes/guides/jfr" class="atext">JFR</a></td><br></p>
+<p><tr></tr></p>
+<p><td class="tdbody" bgcolor="#A3B8CB" title="Java Platform Debugger Architecture"><a href="technotes/guides/jpda/index.html" class="atext">JPDA</a></td></p>
+<p><td class="tdbody" bgcolor="#A3B8CB" title="Java Virtual Machine Tool Interface"><a href="technotes/guides/jvmti/index.html" class="atext">JVM TI</a></td></p>
+<p><td class="tdbody" bgcolor="#A3B8CB" title="Interface Definition Language and RMI-IIOP tools"><a href="technotes/tools/index.html#idl" class="atext">IDL</a></td></p>
+<p><td class="tdbody" bgcolor="#A3B8CB" title="Remote Method Invocation tools"><a href="technotes/tools/index.html#rmi" class="atext">RMI</a></td></p>
+<p><td class="tdbody" bgcolor="#A3B8CB" title="Java DB"><a href="http://docs.oracle.com/javadb/index_jdk8.html" class="atext" target="_blank" rel="noopener">Java<br>DB</a></td></p>
+<p><td class="tdbody" bgcolor="#A3B8CB" title="Deployment, Plug-in and Web Start tools" colspan="2"><a href="technotes/tools/index.html#deployment" class="atext">Deployment</a></td><br></p>
+<p><tr></tr></p>
+<p><td class="tdbody" colspan="2" bgcolor="#A3B8CB" title="Internationalization tools"><a href="technotes/tools/index.html#intl" class="atext">Internationalization</a></td></p>
+<p><td class="tdbody" colspan="2" bgcolor="#A3B8CB" title="Java Web Services Tools"><a href="technotes/tools/index.html#webservices" class="atext">Web<br>Services</a></td></p>
+<p><td class="tdbody" colspan="3" bgcolor="#A3B8CB" title="Troubleshooting tools"><a href="technotes/tools/index.html#troubleshoot" class="atext">Troubleshooting</a></td><br><br><br><br><br><!-- Row 3 of 9 --></p>
+<p><tr valign="top"></tr></p>
+<p><td rowspan="7" class="tdleftside" title="Java Runtime Environment"><a href="technotes/guides/index.html#jre-jdk" class="atext">JRE</a></td></p>
+<p><td class="tdhead" title="Deployment Technologies"><a href="technotes/guides/deploy/index.html" class="ahead"><b>Deployment</b></a></td></p>
+<p><td></td></p>
+<p><table class="tablerows" summary=""></table></p>
+<p><tr></tr></p>
+<p><td class="tdbody" bgcolor="#ED9B4F" title="Java Web Start"><br><a href="technotes/guides/javaws/index.html" class="atext">Java Web<br>Start</a></td></p>
+<p><td class="tdbody" bgcolor="#ED9B4F" title="Java Plug-In for browsers"><a href="technotes/guides/deploy/applet_dev_guide.html" class="atext">Applet / Java Plug-in</a></td><br><br><br><br><br><!-- Row 4 of 9 --></p>
+<p><tr valign="top"></tr></p>
+<p><td class="tdhead" rowspan="2" title="User Interface programming"><br><a href="technotes/guides/index.html#userinterface" class="ahead"><b>User Interface<br><br>Toolkits</b></a></td></p>
+<p><td></td></p>
+<p><table class="tablerows" summary=""></table></p>
+<p><tr></tr></p>
+<p><td class="tdbody" bgcolor="#E76F00" title="JavaFX"><a href="technotes/guides/javafx/" class="atext">JavaFX</a></td><br><br><br><br><br><!-- Row 5 of 9 --></p>
+<p><tr valign="top"></tr></p>
+<p><td></td></p>
+<p><table class="tablerows" summary=""></table></p>
+<p><tr></tr></p>
+<p><td class="tdbody" bgcolor="#E76F00" title="Graphical user interface components"><a href="technotes/guides/swing/index.html" class="atext">Swing</a></td></p>
+<p><td class="tdbody" bgcolor="#E76F00" title="2D graphics, text and images"><a href="technotes/guides/2d/index.html" class="atext">Java 2D</a></td></p>
+<p><td class="tdbody" bgcolor="#E76F00" title="Abstract Window Toolkit"><a href="technotes/guides/awt/index.html" class="atext">AWT</a></td></p>
+<p><td class="tdbody" colspan="2" bgcolor="#E76F00" title="Assistive technologies for user interfaces"><a href="technotes/guides/access/index.html" class="atext">Accessibility</a></td><br></p>
+<p><tr></tr></p>
+<p><td class="tdbody" bgcolor="#E76F00" title="Drag and drop data transfer"><a href="technotes/guides/dragndrop/index.html" class="atext">Drag and<br>Drop</a></td></p>
+<p><td class="tdbody" bgcolor="#E76F00" title="Input Method Framework"><a href="technotes/guides/imf/index.html" class="atext">Input Methods</a></td></p>
+<p><td class="tdbody" bgcolor="#E76F00" title="Image input/output API"><a href="technotes/guides/imageio/index.html" class="atext">Image<br>I/O</a></td></p>
+<p><td class="tdbody" bgcolor="#E76F00" title="Print service API"><br><a href="technotes/guides/jps/index.html" class="atext">Print<br>Service</a></td></p>
+<p><td class="tdbody" bgcolor="#E76F00" title="MIDI API"><a href="technotes/guides/sound/index.html" class="atext">Sound</a></td><br><br><br></p>
+<p><td class="tdrightside" rowspan="4" title="Java SE API. See API Documentation section for more links."><br><a href="api/index.html" class="atext">Java SE<br><br>API</a></td><br><br><!-- Row 6 of 9 --></p>
+<p><tr valign="top"></tr></p>
+<p><td class="tdhead" title="Integration libraries"><a href="technotes/guides/index.html#integration" class="ahead"><b>Integration<br><br>Libraries</b></a></td></p>
+<p><td></td></p>
+<p><table class="tablerows" summary=""></table></p>
+<p><tr></tr></p>
+<p><td class="tdbody" bgcolor="#B2BC00" title="CORBA Interface Definition Language API"><a href="technotes/guides/idl/index.html" class="atext">IDL</a></td></p>
+<p><td class="tdbody" bgcolor="#B2BC00" title="Java Database Connectivity API"><a href="technotes/guides/jdbc/index.html" class="atext">JDBC</a></td></p>
+<p><td class="tdbody" bgcolor="#B2BC00" title="Java Naming and Directory Interface API"><a href="technotes/guides/jndi/index.html" class="atext">JNDI</a></td></p>
+<p><td class="tdbody" bgcolor="#B2BC00" title="Remote Method Invocation API"><a href="technotes/guides/rmi/index.html" class="atext">RMI</a></td></p>
+<p><td class="tdbody" bgcolor="#B2BC00" title="RMI interfaces over IIOP"><a href="technotes/guides/rmi-iiop/index.html" class="atext">RMI-IIOP</a></td></p>
+<p><td class="tdbody" bgcolor="#B2BC00" title="Scripting for the Java Platform"><a href="technotes/guides/scripting/index.html" class="atext">Scripting</a></td><br><br><br></p>
+<p><td class="tdrightside" rowspan="3" title="Compact Profiles"><br><a href="technotes/guides/compactprofiles/index.html" class="atext">Compact<br> Profiles</a></td><br><br><!-- Row 7 of 9 --></p>
+<p><tr valign="top"></tr></p>
+<p><td class="tdhead" title="Base libraries other than java.lang and java.util"><a href="technotes/guides/index.html#otherbase" class="ahead"><b>Other<br>Base<br><br>Libraries</b></a></td></p>
+<p><td></td></p>
+<p><table class="tablerows" summary=""></table></p>
+<p><tr></tr></p>
+<p><td class="tdbody" bgcolor="#C69200" title="Java Beans component API"><a href="technotes/guides/beans/index.html" class="atext">Beans</a></td></p>
+<p><td class="tdbody" bgcolor="#C69200" title="Security API"><a href="technotes/guides/security/index.html" class="atext">Security</a></td></p>
+<p><td class="tdbody" bgcolor="#C69200" title="Object Serialization"><br><a href="technotes/guides/serialization/index.html" class="atext">Serialization</a></td></p>
+<p><td class="tdbody" bgcolor="#C69200" title="Package extension mechanism"><a href="technotes/guides/extensions/index.html" class="atext">Extension<br>Mechanism</a></td><br></p>
+<p><tr></tr></p>
+<p><td class="tdbody" bgcolor="#C69200" title="Java Management Extensions"><a href="technotes/guides/jmx/index.html" class="atext">JMX</a></td></p>
+<p><td class="tdbody" bgcolor="#C69200" nowrap="nowrap" title="Java API for XML Processing"><a href="technotes/guides/xml/index.html" class="atext">XML JAXP</a></td></p>
+<p><td class="tdbody" bgcolor="#C69200" title="Networking API"><br><a href="technotes/guides/net/index.html" class="atext">Networking</a></td></p>
+<p><td class="tdbody" bgcolor="#C69200" title="Endorsed Standards Override Mechanism"><a href="technotes/guides/standards/index.html" class="atext">Override<br>Mechanism</a></td><br></p>
+<p><tr></tr></p>
+<p><td class="tdbody" bgcolor="#C69200" title="Java Native Interface"><br><a href="technotes/guides/jni/index.html" class="atext">JNI</a></td></p>
+<p><td class="tdbody" bgcolor="#C69200" title="Date and Time"><a href="technotes/guides/datetime/index.html" class="atext">Date and<br>Time</a></td></p>
+<p><td class="tdbody" bgcolor="#C69200" title="Input/Output API"><br><a href="technotes/guides/io/index.html" class="atext">Input/Output</a></td></p>
+<p><td class="tdbody" bgcolor="#C69200" title="Internationalization of applications"><a href="technotes/guides/intl/index.html" class="atext">Internationalization</a></td><br><br><br><br><br><!-- Row 8 of 9 --></p>
+<p><tr valign="top"></tr></p>
+<p><td class="tdhead" title="java.lang and java.util libraries"><br><a href="technotes/guides/index.html#langutil" class="ahead"><b>lang and util<br><br>Base Libraries</b></a></td></p>
+<p><td></td></p>
+<p><table class="tablerows" summary=""></table></p>
+<p><tr></tr></p>
+<p><td class="tdbody" colspan="5" bgcolor="#FFC726" title="java.lang and java.util packages"><a href="technotes/guides/lang/index.html" class="atext">lang and<br>util</a></td><br></p>
+<p><tr></tr></p>
+<p><td class="tdbody" bgcolor="#FFC726" title="Math classes"><a href="technotes/guides/math/index.html" class="atext">Math</a></td></p>
+<p><td class="tdbody" bgcolor="#FFC726" title="Collections framework"><br><a href="technotes/guides/collections/index.html" class="atext">Collections</a></td></p>
+<p><td class="tdbody" bgcolor="#FFC726" title="Reference Objects API"><br><a href="api/java/lang/ref/package-summary.html" class="atext">Ref<br>Objects</a></td></p>
+<p><td class="tdbody" colspan="2" bgcolor="#FFC726" title="Regular expressions"><a href="api/java/util/regex/package-summary.html" class="atext">Regular<br>Expressions</a></td><br></p>
+<p><tr></tr></p>
+<p><td class="tdbody" bgcolor="#FFC726" title="Logging API"><a href="technotes/guides/logging/index.html" class="atext">Logging</a></td></p>
+<p><td class="tdbody" bgcolor="#FFC726" title="JVM Monitoring and Management"><a href="technotes/guides/management/index.html" class="atext">Management</a></td></p>
+<p><td class="tdbody" bgcolor="#FFC726" title="Instrumentation"><br><a href="technotes/guides/instrumentation/index.html" class="atext">Instrumentation</a></td></p>
+<p><td class="tdbody" colspan="2" bgcolor="#FFC726" title="Concurrency utilities"><a href="technotes/guides/concurrency/index.html" class="atext">Concurrency<br>Utilities</a></td><br></p>
+<p><tr></tr></p>
+<p><td class="tdbody" bgcolor="#FFC726" title="Reflection API"><br><a href="technotes/guides/reflection/index.html" class="atext">Reflection</a></td></p>
+<p><td class="tdbody" bgcolor="#FFC726" title="Package version identification"><a href="technotes/guides/versioning/index.html" class="atext">Versioning</a></td></p>
+<p><td class="tdbody" bgcolor="#FFC726" title="Preferences API"><br><a href="technotes/guides/preferences/index.html" class="atext">Preferences API</a></td></p>
+<p><td class="tdbody" bgcolor="#FFC726" title="Java archive file format"><a href="technotes/guides/jar/index.html" class="atext">JAR</a></td></p>
+<p><td class="tdbody" bgcolor="#FFC726" title="Zip and gzip file formats"><a href="api/java/util/zip/package-summary.html" class="atext">Zip</a></td><br><br><br><br><br><!-- Row 9 of 9 --></p>
+<p><tr valign="top"></tr></p>
+<p><td class="tdhead" title="Java Virtual Machine"><a href="technotes/guides/vm/index.html" class="ahead"><b>Java Virtual<br>Machine</b></a></td></p>
+<p><td></td></p>
+<p><table class="tablerows" summary=""></table></p>
+<p><tr></tr></p>
+<p><td class="tdbody" bgcolor="#C5D5A9"><a href="technotes/guides/vm/index.html" class="atext">Java HotSpot Client<br>and Server VM</a></td><br><br><br></p>
+<p><td>&nbsp;</td></p>
+<p><td>&nbsp;</td><br><br><br><!-- ################################### --><br><!-- END OF TABLE --><br><!-- ################################### --></p>
+<h2 id="Java源码级编译器-javac"><a href="#Java源码级编译器-javac" class="headerlink" title="Java源码级编译器(javac)"></a>Java源码级编译器(javac)</h2><h2 id="Class文件"><a href="#Class文件" class="headerlink" title="Class文件"></a>Class文件</h2><h2 id="虚拟机与JVM"><a href="#虚拟机与JVM" class="headerlink" title="虚拟机与JVM"></a>虚拟机与JVM</h2><h2 id="HotSpot-VM"><a href="#HotSpot-VM" class="headerlink" title="HotSpot VM"></a>HotSpot VM</h2><h2 id="HotSpot-VM的运行时支持"><a href="#HotSpot-VM的运行时支持" class="headerlink" title="HotSpot VM的运行时支持"></a>HotSpot VM的运行时支持</h2><h2 id="HotSpot与解释器"><a href="#HotSpot与解释器" class="headerlink" title="HotSpot与解释器"></a>HotSpot与解释器</h2><h2 id="HotSpot与JIT编译器"><a href="#HotSpot与JIT编译器" class="headerlink" title="HotSpot与JIT编译器"></a>HotSpot与JIT编译器</h2><h2 id="HotSpot-VM与JSR-292"><a href="#HotSpot-VM与JSR-292" class="headerlink" title="HotSpot VM与JSR 292"></a>HotSpot VM与JSR 292</h2></section>
     <!-- Tags START -->
     
       <div class="tags">
@@ -407,7 +538,7 @@ style targetCodeGen fill:#DAF7A6</pre>
   <div class="toc-main">
     <strong class="toc-title">Catalog</strong>
     
-      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#前言"><span class="toc-nav-text">前言</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#语言处理器的基本结构"><span class="toc-nav-text">语言处理器的基本结构</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#语言处理器的种类"><span class="toc-nav-text">语言处理器的种类</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#编译器"><span class="toc-nav-text">编译器</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Java语言与平台"><span class="toc-nav-text">Java语言与平台</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Java源码级编译器-javac"><span class="toc-nav-text">Java源码级编译器(javac)</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Class文件"><span class="toc-nav-text">Class文件</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#虚拟机与JVM"><span class="toc-nav-text">虚拟机与JVM</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#HotSpot-VM"><span class="toc-nav-text">HotSpot VM</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#HotSpot-VM的运行时支持"><span class="toc-nav-text">HotSpot VM的运行时支持</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#HotSpot与解释器"><span class="toc-nav-text">HotSpot与解释器</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#HotSpot与JIT编译器"><span class="toc-nav-text">HotSpot与JIT编译器</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#HotSpot-VM与JSR-292"><span class="toc-nav-text">HotSpot VM与JSR 292</span></a></li></ol>
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#前言"><span class="toc-nav-text">前言</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#语言处理器的基本结构"><span class="toc-nav-text">语言处理器的基本结构</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#语言处理器的种类"><span class="toc-nav-text">语言处理器的种类</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#编译器"><span class="toc-nav-text">编译器</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Java语言与平台"><span class="toc-nav-text">Java语言与平台</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Java-Conceptual-Diagram"><span class="toc-nav-text">Java Conceptual Diagram</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Java源码级编译器-javac"><span class="toc-nav-text">Java源码级编译器(javac)</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Class文件"><span class="toc-nav-text">Class文件</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#虚拟机与JVM"><span class="toc-nav-text">虚拟机与JVM</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#HotSpot-VM"><span class="toc-nav-text">HotSpot VM</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#HotSpot-VM的运行时支持"><span class="toc-nav-text">HotSpot VM的运行时支持</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#HotSpot与解释器"><span class="toc-nav-text">HotSpot与解释器</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#HotSpot与JIT编译器"><span class="toc-nav-text">HotSpot与JIT编译器</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#HotSpot-VM与JSR-292"><span class="toc-nav-text">HotSpot VM与JSR 292</span></a></li></ol>
     
   </div>
 </aside>
