@@ -10,7 +10,7 @@
   
   <title>
     
-      oatiz 的博客
+      rust中所有权,引用,生命周期小记 | oatiz 的博客
     
   </title>
   <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -253,87 +253,233 @@
 </header>
 
     <div id="article-banner">
-  <h2>Archives</h2>
-  <p class="post-date">文章归档</p>
+  <h2>rust中所有权,引用,生命周期小记</h2>
+  <p class="post-date">2018-11-29
+    
+      <span id="/2018/11/29/rust_ownership/" class="leancloud_visitors" data-flag-title="rust中所有权,引用,生命周期小记">
+          <span class="post-meta-divider">&emsp;</span>
+          <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+          </span>
+          <span class="leancloud-visitors-count"></span>
+      </span>
+    
+  </p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
 </div>
-<main class="app-body" id="archives">
-  
-  
-  
-    <section class="time-section">
-  <h1 class="section-year">
-    2018
-  </h1>
-  <div class="section-list">
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><h2 id="rust-所有权-引用-生命周期"><a href="#rust-所有权-引用-生命周期" class="headerlink" title="rust 所有权,引用,生命周期"></a>rust 所有权,引用,生命周期</h2><h3 id="所有权"><a href="#所有权" class="headerlink" title="所有权"></a>所有权</h3><p>存在即是为了管理<code>堆数据</code></p>
+<ul>
+<li>跟踪代码正在堆上使用的数据</li>
+<li>最大限度减少堆上的重复数据</li>
+<li>清理堆上不再使用的数据</li>
+</ul>
+<h3 id="rules"><a href="#rules" class="headerlink" title="rules"></a>rules</h3><ul>
+<li>Each value in Rust has a variable that’s called its owner.<ul>
+<li>rust每个值都有一个被叫做owner的变量</li>
+</ul>
+</li>
+<li>There can only be one owner at a time.<ul>
+<li>值只能有一个所有者</li>
+</ul>
+</li>
+<li>When the owner goes out of scope, the value will be dropped.<ul>
+<li>当所有者离开作用域,值将会被清除</li>
+</ul>
+</li>
+</ul>
+<h3 id="RAII"><a href="#RAII" class="headerlink" title="RAII"></a>RAII</h3><p>Resource Acquisition Is Initialization (RAII)</p>
+<h2 id="引用与借用"><a href="#引用与借用" class="headerlink" title="引用与借用"></a>引用与借用</h2><p>引用作为方法函数为<code>借用</code>, 脱离作用域值不会被丢弃掉</p>
+<h3 id="数据竞争-data-race"><a href="#数据竞争-data-race" class="headerlink" title="数据竞争(data race)"></a>数据竞争(data race)</h3><p>数据竞争先决条件:</p>
+<ul>
+<li>Two or more pointers access the same data at the same time.<ul>
+<li>两个或多个指针同时访问同一数据</li>
+</ul>
+</li>
+<li>At least one of the pointers is being used to write to the data.<ul>
+<li>至少有一个指针被用来写入数据</li>
+</ul>
+</li>
+<li>There’s no mechanism being used to synchronize access to the data.<ul>
+<li>没有同步数据访问的机制</li>
+</ul>
+</li>
+</ul>
+<h3 id="rules-1"><a href="#rules-1" class="headerlink" title="rules"></a>rules</h3><ul>
+<li>At any given time, you can have either one mutable reference or any number of immutable references.<ul>
+<li>任意给定时间,只能拥有一个可变引用或者多个不可变引用</li>
+</ul>
+</li>
+<li>References must always be valid.<ul>
+<li>引用必须总是有效的</li>
+</ul>
+</li>
+</ul>
+<h2 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h2><p>用来解决悬垂指针问题<br>悬垂指针(dangling pointer): 指针指向的内存已经被分配给其他自由者</p>
+<p>TODO …</p>
+</section>
+    <!-- Tags START -->
     
-    
-      <div class="section-list-item">
-        <a href="/2018/11/29/rust_ownership/" class="archive-title">rust中所有权,引用,生命周期小记</a>
-        <p class="archive-date">11-29</p>
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#rust">
+    <span class="tag-code">rust</span>
+  </a>
+
+  <a href="/tags#ownership">
+    <span class="tag-code">ownership</span>
+  </a>
+
+  <a href="/tags#lifetime">
+    <span class="tag-code">lifetime</span>
+  </a>
+
+  <a href="/tags#RAII">
+    <span class="tag-code">RAII</span>
+  </a>
+
       </div>
     
-      <div class="section-list-item">
-        <a href="/2018/10/16/The_Constant_Pool/" class="archive-title">JVM常量池小解</a>
-        <p class="archive-date">10-16</p>
-      </div>
+    <!-- Tags END -->
+<!-- Licence START -->
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="知识共享许可协议" style="border-width:0" src="https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg?style=flat-square"></a>
+<!-- Licence END -->
+    <!-- NAV START -->
     
-      <div class="section-list-item">
-        <a href="/2018/05/15/skywalking5-0-0-beta-deployment-build/" class="archive-title">skywalking5.0部署搭建</a>
-        <p class="archive-date">05-15</p>
-      </div>
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/2018/10/16/The_Constant_Pool/">
+        <span class="nav-arrow">← </span>
+        
+          JVM常量池小解
+        
+      </a>
+    
     
   </div>
-</section>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+      <div class="qrcode">
+        <canvas id="share-qrcode"></canvas>
+        <p class="notice">扫描二维码，分享此文章</p>
+      </div>
+    
+    <!-- 二维码 END -->
+    
+      <!-- Gitment START -->
+      <div id="comments"></div>
+      <!-- Gitment END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
   
-    <section class="time-section">
-  <h1 class="section-year">
-    2017
-  </h1>
-  <div class="section-list">
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
     
-    
-      <div class="section-list-item">
-        <a href="/2017/12/04/mermaid-test/" class="archive-title">hexo mermaid</a>
-        <p class="archive-date">12-04</p>
-      </div>
-    
-      <div class="section-list-item">
-        <a href="/2017/11/26/GC-notes-3-GC-mark-clear-algorithm/" class="archive-title">GC学习笔记:GC标记-清除算法(三)</a>
-        <p class="archive-date">11-26</p>
-      </div>
-    
-      <div class="section-list-item">
-        <a href="/2017/11/26/GC-notes-2-GC-related-knowledge/" class="archive-title">GC学习笔记:GC相关知识(二)</a>
-        <p class="archive-date">11-26</p>
-      </div>
-    
-      <div class="section-list-item">
-        <a href="/2017/11/25/GC-notes-1-GC-history/" class="archive-title">GC学习笔记:GC定义及历史(一)</a>
-        <p class="archive-date">11-25</p>
-      </div>
-    
-      <div class="section-list-item">
-        <a href="/2017/07/28/rednaxelafx_share/" class="archive-title">莫枢的JVM分享笔记</a>
-        <p class="archive-date">07-28</p>
-      </div>
-    
-      <div class="section-list-item">
-        <a href="/2017/07/28/preface/" class="archive-title">建站前言</a>
-        <p class="archive-date">07-28</p>
-      </div>
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#rust-所有权-引用-生命周期"><span class="toc-nav-text">rust 所有权,引用,生命周期</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#所有权"><span class="toc-nav-text">所有权</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#rules"><span class="toc-nav-text">rules</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#RAII"><span class="toc-nav-text">RAII</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#引用与借用"><span class="toc-nav-text">引用与借用</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#数据竞争-data-race"><span class="toc-nav-text">数据竞争(data race)</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#rules-1"><span class="toc-nav-text">rules</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#生命周期"><span class="toc-nav-text">生命周期</span></a></li></ol>
     
   </div>
-</section>
+</aside>
   
+  <!-- Catalog END -->
 </main>
 
 <script>
   (function () {
-    var url = 'https://oatiz.me/tags/随笔/index.html';
-    $('#article-banner').geopattern(url);
-    $('.header').removeClass('fixed-header');
+    var url = 'https://oatiz.me/2018/11/29/rust_ownership/';
+    var banner = 'undefined'
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+        
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "oatiz";
+    if (gitmentConfig !== 'undefined') {
+      var gitment = new Gitment({
+        id: "rust中所有权,引用,生命周期小记",
+        owner: "oatiz",
+        repo: "oatiz.github.io.source",
+        oauth: {
+          client_id: "2cd61beb1bc9eb976265",
+          client_secret: "e2351ae3148a0afd2ac255464ed3e6182897746e"
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
   })();
 </script>
+
     <div class="scroll-top">
   <span class="arrow-icon"></span>
 </div>
