@@ -276,10 +276,11 @@
 <p><code>Raft</code> is an algorithm for managing a replicated log.</p>
 </blockquote>
 <p><code>Raft</code>是一种用来管理复制日志的一致性算法.</p>
-<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><blockquote>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><blockquote>
 <p><code>Raft</code> implements consensus by first electing a distinguished leader, then giving the leader complete responsibility for managing the replicated log. The leader accepts log entries from clients, replicates them on other servers, and tells servers when it is safe to apply log entries to their state machines.</p>
 </blockquote>
-<p><code>Raft</code>通过<u>选举</u>一个高贵的<u>领导人</u>,然后给予它<u>全部职责</u>来<u>管理复制日志</u>从而实现一致性.</p>
+<p><code>Raft</code>通过<u>选举</u>一个高贵的<u>领导人</u>,然后给予它<u>全部职责</u>来<u>管理复制日志</u>从而实现一致性. 领导人接收来自客户端的日志,在其他服务器上复制它们,并告诉服务器当它们是安全的情况下将这些日志应用到状态机.</p>
+<hr>
 <p><code>Raft</code>将共识问题分解为三个相对独立的子问题:</p>
 <ul>
 <li>Leader election: a new leader must be to chosen when an existing leader fails<ul>
@@ -295,23 +296,148 @@
 </ul>
 </li>
 </ul>
-<h1 id="daft"><a href="#daft" class="headerlink" title="daft"></a>daft</h1><hr>
-<p>一个节点可以有以下3个状态:</p>
-<ul>
-<li>Follower 从节点</li>
-<li>Candidate 候选人</li>
-<li>Leader 领导者</li>
+<h3 id="Safety"><a href="#Safety" class="headerlink" title="Safety"></a>Safety</h3><h4 id="Election-Safety"><a href="#Election-Safety" class="headerlink" title="Election Safety"></a>Election Safety</h4><p>选举安全特性</p>
+<blockquote>
+<p>at most one leader can be elected in a given term.<br>在一个给定的任期号, 最多只有一个领导人会被选举出来</p>
+</blockquote>
+<h4 id="Leader-Append-Only"><a href="#Leader-Append-Only" class="headerlink" title="Leader Append-Only"></a>Leader Append-Only</h4><p>领导人只附加原则</p>
+<blockquote>
+<p>a leader never overwrites or deletes entries in its log; it only appends new entries.<br>领导人永远不会覆盖或删除其日志中的条目; 它只附加新条目.</p>
+</blockquote>
+<h4 id="Log-Matching"><a href="#Log-Matching" class="headerlink" title="Log Matching"></a>Log Matching</h4><p>日志匹配原则</p>
+<blockquote>
+<p>if two logs contain an entry with the same index and term, then the logs are identical in all entries up through the given index.<br>如果两个日志在相同索引位置的日志条目的任期号相同, 那么这两个日志从头到这个索引位置的都是相同的.</p>
+</blockquote>
+<h4 id="Leader-Completeness"><a href="#Leader-Completeness" class="headerlink" title="Leader Completeness"></a>Leader Completeness</h4><p>领导人完全特性</p>
+<blockquote>
+<p>if a log entry is committed in a given term, then that entry will be present in the logs of the leaders for all higher-numbered terms.<br>如果在给定的任期中提交了某条日志条目, 则该日志条目必然出现在所有更高任期编号的领导人的日志中.</p>
+</blockquote>
+<h4 id="State-Machine-Safety"><a href="#State-Machine-Safety" class="headerlink" title="State Machine Safety"></a>State Machine Safety</h4><p>状态机安全特性</p>
+<blockquote>
+<p>if a server has applied a log entry at a given index to its state machine, no other server will ever apply a different log entry for the same index.<br>如果服务器已将给定索引处的日志条目应用于其状态机, 那么其他服务器不会在同一索引提交不同的日志条目.</p>
+</blockquote>
+<h2 id="精简摘要"><a href="#精简摘要" class="headerlink" title="精简摘要"></a>精简摘要</h2><h3 id="Role"><a href="#Role" class="headerlink" title="Role"></a>Role</h3><h4 id="struct"><a href="#struct" class="headerlink" title="struct"></a>struct</h4><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="class"><span class="keyword">enum</span> <span class="title">StateRole</span></span> &#123;</span><br><span class="line">    <span class="comment">/// The node is a follower of the leader.</span></span><br><span class="line">    Follower,</span><br><span class="line">    <span class="comment">/// The node could become a leader.</span></span><br><span class="line">    Candidate,</span><br><span class="line">    <span class="comment">/// The node is a leader.</span></span><br><span class="line">    Leader,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="State"><a href="#State" class="headerlink" title="State"></a>State</h3><h4 id="struct-1"><a href="#struct-1" class="headerlink" title="struct"></a>struct</h4><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="class"><span class="keyword">struct</span> <span class="title">State</span></span> &#123;</span><br><span class="line">    <span class="comment">// Persistent state on all servers (Updated on stable storage before responding to RPCs)</span></span><br><span class="line">    <span class="comment">// 持久化在所有服务器上的状态 (在响应RPC之前更新)</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// 1. currentTerm</span></span><br><span class="line">    <span class="comment">///     latest term server has seen (initialized to 0 on first boot, increases monotonically)</span></span><br><span class="line">    <span class="comment">///     服务器已知的最后一次任期号 (初始化为0,持续增加)</span></span><br><span class="line">    <span class="keyword">pub</span> current_term: <span class="built_in">u64</span>,</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// 2. votedFor</span></span><br><span class="line">    <span class="comment">///     candidateId that received vote in current term (or null if none)</span></span><br><span class="line">    <span class="comment">///     在当前任期内获得该节点投票的候选人id (没有就为null)</span></span><br><span class="line">    <span class="keyword">pub</span> voted_for: <span class="built_in">u64</span>,</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// 3. log[]</span></span><br><span class="line">    <span class="comment">///     log entries; each entry contains command for state machine, and term when entry was received by leader (first index is 1)</span></span><br><span class="line">    <span class="comment">///     日志集合; 每个记录包含状态机的命令, 以及领导者收到条目时的任期 (第一个索引为1)</span></span><br><span class="line">    <span class="keyword">pub</span> log: Vec![],</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// Volatile state on all servers</span></span><br><span class="line">    <span class="comment">/// 在所有服务器上面容易变的状态</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// 4. commitIndex</span></span><br><span class="line">    <span class="comment">///     index of highest log entry known to be committed (initialized to 0, increases monotonically)</span></span><br><span class="line">    <span class="comment">///     已知最大的被提交日志的索引 (初始化为0, 持续增加)</span></span><br><span class="line">    <span class="keyword">pub</span> commit_index: <span class="built_in">u64</span>,</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// 5. lastApplied</span></span><br><span class="line">    <span class="comment">///     index of highest log entry applied to state machine (initialized to 0, increases monotonically)</span></span><br><span class="line">    <span class="comment">///     最后应用于状态机的日志索引 (初始化为0, 持续增加)</span></span><br><span class="line">    <span class="keyword">pub</span> last_applied: <span class="built_in">u64</span>,</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// Volatile state on leaders: (Reinitialized after election)</span></span><br><span class="line">    <span class="comment">/// 在领导人上面易变的状态 (选举之后重新初始化)</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// 6. nextIndex[]</span></span><br><span class="line">    <span class="comment">///     for each server, index of the next log entry to send to that server (initialized to leader last log index + 1)</span></span><br><span class="line">    <span class="comment">///     对于每个服务器,要发送到该服务器的下一个日志条目的索引 (初始化为领导人最后日志索引 + 1)</span></span><br><span class="line">    <span class="keyword">pub</span> next_index: Vec![],</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// 7. matchIndex[]</span></span><br><span class="line">    <span class="comment">///     for each server, index of highest log entry known to be replicated on server (initialized to 0, increases monotonically)</span></span><br><span class="line">    <span class="comment">///     对于每个服务器, 已经在服务器上复制的最高日志条目的索引 (初始化为0, 持续递增)</span></span><br><span class="line">    <span class="keyword">pub</span> match_index: Vec![],</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="AppendEntries-RPC"><a href="#AppendEntries-RPC" class="headerlink" title="AppendEntries RPC"></a>AppendEntries RPC</h3><h4 id="struct-2"><a href="#struct-2" class="headerlink" title="struct"></a>struct</h4><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// Invoked by leader to replicate log entries ; also used as heartbeat</span></span><br><span class="line"><span class="comment">/// 由leader调用来复制日志; 也用作发送心跳包</span></span><br><span class="line"><span class="keyword">pub</span> <span class="class"><span class="keyword">struct</span> <span class="title">AppendEntriesRPC</span></span> &#123;</span><br><span class="line">    <span class="comment">/// 1. term</span></span><br><span class="line">    <span class="comment">///     leader’s term</span></span><br><span class="line">    <span class="comment">///     领导人的任期号</span></span><br><span class="line">    <span class="keyword">pub</span> term: <span class="built_in">u64</span>,</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// 2. leaderId</span></span><br><span class="line">    <span class="comment">///     so follower can redirect clients</span></span><br><span class="line">    <span class="comment">///     领导人的id,便于跟随者可以重定向客户端</span></span><br><span class="line">    <span class="keyword">pub</span> leader_id: <span class="built_in">u64</span>,</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// 3. prevLogIndex</span></span><br><span class="line">    <span class="comment">///     index of log entry immediately preceding new ones</span></span><br><span class="line">    <span class="comment">///     紧接之前的,新的日志条目的索引</span></span><br><span class="line">    <span class="keyword">pub</span> prev_log_index: <span class="built_in">u64</span>,</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// 4. prevLogTerm</span></span><br><span class="line">    <span class="comment">///     term of prevLogIndex entry</span></span><br><span class="line">    <span class="comment">///     prevLogIndex日志条目的索引值</span></span><br><span class="line">    <span class="keyword">pub</span> prev_log_term: <span class="built_in">u64</span>,</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// 5. entries[]</span></span><br><span class="line">    <span class="comment">///     log entries to store (empty for heartbeat; may send more than one for efficiency)</span></span><br><span class="line">    <span class="comment">///     需要被保存的日志集合 (为空时表示心跳; 为了提升效率可能会发送多个)</span></span><br><span class="line">    <span class="keyword">pub</span> entries: Vec![],</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// 6. leaderCommit</span></span><br><span class="line">    <span class="comment">///     leader’s commitIndex</span></span><br><span class="line">    <span class="comment">///     领导人的 被提交日志的最大索引</span></span><br><span class="line">    <span class="keyword">pub</span> leader_commit: <span class="built_in">u64</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">pub</span> <span class="class"><span class="keyword">struct</span> <span class="title">Result</span></span> &#123;</span><br><span class="line">    <span class="comment">/// 1. term</span></span><br><span class="line">    <span class="comment">///     currentTerm, for leader to update itself</span></span><br><span class="line">    <span class="comment">///     当前任期号, 供领导者更新自己</span></span><br><span class="line">    <span class="keyword">pub</span> term: <span class="built_in">u64</span>,</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// 2. success</span></span><br><span class="line">    <span class="comment">///     true if follower contained entry matching prevLogIndex and prevLogTerm</span></span><br><span class="line">    <span class="comment">///     如果跟随者包含匹配prevLogIndex和prevLogTerm的日志条目, 则返回true</span></span><br><span class="line">    <span class="keyword">pub</span> success: <span class="built_in">bool</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Receiver-implementation"><a href="#Receiver-implementation" class="headerlink" title="Receiver implementation"></a>Receiver implementation</h4><ul>
+<li>Reply false if term &lt; currentTerm<ul>
+<li>如果term &lt;currentTerm, 则返回false</li>
 </ul>
-<h2 id="leader-election-选举领导者"><a href="#leader-election-选举领导者" class="headerlink" title="leader election (选举领导者)"></a>leader election (选举领导者)</h2><ol>
-<li><p>如果follower听不到leader的消息,那么他就要变成candidate</p>
 </li>
-<li><p>然后candidate请求来自其他节点的投票</p>
+<li>Reply false if log doesn’t contain an entry at prevLogIndex whose term matches prevLogTerm<ul>
+<li>如果日志在prevLogIndex位置的条目,它的任期号与prevLogTerm不匹配,则返回false</li>
+</ul>
 </li>
-<li><p>节点们将会回复他们的投票结果</p>
+<li>If an existing entry conflicts with a new one (same index but different terms), delete the existing entry and all that follow it<ul>
+<li>如果已有日志条目与新的日志条目冲突 (索引相同但任期号不同), 删除已有日志条目及其后面的所有日志条目</li>
+</ul>
 </li>
-</ol>
-<h2 id="log-replication-日志复制"><a href="#log-replication-日志复制" class="headerlink" title="log replication(日志复制)"></a>log replication(日志复制)</h2><p>4.如果candidate获得大部分节点的投票,那么他就会变成leader</p>
-<ul>
+<li>Append any new entries not already in the log<ul>
+<li>附加在日志中尚未存在的任何新日志条目</li>
+</ul>
+</li>
+<li>If leaderCommit &gt; commitIndex, set commitIndex = min(leaderCommit, index of last new entry)<ul>
+<li>如果leaderCommit &gt; commitIndex, 则设置commitIndex等于 (领导人提交日志的最大索引, 新日志条目中最后的一个的索引) 两个中最小的值</li>
+</ul>
+</li>
+</ul>
+<h3 id="RequestVote-RPC"><a href="#RequestVote-RPC" class="headerlink" title="RequestVote RPC"></a>RequestVote RPC</h3><h4 id="struct-3"><a href="#struct-3" class="headerlink" title="struct"></a>struct</h4><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// Invoked by candidates to gather votes</span></span><br><span class="line"><span class="comment">/// 由候选人调用来收集选票</span></span><br><span class="line"><span class="keyword">pub</span> <span class="class"><span class="keyword">struct</span> <span class="title">RequestVoteRPC</span></span> &#123;</span><br><span class="line">    <span class="comment">/// 1. term</span></span><br><span class="line">    <span class="comment">///     candidate’s term</span></span><br><span class="line">    <span class="comment">///     候选人的任期号</span></span><br><span class="line">    <span class="keyword">pub</span> term: <span class="built_in">u64</span>,</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// 2. candidateId</span></span><br><span class="line">    <span class="comment">///     candidate requesting vote</span></span><br><span class="line">    <span class="comment">///     候选人的id, 候选人要求投票</span></span><br><span class="line">    <span class="keyword">pub</span> candidate_id: <span class="built_in">u64</span>,</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// 3. lastLogIndex</span></span><br><span class="line">    <span class="comment">///     index of candidate’s last log entry</span></span><br><span class="line">    <span class="comment">///     候选人最后一个日志条目的索引</span></span><br><span class="line">    <span class="keyword">pub</span> last_log_index: <span class="built_in">u64</span>,</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// 4. lastLogTerm</span></span><br><span class="line">    <span class="comment">///     term of candidate’s last log entry</span></span><br><span class="line">    <span class="comment">///     候选人最后一个日志条目的任期号</span></span><br><span class="line">    <span class="keyword">pub</span> last_log_term: <span class="built_in">u64</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">pub</span> <span class="class"><span class="keyword">struct</span> <span class="title">Result</span></span> &#123;</span><br><span class="line">    <span class="comment">/// 1. term</span></span><br><span class="line">    <span class="comment">///     currentTerm, for candidate to update itself</span></span><br><span class="line">    <span class="comment">///     当前任期号, 供候选人更新自己</span></span><br><span class="line">    <span class="keyword">pub</span> term: <span class="built_in">u64</span>,</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// 2. voteGranted</span></span><br><span class="line">    <span class="comment">///     true means candidate received vote</span></span><br><span class="line">    <span class="comment">///     true表示候选人获得投票</span></span><br><span class="line">    <span class="keyword">pub</span> vote_granted: <span class="built_in">bool</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Receiver-implementation-1"><a href="#Receiver-implementation-1" class="headerlink" title="Receiver implementation"></a>Receiver implementation</h4><ul>
+<li>Reply false if term &lt; currentTerm<ul>
+<li>如果term &lt;currentTerm, 则返回false</li>
+</ul>
+</li>
+<li>If votedFor is null or candidateId, and candidate’s log is at least as up-to-date as receiver’s log, grant vote<ul>
+<li>如果votedFor等于null或candidateId, 并且候选人的日志至少与接收者的日志一样新时, 则投票给它</li>
+</ul>
+</li>
+</ul>
+<h3 id="Rules-for-Servers"><a href="#Rules-for-Servers" class="headerlink" title="Rules for Servers"></a>Rules for Servers</h3><h4 id="All-Servers"><a href="#All-Servers" class="headerlink" title="All Servers"></a>All Servers</h4><ul>
+<li>If commitIndex &gt; lastApplied: increment lastApplied, apply log[lastApplied] to state machine<ul>
+<li>如果commitIndex &gt; lastApplied: 那么见过lastApplied + 1, 并将log[lastApplied]应用到状态机</li>
+</ul>
+</li>
+<li>If RPC request or response contains term T &gt; currentTerm: set currentTerm = T, convert to follower<ul>
+<li>如果RPC请求或响应中 任期号<code>T</code> &gt; currentTerm: 那么就将currentTerm设置为任期号T, 并转换为follower</li>
+</ul>
+</li>
+</ul>
+<h4 id="Followers"><a href="#Followers" class="headerlink" title="Followers"></a>Followers</h4><ul>
+<li>Respond to RPCs from candidates and leaders<ul>
+<li>响应候选人和领导人的RPC请求</li>
+</ul>
+</li>
+<li>If election timeout elapses without receiving AppendEntries RPC from current leader or granting vote to candidate: convert to candidate<ul>
+<li>如果在选举超时前没有从当前领导者接收到AppendEntries RPC,或者是候选人的RequestVote RPC时: 就将自己转换为候选人</li>
+</ul>
+</li>
+</ul>
+<h4 id="Candidates"><a href="#Candidates" class="headerlink" title="Candidates"></a>Candidates</h4><ul>
+<li>On conversion to candidate, start election<ul>
+<li>转换为候选人后, 立即开始选举<ul>
+<li>Increment currentTerm<ul>
+<li>自增当前的任期号</li>
+</ul>
+</li>
+<li>Vote for self<ul>
+<li>给自己投票 </li>
+</ul>
+</li>
+<li>Reset election timer<ul>
+<li>重置选举超时计时器 </li>
+</ul>
+</li>
+<li>Send RequestVote RPCs to all other servers <ul>
+<li>发送RequestVote RPC给其他所有服务器</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>If votes received from majority of servers: become leader<ul>
+<li>如果获得大多数服务器的选票: 那么就变成领导人</li>
+</ul>
+</li>
+<li>If AppendEntries RPC received from new leader: convert to follower<ul>
+<li>如果接收到新领导人的AppendEntries RPC: 那么就转变为跟随者</li>
+</ul>
+</li>
+<li>If election timeout elapses: start new election<ul>
+<li>如果选举超时: 再发起一轮新选举</li>
+</ul>
+</li>
+</ul>
+<h4 id="Leaders"><a href="#Leaders" class="headerlink" title="Leaders"></a>Leaders</h4><ul>
+<li>Upon election: send initial empty AppendEntries RPCs (heartbeat) to each server; repeat during idle periods to prevent election timeouts<ul>
+<li>领导人当选时: 将空的AppendEntries RPC (心跳) 发送到每个服务器; 在一定空闲期间后不停重复发送以防止选举超时 (阻止跟随者没有收到心跳时,将自己变为候选人)</li>
+</ul>
+</li>
+<li>If command received from client: append entry to local log, respond after entry applied to state machine<ul>
+<li>如果从客户端收到请求: 将日志条目附加到本地日志, 在日志条目被应用于状态机后响应客户端</li>
+</ul>
+</li>
+<li>If last log index ≥ nextIndex for a follower: send AppendEntries RPC with log entries starting at nextIndex<ul>
+<li>对于某个跟随者, 如果<u>最后面的日志索引</u>的大于等于<code>nextIndex</code>: 那么发送AppendEntries RPC 从nextIndex开始的所有日志条目<ul>
+<li>If successful: update nextIndex and matchIndex for follower<ul>
+<li>如果成功: 更新相应跟随者的nextIndex和matchIndex </li>
+</ul>
+</li>
+<li>If AppendEntries fails because of log inconsistency: decrement nextIndex and retry<ul>
+<li>如果因为日志不一致而失败: 递减nextIndex并重试</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>If there exists an N such that N &gt; commitIndex, a majority of matchIndex[i] ≥ N, and log[N].term == currentTerm: set commitIndex = N<ul>
+<li>如果存在一个满足N &gt; commitIndex的N, 并且大多数matchIndex[i] &gt;= N成立, 并且log[N].term == currentTerm成立: 那么就设置commitIndex等于这个N</li>
+</ul>
+</li>
+</ul>
+<h1 id="daft"><a href="#daft" class="headerlink" title="daft"></a>daft</h1><hr>
+<h2 id="log-replication-日志复制"><a href="#log-replication-日志复制" class="headerlink" title="log replication(日志复制)"></a>log replication(日志复制)</h2><ul>
 <li><p>系统所有的更改都通过leader操作</p>
 </li>
 <li><p>每个更改都会作为 节点日志的一个条目</p>
@@ -421,7 +547,7 @@ Candidate --> |times out, new election| Candidate</pre></section>
   <div class="toc-main">
     <strong class="toc-title">Catalog</strong>
     
-      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#概念"><span class="toc-nav-text">概念</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#实现"><span class="toc-nav-text">实现</span></a></li></ol></li></ol><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#daft"><span class="toc-nav-text">daft</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#leader-election-选举领导者"><span class="toc-nav-text">leader election (选举领导者)</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#log-replication-日志复制"><span class="toc-nav-text">log replication(日志复制)</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#timeout"><span class="toc-nav-text">timeout</span></a></li></ol>
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#概念"><span class="toc-nav-text">概念</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#实现"><span class="toc-nav-text">实现</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Safety"><span class="toc-nav-text">Safety</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#Election-Safety"><span class="toc-nav-text">Election Safety</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#Leader-Append-Only"><span class="toc-nav-text">Leader Append-Only</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#Log-Matching"><span class="toc-nav-text">Log Matching</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#Leader-Completeness"><span class="toc-nav-text">Leader Completeness</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#State-Machine-Safety"><span class="toc-nav-text">State Machine Safety</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#精简摘要"><span class="toc-nav-text">精简摘要</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Role"><span class="toc-nav-text">Role</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#struct"><span class="toc-nav-text">struct</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#State"><span class="toc-nav-text">State</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#struct-1"><span class="toc-nav-text">struct</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#AppendEntries-RPC"><span class="toc-nav-text">AppendEntries RPC</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#struct-2"><span class="toc-nav-text">struct</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#Receiver-implementation"><span class="toc-nav-text">Receiver implementation</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#RequestVote-RPC"><span class="toc-nav-text">RequestVote RPC</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#struct-3"><span class="toc-nav-text">struct</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#Receiver-implementation-1"><span class="toc-nav-text">Receiver implementation</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Rules-for-Servers"><span class="toc-nav-text">Rules for Servers</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#All-Servers"><span class="toc-nav-text">All Servers</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#Followers"><span class="toc-nav-text">Followers</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#Candidates"><span class="toc-nav-text">Candidates</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#Leaders"><span class="toc-nav-text">Leaders</span></a></li></ol></li></ol></li></ol><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#daft"><span class="toc-nav-text">daft</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#log-replication-日志复制"><span class="toc-nav-text">log replication(日志复制)</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#timeout"><span class="toc-nav-text">timeout</span></a></li></ol>
     
   </li></div>
 </aside>
