@@ -180,7 +180,7 @@
       
         <li class="list-item">
           
-            <a href="/" class="item-link">Home</a>
+            <a href="/" class="item-link active">Home</a>
           
         </li>
       
@@ -219,7 +219,7 @@
         
           <li class="menu-item">
             
-              <a href="/" class="menu-link">Home</a>
+              <a href="/" class="menu-link mobile-active">Home</a>
             
           </li>
         
@@ -252,98 +252,46 @@
   </div>
 </header>
 
-    <div id="article-banner">
-  <h2>Archives</h2>
-  <p class="post-date">文章归档</p>
+    <main class="app-body">
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/2017/07/28/preface/">建站前言</a>
+      </h2>
+      <p class="article-date">2017年7月28日</p>
+      
+        
+  <a href="/tags#随笔">
+    <span class="tag-code">随笔</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          组件hexoyilia
+tips
+评论采用Disqus,需翻墙后才可留言
+
+碎碎念其实在建站之前已经有过一个blog了,但是没有保持下去。原因个人觉得别人已经写好了,没必要重复的去抄别人:)。现在重新得去编写,其实觉得现在的生活乏味无趣,不如找个事情来充实自己。再者自己基础知识很不好,借着这 ...
+        
+      </div>
+      <a class="more" href="/2017/07/28/preface/">Read more</a>
+    </article>
+  
+
+  
+    <div class="guide-pager">
+  
+    <a href="/"><span class="page-arrow">← </span>Prev</a>
+  
+  
+    <a class="unvisible" href="/">Next <span class="page-arrow">→</span></a>
+  
 </div>
-<main class="app-body" id="archives">
-  
-  
-  
-    <section class="time-section">
-  <h1 class="section-year">
-    2018
-  </h1>
-  <div class="section-list">
-    
-    
-      <div class="section-list-item">
-        <a href="/2018/12/07/raft_summary/" class="archive-title">Rust学习笔记</a>
-        <p class="archive-date">12-07</p>
-      </div>
-    
-      <div class="section-list-item">
-        <a href="/2018/12/05/raft-zh_cn/" class="archive-title">寻找一种易于理解的一致性算法(扩展版)--转载</a>
-        <p class="archive-date">12-05</p>
-      </div>
-    
-      <div class="section-list-item">
-        <a href="/2018/11/29/rust_ownership/" class="archive-title">rust中所有权,引用,生命周期小记</a>
-        <p class="archive-date">11-29</p>
-      </div>
-    
-      <div class="section-list-item">
-        <a href="/2018/10/16/The_Constant_Pool/" class="archive-title">JVM常量池小解</a>
-        <p class="archive-date">10-16</p>
-      </div>
-    
-      <div class="section-list-item">
-        <a href="/2018/05/15/skywalking5-0-0-beta-deployment-build/" class="archive-title">skywalking5.0部署搭建</a>
-        <p class="archive-date">05-15</p>
-      </div>
-    
-  </div>
-</section>
-  
-    <section class="time-section">
-  <h1 class="section-year">
-    2017
-  </h1>
-  <div class="section-list">
-    
-    
-      <div class="section-list-item">
-        <a href="/2017/12/04/mermaid-test/" class="archive-title">hexo mermaid</a>
-        <p class="archive-date">12-04</p>
-      </div>
-    
-      <div class="section-list-item">
-        <a href="/2017/11/26/GC-notes-3-GC-mark-clear-algorithm/" class="archive-title">GC学习笔记:GC标记-清除算法(三)</a>
-        <p class="archive-date">11-26</p>
-      </div>
-    
-      <div class="section-list-item">
-        <a href="/2017/11/26/GC-notes-2-GC-related-knowledge/" class="archive-title">GC学习笔记:GC相关知识(二)</a>
-        <p class="archive-date">11-26</p>
-      </div>
-    
-      <div class="section-list-item">
-        <a href="/2017/11/25/GC-notes-1-GC-history/" class="archive-title">GC学习笔记:GC定义及历史(一)</a>
-        <p class="archive-date">11-25</p>
-      </div>
-    
-      <div class="section-list-item">
-        <a href="/2017/07/28/rednaxelafx_share/" class="archive-title">莫枢的JVM分享笔记</a>
-        <p class="archive-date">07-28</p>
-      </div>
-    
-      <div class="section-list-item">
-        <a href="/2017/07/28/preface/" class="archive-title">建站前言</a>
-        <p class="archive-date">07-28</p>
-      </div>
-    
-  </div>
-</section>
   
 </main>
 
-<script>
-  (function () {
-    var url = 'https://oatiz.me/tags/lifetime/index.html';
-    $('#article-banner').geopattern(url);
-    $('.header').removeClass('fixed-header');
-  })();
-</script>
+
     <div class="scroll-top">
   <span class="arrow-icon"></span>
 </div>
