@@ -336,15 +336,15 @@
 <li>附加在日志中尚未存在的任何新日志条目</li>
 </ul>
 </li>
-<li>If leaderCommit &gt; commitIndex, set commitIndex = min(leaderCommit, index of last new entry)<ul>
-<li>如果leaderCommit &gt; commitIndex, 则设置commitIndex等于 (领导人提交日志的最大索引, 新日志条目中最后的一个的索引) 两个中最小的值</li>
+<li>If <code>leaderCommit &gt; commitIndex</code>, set <code>commitIndex = min(leaderCommit, index of last new entry)</code><ul>
+<li>如果leaderCommit大于commitIndex, 则设置commitIndex等于 (领导人提交日志的最大索引, 新日志条目中最后的一个的索引) 两个中最小的值</li>
 </ul>
 </li>
 </ul>
 <h3 id="RequestVote-RPC"><a href="#RequestVote-RPC" class="headerlink" title="RequestVote RPC"></a>RequestVote RPC</h3><h4 id="struct-3"><a href="#struct-3" class="headerlink" title="struct"></a>struct</h4><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// Invoked by candidates to gather votes</span></span><br><span class="line"><span class="comment">/// 由候选人调用来收集选票</span></span><br><span class="line"><span class="keyword">pub</span> <span class="class"><span class="keyword">struct</span> <span class="title">RequestVoteRPC</span></span> &#123;</span><br><span class="line">    <span class="comment">/// 1. term</span></span><br><span class="line">    <span class="comment">///     candidate’s term</span></span><br><span class="line">    <span class="comment">///     候选人的任期号</span></span><br><span class="line">    <span class="keyword">pub</span> term: <span class="built_in">u64</span>,</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// 2. candidateId</span></span><br><span class="line">    <span class="comment">///     candidate requesting vote</span></span><br><span class="line">    <span class="comment">///     候选人的id, 候选人要求投票</span></span><br><span class="line">    <span class="keyword">pub</span> candidate_id: <span class="built_in">u64</span>,</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// 3. lastLogIndex</span></span><br><span class="line">    <span class="comment">///     index of candidate’s last log entry</span></span><br><span class="line">    <span class="comment">///     候选人最后一个日志条目的索引</span></span><br><span class="line">    <span class="keyword">pub</span> last_log_index: <span class="built_in">u64</span>,</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// 4. lastLogTerm</span></span><br><span class="line">    <span class="comment">///     term of candidate’s last log entry</span></span><br><span class="line">    <span class="comment">///     候选人最后一个日志条目的任期号</span></span><br><span class="line">    <span class="keyword">pub</span> last_log_term: <span class="built_in">u64</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">pub</span> <span class="class"><span class="keyword">struct</span> <span class="title">Result</span></span> &#123;</span><br><span class="line">    <span class="comment">/// 1. term</span></span><br><span class="line">    <span class="comment">///     currentTerm, for candidate to update itself</span></span><br><span class="line">    <span class="comment">///     当前任期号, 供候选人更新自己</span></span><br><span class="line">    <span class="keyword">pub</span> term: <span class="built_in">u64</span>,</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// 2. voteGranted</span></span><br><span class="line">    <span class="comment">///     true means candidate received vote</span></span><br><span class="line">    <span class="comment">///     true表示候选人获得投票</span></span><br><span class="line">    <span class="keyword">pub</span> vote_granted: <span class="built_in">bool</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="Receiver-implementation-1"><a href="#Receiver-implementation-1" class="headerlink" title="Receiver implementation"></a>Receiver implementation</h4><ul>
-<li>Reply false if term &lt; currentTerm<ul>
-<li>如果term &lt;currentTerm, 则返回false</li>
+<li>Reply false if <code>term &lt; currentTerm</code><ul>
+<li>如果term小于currentTerm, 则返回false</li>
 </ul>
 </li>
 <li>If votedFor is null or candidateId, and candidate’s log is at least as up-to-date as receiver’s log, grant vote<ul>
@@ -353,12 +353,12 @@
 </li>
 </ul>
 <h3 id="Rules-for-Servers"><a href="#Rules-for-Servers" class="headerlink" title="Rules for Servers"></a>Rules for Servers</h3><h4 id="All-Servers"><a href="#All-Servers" class="headerlink" title="All Servers"></a>All Servers</h4><ul>
-<li>If commitIndex &gt; lastApplied: increment lastApplied, apply log[lastApplied] to state machine<ul>
-<li>如果commitIndex &gt; lastApplied: 那么见过lastApplied + 1, 并将log[lastApplied]应用到状态机</li>
+<li>If <code>commitIndex &gt; lastApplied</code>: increment lastApplied, apply log[lastApplied] to state machine<ul>
+<li>如果commitIndex大于lastApplied: 那么将lastApplied + 1, 并将log[lastApplied]应用到状态机</li>
 </ul>
 </li>
-<li>If RPC request or response contains term T &gt; currentTerm: set currentTerm = T, convert to follower<ul>
-<li>如果RPC请求或响应中 任期号<code>T</code> &gt; currentTerm: 那么就将currentTerm设置为任期号T, 并转换为follower</li>
+<li>If RPC request or response contains <code>term T &gt; currentTerm</code>: set <code>currentTerm = T</code>, convert to follower<ul>
+<li>如果RPC请求或响应中 任期号<code>T</code>大于<code>currentTerm</code>: 那么就将currentTerm设置为任期号T, 并转换为follower</li>
 </ul>
 </li>
 </ul>
@@ -417,7 +417,7 @@
 <li>如果从客户端收到请求: 将日志条目附加到本地日志, 在日志条目被应用于状态机后响应客户端</li>
 </ul>
 </li>
-<li>If last log index ≥ nextIndex for a follower: send AppendEntries RPC with log entries starting at nextIndex<ul>
+<li>If last log <code>index ≥ nextIndex</code> for a follower: send AppendEntries RPC with log entries starting at nextIndex<ul>
 <li>对于某个跟随者, 如果<u>最后面的日志索引</u>的大于等于<code>nextIndex</code>: 那么发送AppendEntries RPC 从nextIndex开始的所有日志条目<ul>
 <li>If successful: update nextIndex and matchIndex for follower<ul>
 <li>如果成功: 更新相应跟随者的nextIndex和matchIndex </li>
@@ -431,7 +431,7 @@
 </li>
 </ul>
 </li>
-<li>If there exists an N such that N &gt; commitIndex, a majority of matchIndex[i] ≥ N, and log[N].term == currentTerm: set commitIndex = N<ul>
+<li>If there exists an N such that <code>N &gt; commitIndex</code>, a majority of <code>matchIndex[i] ≥ N</code>, and <code>log[N].term == currentTerm</code>: set <code>commitIndex = N</code><ul>
 <li>如果存在一个满足N &gt; commitIndex的N, 并且大多数matchIndex[i] &gt;= N成立, 并且log[N].term == currentTerm成立: 那么就设置commitIndex等于这个N</li>
 </ul>
 </li>
