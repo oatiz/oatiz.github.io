@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html>
+  <head><meta name="generator" content="Hexo 3.8.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="迷途的羔羊">
+  <meta name="keyword" content="JAVA, GOLANG">
+  
+    <link rel="shortcut icon" type="image/ico" href="https://coding.net/u/oatiz/p/oatiz/git/raw/master/images/brick.png"> 
+  
+  <title>
+    
+      摘录:分布式数据库学习路线 | おはよう
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+  
+    <script src="https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js"></script>
+    <script>
+      if (window.mermaid) {
+        mermaid.initialize({theme: 'forest'});
+      }
+    </script>
+  
+  
+
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("hSA9zIWVnlMtWiRWj3moDXYB-gzGzoHsz", "QMHtExy8JF1LXMOj58DFLYVp");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png">
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>おはよう</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>摘录:分布式数据库学习路线</h2>
+  <p class="post-date">2018-12-27
+    
+      <span id="/2018/12/27/distributed_db_roadmap/" class="leancloud_visitors" data-flag-title="摘录:分布式数据库学习路线">
+          <span class="post-meta-divider">&emsp;</span>
+          <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+          </span>
+          <span class="leancloud-visitors-count"></span>
+      </span>
+    
+  </p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><h2 id="来源"><a href="#来源" class="headerlink" title="来源"></a>来源</h2><p>摘录自知乎问题:<a href="https://www.zhihu.com/question/62464757" target="_blank" rel="noopener">对数据库和分布式很感兴趣，学习路线是什么？</a></p>
+<h2 id="李晨曦的回答"><a href="#李晨曦的回答" class="headerlink" title="李晨曦的回答:"></a><a href="https://www.zhihu.com/question/62464757/answer/202033688" target="_blank" rel="noopener">李晨曦的回答</a>:</h2><p>分布式的学习不是很了解，数据库有些经验可以按照如下步骤学习</p>
+<h3 id="1-入门"><a href="#1-入门" class="headerlink" title="1. 入门"></a>1. 入门</h3><p>接触过数据库的基础知识和应用之后，就可以开始进行内核级的学习了，先学习传统的关系型数据库，因为它是一切数据库的基础，包括现在比较火的内存数据库，分布式数据库等。</p>
+<p>从IV Database System Implementation开始，把这本书吃透了，包括数据的物理存储结构，索引，查询引擎，缓冲池，SQL编译，查询优化，系统恢复，并发控制。然后实现上面这些理论知识，完成一个支持简单DML，DDL的数据库。一定要实现，只是学习理论，不动手实践是不可能深刻理解的，就像空中楼阁。</p>
+<p><a href="http://rtbs24.com/?target=https%3A%2F%2Fytthn.com%2Fclick-IQL4686A-HFDQCIIE%3Fbt%3D25%26tl%3D1__%26url%3Dhttp%3A%2F%2Fitem.jd.com%2F10059733.html" target="_blank" rel="noopener">《数据库系统实现（英文版）（第2版）》</a></p>
+<p><a href="http://dsm.fudan.edu.cn/JSPWiki/attach/Material_db/database%20system%20complete%20book_2nd.pdf2" target="_blank" rel="noopener">http://dsm.fudan.edu.cn/JSPWiki/attach/Material_db/database%20system%20complete%20book_2nd.pdf2</a></p>
+<h3 id="2-深入理解"><a href="#2-深入理解" class="headerlink" title="2. 深入理解"></a>2. 深入理解</h3><p>参考这个论文列表，把里面的论文都读一遍，了解关系型数据库历史，了解数据库的发展过程中走过的弯路，理解它为什么会变成现在这个样子</p>
+<p><a href="https://github.com/rxin/db-readings" target="_blank" rel="noopener">rxin/db-readings</a></p>
+<p>同时也要锻炼系统级编程的能力，深刻理解操作系统的工作原理，并行编程，熟悉一些硬件的工作原理，为以后打下良好的基础。可以读一些优秀的开源数据库的源码，如Peloton的<a href="https://github.com/cmu-db/peloton" target="_blank" rel="noopener">cmu-db/peloton</a>，只有几万行代码，PostgreSQL的，代码非常多，不过注释非常清晰</p>
+<h3 id="3-进阶"><a href="#3-进阶" class="headerlink" title="3. 进阶"></a>3. 进阶</h3><p>看最近几年数据库相关的论文，各个方向的发展都全面了解一下，可以参考这两个课程提到的论文<a href="https://15721.courses.cs.cmu.edu/spring2017/schedule.html" target="_blank" rel="noopener">Schedule - CMU 15-721 :: Advanced Database System (Spring 2017)</a>，<a href="https://db.in.tum.de/teaching/ws1617/imlab/?lang=en" target="_blank" rel="noopener">Practical Course: Database Implementation</a>，找一些感觉兴趣的论文复现一下里面提到的方法。很多算法，数据结构都有一定的适用场景和局限性，要通过自己实现与实验来深刻体会。</p>
+<h3 id="4-破茧成蝶"><a href="#4-破茧成蝶" class="headerlink" title="4. 破茧成蝶"></a>4. 破茧成蝶</h3><p>这才是读博最重要的阶段，通过之前的学习，应该对数据库的各个方面都非常了解了，而且也打下了良好的编程能力，可以选1,2个感兴趣的方向，看看有没有什么可以改进，突破的点，想出自己的idea，实现并与现有的方法进行对比，如果可以做的很好，就非常厉害了。</p>
+<h2 id="Ed-Huang的回答"><a href="#Ed-Huang的回答" class="headerlink" title="Ed Huang的回答:"></a><a href="https://www.zhihu.com/question/62464757/answer/202312500" target="_blank" rel="noopener">Ed Huang的回答</a>:</h2><p>深夜倒时差睡不着，上来写写</p>
+<p>对传统数据库不太了解，毕竟不是科班出身。</p>
+<p>对分布式系统学习还是有点心得，理论基础要打牢。</p>
+<h3 id="1"><a href="#1" class="headerlink" title="1"></a>1</h3><p>从存储系统入手，Google 的老三篇入门，最好能顺手把 6.824 做了，不难，智商正常的本科生都能做完，另外推荐一本书 Distributed systems for fun and profit</p>
+<h3 id="2"><a href="#2" class="headerlink" title="2"></a>2</h3><p>做完 6.824 后就可以从复制协议开始入手, Paxos 的几篇，Lamport 那篇有空膜拜一下好了，真正有价值的是 Paxos made live / Paxos made simple 那几篇，然后可以深入看看 Raft, 这个在 6.824 里面会用到.</p>
+<h3 id="3"><a href="#3" class="headerlink" title="3"></a>3</h3><p>然后开始开非 Google 系的存储系统比如 Dynamo ，Haystack 啊什么的还有一些最终一致性的系统，比如 FB 在一些系统上的设计虽然没有 Google 那么 fancy，但是看看还是不错的，至少知道在 FB 的数量级下会遇到那些问题，如何用糙快猛的办法 workaround。。。 和一些分布式计算系统和流计算系统，比如  MR 就不说了，比如 Dremel 啊，Spark 啊，MillWheel 啊，Sawzall 啊</p>
+<h3 id="4"><a href="#4" class="headerlink" title="4"></a>4</h3><p>把 SQL 优化器的一些基础知识学会咯，然后尽量用分布式系统的思想去思考。然后有点感觉了以后，可以看 F1 和 2017 的 Spanner 那两篇论文找找感觉，毕竟比较简单。然后就可以去找一些 OLAP 系统的论文看看了，HyPer 有一堆论文，Impala / Presto / Kudu 啊， AsterixDB 啊什么的，这个领域就多了去了。</p>
+<h3 id="5"><a href="#5" class="headerlink" title="5"></a>5</h3><p>这时候就可以开始实践了，自己动手撸没啥意思，而且工程量巨大无比，我建议还是要和靠谱的团队一起工作，进步很快，比如暑假没事或者实验室老师不管的话可以来我们这边实实习啊，毕竟鄙司是分布式系统和数据库技术融合得很不错的公司，离你们学校又近，打个车 20 分钟就到了，我的邮箱是 huang at <a href="http://pingcap.com，不过建议还是你把邮件发给" target="_blank" rel="noopener">http://pingcap.com，不过建议还是你把邮件发给</a> shenli，毕竟我推荐没有 iPhone 拿，他是有的…有机会未来见。</p>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#excerpts">
+    <span class="tag-code">excerpts</span>
+  </a>
+
+  <a href="/tags#distributed system">
+    <span class="tag-code">distributed system</span>
+  </a>
+
+  <a href="/tags#database">
+    <span class="tag-code">database</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+<!-- Licence START -->
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="知识共享许可协议" style="border-width:0" src="https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg?style=flat-square"></a>
+<!-- Licence END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/2018/12/07/raft_summary/">
+        <span class="nav-arrow">← </span>
+        
+          Raft学习笔记
+        
+      </a>
+    
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+      <div class="qrcode">
+        <canvas id="share-qrcode"></canvas>
+        <p class="notice">扫描二维码，分享此文章</p>
+      </div>
+    
+    <!-- 二维码 END -->
+    
+      <!-- Gitment START -->
+      <div id="comments"></div>
+      <!-- Gitment END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#来源"><span class="toc-nav-text">来源</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#李晨曦的回答"><span class="toc-nav-text">李晨曦的回答:</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#1-入门"><span class="toc-nav-text">1. 入门</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-深入理解"><span class="toc-nav-text">2. 深入理解</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-进阶"><span class="toc-nav-text">3. 进阶</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-破茧成蝶"><span class="toc-nav-text">4. 破茧成蝶</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Ed-Huang的回答"><span class="toc-nav-text">Ed Huang的回答:</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#1"><span class="toc-nav-text">1</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2"><span class="toc-nav-text">2</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3"><span class="toc-nav-text">3</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4"><span class="toc-nav-text">4</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#5"><span class="toc-nav-text">5</span></a></li></ol></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'https://oatiz.me/2018/12/27/distributed_db_roadmap/';
+    var banner = 'undefined'
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+        
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "oatiz";
+    if (gitmentConfig !== 'undefined') {
+      var gitment = new Gitment({
+        id: "摘录:分布式数据库学习路线",
+        owner: "oatiz",
+        repo: "oatiz.github.io.source",
+        oauth: {
+          client_id: "2cd61beb1bc9eb976265",
+          client_secret: "e2351ae3148a0afd2ac255464ed3e6182897746e"
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2018 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    Theme by <a href="https://github.com/yanm1ng/hexo-theme-vexo">Vexo</a>    Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+  </body>
+</html>
