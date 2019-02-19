@@ -10,7 +10,7 @@
   
   <title>
     
-      MapReduce 学习笔记 | おはよう
+      MapReduce论文总结 | おはよう
     
   </title>
   <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -253,10 +253,10 @@
 </header>
 
     <div id="article-banner">
-  <h2>MapReduce 学习笔记</h2>
+  <h2>MapReduce论文总结</h2>
   <p class="post-date">2019-02-05
     
-      <span id="/2019/02/05/map-reduce_summary/" class="leancloud_visitors" data-flag-title="MapReduce 学习笔记">
+      <span id="/2019/02/05/map-reduce_summary/" class="leancloud_visitors" data-flag-title="MapReduce论文总结">
           <span class="post-meta-divider">&emsp;</span>
           <span class="post-meta-item-icon">
             <i class="fa fa-eye"></i>
@@ -272,7 +272,8 @@
 <main class="app-body flex-box">
   <!-- Article START -->
   <article class="post-article">
-    <section class="markdown-content"><h1 id="TODO"><a href="#TODO" class="headerlink" title="TODO"></a>TODO</h1></section>
+    <section class="markdown-content"><p>原论文地址:<a href="https://static.googleusercontent.com/media/research.google.com/zh-CN//archive/mapreduce-osdi04.pdf" target="_blank" rel="noopener">MapReduce</a></p>
+<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><h2 id="Programming-Model"><a href="#Programming-Model" class="headerlink" title="Programming Model"></a>Programming Model</h2><h2 id="Implementation"><a href="#Implementation" class="headerlink" title="Implementation"></a>Implementation</h2><h2 id="Reﬁnements"><a href="#Reﬁnements" class="headerlink" title="Reﬁnements"></a>Reﬁnements</h2><h2 id="Performance"><a href="#Performance" class="headerlink" title="Performance"></a>Performance</h2></section>
     <!-- Tags START -->
     
       <div class="tags">
@@ -284,6 +285,10 @@
 
   <a href="/tags#map reduce">
     <span class="tag-code">map reduce</span>
+  </a>
+
+  <a href="/tags#mit6.824">
+    <span class="tag-code">mit6.824</span>
   </a>
 
       </div>
@@ -332,7 +337,7 @@
   <div class="toc-main">
     <strong class="toc-title">Catalog</strong>
     
-      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#TODO"><span class="toc-nav-text">TODO</span></a></li></ol>
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Introduction"><span class="toc-nav-text">Introduction</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Programming-Model"><span class="toc-nav-text">Programming Model</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Implementation"><span class="toc-nav-text">Implementation</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Reﬁnements"><span class="toc-nav-text">Reﬁnements</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Performance"><span class="toc-nav-text">Performance</span></a></li></ol>
     
   </div>
 </aside>
@@ -398,7 +403,7 @@
     var gitmentConfig = "oatiz";
     if (gitmentConfig !== 'undefined') {
       var gitment = new Gitment({
-        id: "MapReduce 学习笔记",
+        id: "MapReduce论文总结",
         owner: "oatiz",
         repo: "oatiz.github.io.source",
         oauth: {
