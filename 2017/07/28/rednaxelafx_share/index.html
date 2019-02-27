@@ -1,31 +1,39 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
-  <head><meta name="generator" content="Hexo 3.8.0">
-  <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-  <meta name="description" content="迷途的羔羊">
-  <meta name="keyword" content="JAVA, GOLANG">
-  
-    <link rel="shortcut icon" type="image/ico" href="https://coding.net/u/oatiz/p/oatiz/git/raw/master/images/brick.png"> 
-  
-  <title>
+
+<head><meta name="generator" content="Hexo 3.8.0">
+	<link rel="bookmark" type="image/x-icon" href="/image/brick.png">
+	<link rel="shortcut icon" href="/image/brick.png">
+	
+			    <title>
+    おはよう
+    </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="/css/mic_main.css">
+    <link rel="stylesheet" href="/css/dropdownMenu.css">
+    <meta name="keywords" content="oatiz">
     
-      莫枢的JVM分享笔记 | おはよう
-    
-  </title>
-  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
-  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="/css/style.css">
-<link rel="stylesheet" href="/css/plugins/gitment.css">
-  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
-  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
-  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
-  <script src="/js/qrious.js"></script>
-<script src="/js/gitment.js"></script>
+    	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+	 
+    <noscript>
+        <link rel="stylesheet" href="/css/noscript.css">
+    </noscript>
+    <style type="text/css">
+        body:before {
+          content: ' ';
+          position: fixed;
+          top: 0;
+          background: url('/image/bg.jpg') center 0 no-repeat;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          background-size: cover; 
+        }
+    </style>
+
+			    
   
-  
-    <!-- MathJax support START -->
     <script type="text/x-mathjax-config">
       MathJax.Hub.Config({
         tex2jax: {
@@ -44,235 +52,105 @@
         }
       });
     </script>
-    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <!-- MathJax support END -->
+    <script async type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
 
-  
-    <script src="https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js"></script>
-    <script>
-      if (window.mermaid) {
-        mermaid.initialize({theme: 'forest'});
-      }
-    </script>
-  
-  
-
-  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
-  <script>AV.initialize("hSA9zIWVnlMtWiRWj3moDXYB-gzGzoHsz", "QMHtExy8JF1LXMOj58DFLYVp");</script>
-  <script>
-    function showTime(Counter) {
-      var query = new AV.Query(Counter);
-      var entries = [];
-      var $visitors = $(".leancloud_visitors");
-
-      $visitors.each(function () {
-        entries.push( $(this).attr("id").trim() );
-      });
-
-      query.containedIn('url', entries);
-      query.find()
-        .done(function (results) {
-          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-
-          if (results.length === 0) {
-            $visitors.find(COUNT_CONTAINER_REF).text(0);
-            return;
-          }
-
-          for (var i = 0; i < results.length; i++) {
-            var item = results[i];
-            var url = item.get('url');
-            var time = item.get('time');
-            var element = document.getElementById(url);
-
-            $(element).find(COUNT_CONTAINER_REF).text(time);
-          }
-          for(var i = 0; i < entries.length; i++) {
-            var url = entries[i];
-            var element = document.getElementById(url);
-            var countSpan = $(element).find(COUNT_CONTAINER_REF);
-            if( countSpan.text() == '') {
-              countSpan.text(0);
-            }
-          }
-        })
-        .fail(function (object, error) {
-          console.log("Error: " + error.code + " " + error.message);
-        });
-    }
-
-    function addCount(Counter) {
-      var $visitors = $(".leancloud_visitors");
-      var url = $visitors.attr('id').trim();
-      var title = $visitors.attr('data-flag-title').trim();
-      var query = new AV.Query(Counter);
-
-      query.equalTo("url", url);
-      query.find({
-        success: function(results) {
-          if (results.length > 0) {
-            var counter = results[0];
-            counter.fetchWhenSave(true);
-            counter.increment("time");
-            counter.save(null, {
-              success: function(counter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(counter.get('time'));
-              },
-              error: function(counter, error) {
-                console.log('Failed to save Visitor num, with error message: ' + error.message);
-              }
-            });
-          } else {
-            var newcounter = new Counter();
-            /* Set ACL */
-            var acl = new AV.ACL();
-            acl.setPublicReadAccess(true);
-            acl.setPublicWriteAccess(true);
-            newcounter.setACL(acl);
-            /* End Set ACL */
-            newcounter.set("title", title);
-            newcounter.set("url", url);
-            newcounter.set("time", 1);
-            newcounter.save(null, {
-              success: function(newcounter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
-              },
-              error: function(newcounter, error) {
-                console.log('Failed to create');
-              }
-            });
-          }
-        },
-        error: function(error) {
-          console.log('Error:' + error.code + " " + error.message);
-        }
-      });
-    }
-
-    $(function() {
-      var Counter = AV.Object.extend("Counter");
-      if ($('.leancloud_visitors').length == 1) {
-        addCount(Counter);
-      } else if ($('.post-title-link').length > 1) {
-        showTime(Counter);
-      }
-    });
-  </script>
-
-
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.scrollex.min.js"></script>
+    <script src="/js/jquery.scrolly.min.js"></script>
+    <script src="/js/skel.min.js"></script>
+    <script src="/js/util.js"></script>
+    <script src="/js/main.js"></script>
+	
 </head>
-<div class="wechat-share">
-  <img src="/css/images/logo.png">
-</div>
+    
+		
+<!-- Layouts -->
 
-  <body>
-    <header class="header fixed-header">
-  <div class="header-container">
-    <a class="home-link" href="/">
-      <div class="logo"></div>
-      <span>おはよう</span>
-    </a>
-    <ul class="right-list">
-      
-        <li class="list-item">
-          
-            <a href="/" class="item-link">Home</a>
-          
-        </li>
-      
-        <li class="list-item">
-          
-            <a href="/tags/" class="item-link">Tags</a>
-          
-        </li>
-      
-        <li class="list-item">
-          
-            <a href="/archives/" class="item-link">Archives</a>
-          
-        </li>
-      
-        <li class="list-item">
-          
-            <a href="/project/" class="item-link">Projects</a>
-          
-        </li>
-      
-        <li class="list-item">
-          
-            <a href="/about/" class="item-link">About</a>
-          
-        </li>
-      
-    </ul>
-    <div class="menu">
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-    </div>
-    <div class="menu-mask">
-      <ul class="menu-list">
-        
-          <li class="menu-item">
-            
-              <a href="/" class="menu-link">Home</a>
-            
-          </li>
-        
-          <li class="menu-item">
-            
-              <a href="/tags/" class="menu-link">Tags</a>
-            
-          </li>
-        
-          <li class="menu-item">
-            
-              <a href="/archives/" class="menu-link">Archives</a>
-            
-          </li>
-        
-          <li class="menu-item">
-            
-              <a href="/project/" class="menu-link">Projects</a>
-            
-          </li>
-        
-          <li class="menu-item">
-            
-              <a href="/about/" class="menu-link">About</a>
-            
-          </li>
-        
-      </ul>
-    </div>
-  </div>
+
+
+<!--  代码渲染  -->
+<link rel="stylesheet" href="/css/prism_coy.css">
+<link rel="stylesheet" href="/css/typo.css">
+<!-- 文章页 -->
+<body class="is-loading">
+    <!-- Wrapper 外包 s-->
+    <div id="wrapper" class="fade-in">
+        <!-- Intro 头部显示 s -->
+        <!-- Intro 头部显示 e -->
+        <!-- Header 头部logo start -->
+        <header id="header">
+    <a href="/" class="logo">oatiz</a>
 </header>
+        <!-- Nav 导航条 start -->
+        <nav id="nav" class="special">
+            <ul class="menu links">
+			<!-- Homepage  主页  --> 
+			<li>
+	            <a href="/" rel="nofollow">主页</a>
+	        </li>
+			<!-- categories_name  分类   --> 
+	        
+	        <li class="active">
+	            <a href="#s1">分类</a>
+	                    <ul class="submenu">
+	                        <li>
+	                        
+	                    </li></ul>
+	        </li>
+	        
+	        <!-- archives  归档   --> 
+	        
+	        
+		        <!-- Pages 自定义   -->
+		        
+		        <li>
+		            <a href="/about/" title="简历">
+		                简历
+		            </a>
+		        </li>
+		        
+		        <li>
+		            <a href="/group/" title="团队">
+		                团队
+		            </a>
+		        </li>
+		        
+		        <li>
+		            <a href="/gallery/" title="图库">
+		                图库
+		            </a>
+		        </li>
+		        
+		        <li>
+		            <a href="/tag/" title="标签">
+		                标签
+		            </a>
+		        </li>
+		        
 
-    <div id="article-banner">
-  <h2>莫枢的JVM分享笔记</h2>
-  <p class="post-date">2017-07-28
-    
-      <span id="/2017/07/28/rednaxelafx_share/" class="leancloud_visitors" data-flag-title="莫枢的JVM分享笔记">
-          <span class="post-meta-divider">&emsp;</span>
-          <span class="post-meta-item-icon">
-            <i class="fa fa-eye"></i>
-          </span>
-          <span class="leancloud-visitors-count"></span>
-      </span>
-    
-  </p>
-  <div class="arrow-down">
-    <a href="javascript:;"></a>
-  </div>
-</div>
-<main class="app-body flex-box">
-  <!-- Article START -->
-  <article class="post-article">
-    <section class="markdown-content"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这篇文章是2010年R大做的一次jvm分享</p>
+
+            </ul>
+            <!-- icons 图标   -->
+			<ul class="icons">
+                    
+                    <li>
+                        <a title="github" href="https://github.com/oatiz" target="_blank" rel="noopener">
+                            <i class="icon fa fa-github"></i>
+                        </a>
+                    </li>
+                    
+			</ul>
+</nav>
+
+        <div id="main">
+            <div class="post_page_title_img" style="height: 25rem;background-image: url(undefined);background-position: center; background-repeat:no-repeat; background-size:cover;-moz-background-size:cover;overflow:hidden;">
+                <a href="#" style="padding: 4rem 4rem 2rem 4rem ;"><h2>莫枢的JVM分享笔记</h2></a>
+            </div>
+            <!-- Post -->
+            <div class="typo" style="padding: 3rem;">
+                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这篇文章是2010年R大做的一次jvm分享</p>
 <h2 id="语言处理器的基本结构"><a href="#语言处理器的基本结构" class="headerlink" title="语言处理器的基本结构"></a>语言处理器的基本结构</h2><h3 id="语言处理器的种类"><a href="#语言处理器的种类" class="headerlink" title="语言处理器的种类"></a>语言处理器的种类</h3><ul>
 <li>编译器<ul>
 <li><a href="http://gcc.gnu.org/" target="_blank" rel="noopener">gcc</a>, <a href="http://openjdk.java.net/groups/compiler/" target="_blank" rel="noopener">javac</a></li>
@@ -342,212 +220,109 @@ style targetCodeGen fill:#DAF7A6</pre>
 
 <h2 id="Java语言与平台"><a href="#Java语言与平台" class="headerlink" title="Java语言与平台"></a>Java语言与平台</h2><h3 id="Java-Conceptual-Diagram"><a href="#Java-Conceptual-Diagram" class="headerlink" title="Java Conceptual Diagram"></a><a href="https://docs.oracle.com/javase/8/docs/technotes/guides/desc_jdk_structure.html" target="_blank" rel="noopener">Java Conceptual Diagram</a></h3><table summary cellspacing="0" cellpadding="0"><br><!-- Row 1 of 9 --><br><tr valign="top"><br><td rowspan="9">JDK</td><br><td rowspan="2">&nbsp;</td><br><td title="Java programming language"><b>JavaLanguage</b></td><br><!-- Java Language --><br><td><br><table class="tablerows" summary><br><tr><br><td bgcolor="#BDBEC0">JavaLanguage</td><br></tr><br></table><br></td><br><td rowspan="5">&nbsp;</td><br><td rowspan="4">&nbsp;</td><br></tr><br><!-- Row 2 of 9 --><br><tr valign="top"><br><td title="Tools and Tool APIs"><b>Tools &amp;<br>Tool APIs</b></td><br><td><br><table class="tablerows" summary><br><tr><br><td bgcolor="#A3B8CB" title="Java runtime launcher">java</td><br><td bgcolor="#A3B8CB" title="Java compiler">javac</td><br><td bgcolor="#A3B8CB" title="Java documentation generator">javadoc</td><br><td bgcolor="#A3B8CB" title="Java archive tool">jar</td><br><td bgcolor="#A3B8CB" title="Java class file disassembler">javap</td><br><td bgcolor="#A3B8CB" title="Java class dependency analyzer">jdeps</td><br><td bgcolor="#A3B8CB" title="Scripting tools">Scripting</td><br></tr><br><tr><br><td bgcolor="#A3B8CB" title="Security tools">Security</td><br><td bgcolor="#A3B8CB" title="Monitoring and Management tools">Monitoring</td><br><td bgcolor="#A3B8CB" title="jconsole">JConsole</td><br><td bgcolor="#A3B8CB" title="Java VisualVM">VisualVM</td><br><td bgcolor="#A3B8CB" title="Java Mission Control">JMC</td><br><td bgcolor="#A3B8CB" title="Java Flight Recorder" colspan="2">JFR</td><br></tr><br><tr><br><td bgcolor="#A3B8CB" title="Java Platform Debugger Architecture">JPDA</td><br><td bgcolor="#A3B8CB" title="Java Virtual Machine Tool Interface">JVM TI</td><br><td bgcolor="#A3B8CB" title="Interface Definition Language and RMI-IIOP tools">IDL</td><br><td bgcolor="#A3B8CB" title="Remote Method Invocation tools">RMI</td><br><td bgcolor="#A3B8CB" title="Java DB">JavaDB</td><br><td bgcolor="#A3B8CB" title="Deployment, Plug-in and Web Start tools" colspan="2">Deployment</td><br></tr><br><tr><br><td colspan="2" bgcolor="#A3B8CB" title="Internationalization tools">Internationalization</td><br><td colspan="2" bgcolor="#A3B8CB" title="Java Web Services Tools">WebServices</td><br><td colspan="3" bgcolor="#A3B8CB" title="Troubleshooting tools">Troubleshooting</td><br></tr><br></table><br></td><br></tr><br><!-- Row 3 of 9 --><br><tr valign="top"><br><td rowspan="7" class="tdleftside" title="Java Runtime Environment">JRE</td><br><td class="tdhead" title="Deployment Technologies"><b>Deployment</b></td><br><td><br><table class="tablerows" summary><br><tr><br><td bgcolor="#ED9B4F" title="Java Web Start">Java WebStart</td><br><td bgcolor="#ED9B4F" title="Java Plug-In for browsers">Applet / Java Plug-in</td><br></tr><br></table><br></td><br></tr><br><!-- Row 4 of 9 --><br><tr valign="top"><br><td class="tdhead" rowspan="2" title="User Interface programming"><b>User Interface<br>Toolkits</b></td><br><td><br><table class="tablerows" summary><br><tr><br><td bgcolor="#E76F00" title="JavaFX">JavaFX</td><br></tr><br></table><br></td><br></tr><br><!-- Row 5 of 9 --><br><tr valign="top"><br><td><br><table class="tablerows" summary><br><tr><br><td bgcolor="#E76F00" title="Graphical user interface components">Swing</td><br><td bgcolor="#E76F00" title="2D graphics, text and images">Java 2D</td><br><td bgcolor="#E76F00" title="Abstract Window Toolkit">AWT</td><br><td colspan="2" bgcolor="#E76F00" title="Assistive technologies for user interfaces">Accessibility</td><br></tr><br><tr><br><td bgcolor="#E76F00" title="Drag and drop data transfer">Drag andDrop</td><br><td bgcolor="#E76F00" title="Input Method Framework">Input Methods</td><br><td bgcolor="#E76F00" title="Image input/output API">ImageI/O</td><br><td bgcolor="#E76F00" title="Print service API">PrintService</td><br><td bgcolor="#E76F00" title="MIDI API">Sound</td><br></tr><br></table><br></td><br><td class="tdrightside" rowspan="4" title="Java SE API. See API Documentation section for more links.">Java SE<br>API</td><br></tr><br><!-- Row 6 of 9 --><br><tr valign="top"><br><td class="tdhead" title="Integration libraries"><b>Integration<br>Libraries</b></td><br><td><br><table class="tablerows" summary><br><tr><br><td bgcolor="#B2BC00" title="CORBA Interface Definition Language API">IDL</td><br><td bgcolor="#B2BC00" title="Java Database Connectivity API">JDBC</td><br><td bgcolor="#B2BC00" title="Java Naming and Directory Interface API">JNDI</td><br><td bgcolor="#B2BC00" title="Remote Method Invocation API">RMI</td><br><td bgcolor="#B2BC00" title="RMI interfaces over IIOP">RMI-IIOP</td><br><td bgcolor="#B2BC00" title="Scripting for the Java Platform">Scripting</td><br></tr><br></table><br></td><br><td class="tdrightside" rowspan="3" title="Compact Profiles">Compact<br> Profiles</td><br></tr><br><!-- Row 7 of 9 --><br><tr valign="top"><br><td class="tdhead" title="Base libraries other than java.lang and java.util"><b>OtherBase<br>Libraries</b></td><br><td><br><table class="tablerows" summary><br><tr><br><td bgcolor="#C69200" title="Java Beans component API">Beans</td><br><td bgcolor="#C69200" title="Security API">Security</td><br><td bgcolor="#C69200" title="Object Serialization">Serialization</td><br><td bgcolor="#C69200" title="Package extension mechanism">Extension Mechanism</td><br></tr><br><tr><br><td bgcolor="#C69200" title="Java Management Extensions">JMX</td><br><td bgcolor="#C69200" nowrap="nowrap" title="Java API for XML Processing">XML JAXP</td><br><td bgcolor="#C69200" title="Networking API">Networking</td><br><td bgcolor="#C69200" title="Endorsed Standards Override Mechanism">Override Mechanism</td><br></tr><br><tr><br><td bgcolor="#C69200" title="Java Native Interface">JNI</td><br><td bgcolor="#C69200" title="Date and Time">Date and Time</td><br><td bgcolor="#C69200" title="Input/Output API">Input/Output</td><br><td bgcolor="#C69200" title="Internationalization of applications">Internationalization</td><br></tr><br></table><br></td><br></tr><br><!-- Row 8 of 9 --><br><tr valign="top"><br><td class="tdhead" title="java.lang and java.util libraries"><b>lang and util<br>Base Libraries</b><br></td><br><td><br><table class="tablerows" summary><br><tr><br><td colspan="5" bgcolor="#FFC726" title="java.lang and java.util packages">lang and util<br></td><br></tr><br><tr><br><td bgcolor="#FFC726" title="Math classes">Math</td><br><td bgcolor="#FFC726" title="Collections framework">Collections</td><br><td bgcolor="#FFC726" title="Reference Objects API">RefObjects</td><br><td colspan="2" bgcolor="#FFC726" title="Regular expressions">Regular Expressions</td><br></tr><br><tr><br><td bgcolor="#FFC726" title="Logging API">Logging</td><br><td bgcolor="#FFC726" title="JVM Monitoring and Management">Management</td><br><td bgcolor="#FFC726" title="Instrumentation">Instrumentation</td><br><td colspan="2" bgcolor="#FFC726" title="Concurrency utilities">Concurrency Utilities</td><br></tr><br><tr><br><td bgcolor="#FFC726" title="Reflection API">Reflection</td><br><td bgcolor="#FFC726" title="Package version identification">Versioning</td><br><td bgcolor="#FFC726" title="Preferences API">Preferences API</td><br><td bgcolor="#FFC726" title="Java archive file format">JAR</td><br><td bgcolor="#FFC726" title="Zip and gzip file formats">Zip</td><br></tr><br></table><br></td><br></tr><br><!-- Row 9 of 9 --><br><tr valign="top"><br><td class="tdhead" title="Java Virtual Machine"><b>Java VirtualMachine</b></td><br><td><br><table class="tablerows" summary><br><tr><br><td bgcolor="#C5D5A9">Java HotSpot Clientand Server VM</td><br></tr><br></table><br></td><br><td>&nbsp;</td><br><td>&nbsp;</td><br></tr><br></table>
 
-<h2 id="Java源码级编译器-javac"><a href="#Java源码级编译器-javac" class="headerlink" title="Java源码级编译器(javac)"></a>Java源码级编译器(javac)</h2><h2 id="Class文件"><a href="#Class文件" class="headerlink" title="Class文件"></a>Class文件</h2><h2 id="虚拟机与JVM"><a href="#虚拟机与JVM" class="headerlink" title="虚拟机与JVM"></a>虚拟机与JVM</h2><h2 id="HotSpot-VM"><a href="#HotSpot-VM" class="headerlink" title="HotSpot VM"></a>HotSpot VM</h2><h2 id="HotSpot-VM的运行时支持"><a href="#HotSpot-VM的运行时支持" class="headerlink" title="HotSpot VM的运行时支持"></a>HotSpot VM的运行时支持</h2><h2 id="HotSpot与解释器"><a href="#HotSpot与解释器" class="headerlink" title="HotSpot与解释器"></a>HotSpot与解释器</h2><h2 id="HotSpot与JIT编译器"><a href="#HotSpot与JIT编译器" class="headerlink" title="HotSpot与JIT编译器"></a>HotSpot与JIT编译器</h2><h2 id="HotSpot-VM与JSR-292"><a href="#HotSpot-VM与JSR-292" class="headerlink" title="HotSpot VM与JSR 292"></a>HotSpot VM与JSR 292</h2></section>
-    <!-- Tags START -->
-    
-      <div class="tags">
-        <span>Tags:</span>
-        
-  <a href="/tags#JVM">
-    <span class="tag-code">JVM</span>
-  </a>
+<h2 id="Java源码级编译器-javac"><a href="#Java源码级编译器-javac" class="headerlink" title="Java源码级编译器(javac)"></a>Java源码级编译器(javac)</h2><h2 id="Class文件"><a href="#Class文件" class="headerlink" title="Class文件"></a>Class文件</h2><h2 id="虚拟机与JVM"><a href="#虚拟机与JVM" class="headerlink" title="虚拟机与JVM"></a>虚拟机与JVM</h2><h2 id="HotSpot-VM"><a href="#HotSpot-VM" class="headerlink" title="HotSpot VM"></a>HotSpot VM</h2><h2 id="HotSpot-VM的运行时支持"><a href="#HotSpot-VM的运行时支持" class="headerlink" title="HotSpot VM的运行时支持"></a>HotSpot VM的运行时支持</h2><h2 id="HotSpot与解释器"><a href="#HotSpot与解释器" class="headerlink" title="HotSpot与解释器"></a>HotSpot与解释器</h2><h2 id="HotSpot与JIT编译器"><a href="#HotSpot与JIT编译器" class="headerlink" title="HotSpot与JIT编译器"></a>HotSpot与JIT编译器</h2><h2 id="HotSpot-VM与JSR-292"><a href="#HotSpot-VM与JSR-292" class="headerlink" title="HotSpot VM与JSR 292"></a>HotSpot VM与JSR 292</h2>
+            </div>
 
-  <a href="/tags#JAVA">
-    <span class="tag-code">JAVA</span>
-  </a>
+            <!-- Post Comments -->
+            
+    <!-- 使用 DISQUS_CLICK -->
+<div id="disqus-comment">
+    <div id="disqus_thread"></div>
 
-      </div>
-    
-    <!-- Tags END -->
-<!-- Licence START -->
-<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="知识共享许可协议" style="border-width:0" src="https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg?style=flat-square"></a>
-<!-- Licence END -->
-    <!-- NAV START -->
-    
-  <div class="nav-container">
-    <!-- reverse left and right to put prev and next in a more logic postition -->
-    
-      <a class="nav-left" href="/2017/07/28/preface/">
-        <span class="nav-arrow">← </span>
-        
-          建站前言
-        
-      </a>
-    
-    
-      <a class="nav-right" href="/2017/11/25/GC-notes-1-GC-history/">
-        
-          GC学习笔记:GC定义及历史(一)
-        
-        <span class="nav-arrow"> →</span>
-      </a>
-    
-  </div>
-
-    <!-- NAV END -->
-    <!-- 打赏 START -->
-    
-    <!-- 打赏 END -->
-    <!-- 二维码 START -->
-    
-      <div class="qrcode">
-        <canvas id="share-qrcode"></canvas>
-        <p class="notice">扫描二维码，分享此文章</p>
-      </div>
-    
-    <!-- 二维码 END -->
-    
-      <!-- Gitment START -->
-      <div id="comments"></div>
-      <!-- Gitment END -->
-    
-  </article>
-  <!-- Article END -->
-  <!-- Catalog START -->
-  
-    <aside class="catalog-container">
-  <div class="toc-main">
-    <strong class="toc-title">Catalog</strong>
-    
-      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#前言"><span class="toc-nav-text">前言</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#语言处理器的基本结构"><span class="toc-nav-text">语言处理器的基本结构</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#语言处理器的种类"><span class="toc-nav-text">语言处理器的种类</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#编译器"><span class="toc-nav-text">编译器</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Java语言与平台"><span class="toc-nav-text">Java语言与平台</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Java-Conceptual-Diagram"><span class="toc-nav-text">Java Conceptual Diagram</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Java源码级编译器-javac"><span class="toc-nav-text">Java源码级编译器(javac)</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Class文件"><span class="toc-nav-text">Class文件</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#虚拟机与JVM"><span class="toc-nav-text">虚拟机与JVM</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#HotSpot-VM"><span class="toc-nav-text">HotSpot VM</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#HotSpot-VM的运行时支持"><span class="toc-nav-text">HotSpot VM的运行时支持</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#HotSpot与解释器"><span class="toc-nav-text">HotSpot与解释器</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#HotSpot与JIT编译器"><span class="toc-nav-text">HotSpot与JIT编译器</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#HotSpot-VM与JSR-292"><span class="toc-nav-text">HotSpot VM与JSR 292</span></a></li></ol>
-    
-  </div>
-</aside>
-  
-  <!-- Catalog END -->
-</main>
-
-<script>
-  (function () {
-    var url = 'https://oatiz.me/2017/07/28/rednaxelafx_share/';
-    var banner = 'undefined'
-    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
-      $('#article-banner').css({
-        'background-image': 'url(' + banner + ')'
-      })
-    } else {
-      $('#article-banner').geopattern(url)
-    }
-    $('.header').removeClass('fixed-header')
-
-     // error image
-    $(".markdown-content img").on('error', function() {
-      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
-      $(this).css({
-        'cursor': 'default'
-      })
-    })
-
-    // zoom image
-    $(".markdown-content img").on('click', function() {
-      var src = $(this).attr('src')
-      if (src !== 'http://file.muyutech.com/error-img.png') {
-        var imageW = $(this).width()
-        var imageH = $(this).height()
-        
-        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
-        zoom = zoom < 1 ? 1 : zoom
-        zoom = zoom > 2 ? 2 : zoom
-        var transY = (($(window).height() - imageH) / 2).toFixed(2)
-
-        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
-        $('.image-view-wrap').addClass('wrap-active')
-        $('.image-view-wrap img').css({
-          'width': `${imageW}`,
-          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
-        })
-        $('html').css('overflow', 'hidden')
-
-        $('.image-view-wrap').on('click', function() {
-          $(this).remove()
-          $('html').attr('style', '')
-        })
-      }
-    })
-
-    // qrcode
-    var qr = new QRious({
-      element: document.getElementById('share-qrcode'),
-      value: document.location.href
-    });
-
-    // gitment
-    var gitmentConfig = "oatiz";
-    if (gitmentConfig !== 'undefined') {
-      var gitment = new Gitment({
-        id: "莫枢的JVM分享笔记",
-        owner: "oatiz",
-        repo: "oatiz.github.io.source",
-        oauth: {
-          client_id: "2cd61beb1bc9eb976265",
-          client_secret: "e2351ae3148a0afd2ac255464ed3e6182897746e"
-        },
-        theme: {
-          render(state, instance) {
-            const container = document.createElement('div')
-            container.lang = "en-US"
-            container.className = 'gitment-container gitment-root-container'
-            container.appendChild(instance.renderHeader(state, instance))
-            container.appendChild(instance.renderEditor(state, instance))
-            container.appendChild(instance.renderComments(state, instance))
-            container.appendChild(instance.renderFooter(state, instance))
-            return container;
-          }
+<!-- add animation -->
+<style>
+	.disqus_click_btn {
+            line-height: 30px;
+            margin: 0;
+            min-width: 50px;
+            padding: 0 14px;
+            display: inline-block;
+            font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0;
+            overflow: hidden;
+            will-change: box-shadow;
+            transition: box-shadow .2s cubic-bezier(.4, 0, 1, 1), background-color .2s cubic-bezier(.4, 0, .2, 1), color .2s cubic-bezier(.4, 0, .2, 1);
+            outline: 0;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            vertical-align: middle;
+            border: 0;
+            background: rgba(158, 158, 158, .2);
+            box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 1px -2px rgba(0, 0, 0, .2), 0 1px 5px 0 rgba(0, 0, 0, .12);
+            color: #fff;
+            background-color: #7EC0EE;
+            text-shadow: 0
         }
-      })
-      gitment.render(document.getElementById('comments'))
-    }
-  })();
-</script>
-
-    <div class="scroll-top">
-  <span class="arrow-icon"></span>
+</style>
+	
+<div class="btn_click_load" id="disqus_bt"> 
+    <button class="disqus_click_btn">点击查看评论</button>
 </div>
-    <footer class="app-footer">
-  <p class="copyright">
-    &copy; 2019 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
-    <br>
-    Theme by <a href="https://github.com/yanm1ng/hexo-theme-vexo">Vexo</a>    Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
-  </p>
-</footer>
 
-<script>
-  function async(u, c) {
-    var d = document, t = 'script',
-      o = d.createElement(t),
-      s = d.getElementsByTagName(t)[0];
-    o.src = u;
-    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
-    s.parentNode.insertBefore(o, s);
-  }
+<!--
+<script type="text/javascript">
+$('.btn_click_load').click(function() {
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'zeshawne'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+
+    document.getElementById('disqus_bt').style.display = "none";
+});
 </script>
-<script>
-  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
-    FastClick.attach(document.body);
-  })
+-->
+<script type="text/javascript">
+    var disqus_config = function () {
+        this.page.url = 'https://oatiz.me/2017/07/28/rednaxelafx_share/';  // Replace PAGE_URL with your page's canonical URL variable
+        this.page.identifier = 'https://oatiz.me/2017/07/28/rednaxelafx_share/'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
 </script>
 
-<script>
-  var hasLine = 'true';
-  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
-    $('figure pre').each(function(i, block) {
-      var figure = $(this).parents('figure');
-      if (hasLine === 'false') {
-        figure.find('.gutter').hide();
-      }
-      var lang = figure.attr('class').split(' ')[1] || 'code';
-      var codeHtml = $(this).html();
-      var codeTag = document.createElement('code');
-      codeTag.className = lang;
-      codeTag.innerHTML = codeHtml;
-      $(this).attr('class', '').empty().html(codeTag);
-      figure.attr('data-lang', lang.toUpperCase());
-      hljs.highlightBlock(block);
+<script type="text/javascript">
+    $('.btn_click_load').click(function() {  //click to load comments
+        (function() { // DON'T EDIT BELOW THIS LINE
+            var d = document;
+            var s = d.createElement('script');
+            s.src = '//zeshawne.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', + new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+        $('.btn_click_load').css('display','none');
     });
-  })
 </script>
-<!-- Baidu Tongji -->
+</div>
+<style>
+    #disqus-comment{
+        background-color: #eee;
+        padding: 2pc;
+    }
+</style>
 
-<script src="/js/script.js"></script>
-  </body>
+
+        </div>
+        <!-- Copyright 版权 start -->
+                <div id="copyright">
+            <ul>
+                <li>&copy;Powered By <a href="https://hexo.io/zh-cn/" style="border-bottom: none;">hexo</a></li>
+                <li>Design: <a href="http://miccall.tech " style="border-bottom: none;">miccall</a></li>
+            </ul>
+            
+                <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+			
+        </div>
+    </div>
+</body>
+
+
+
+ 	
 </html>

@@ -1,31 +1,39 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
-  <head><meta name="generator" content="Hexo 3.8.0">
-  <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-  <meta name="description" content="迷途的羔羊">
-  <meta name="keyword" content="JAVA, GOLANG">
-  
-    <link rel="shortcut icon" type="image/ico" href="https://coding.net/u/oatiz/p/oatiz/git/raw/master/images/brick.png"> 
-  
-  <title>
+
+<head><meta name="generator" content="Hexo 3.8.0">
+	<link rel="bookmark" type="image/x-icon" href="/image/brick.png">
+	<link rel="shortcut icon" href="/image/brick.png">
+	
+			    <title>
+    おはよう
+    </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="/css/mic_main.css">
+    <link rel="stylesheet" href="/css/dropdownMenu.css">
+    <meta name="keywords" content="oatiz">
     
-      Tags | おはよう
-    
-  </title>
-  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
-  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="/css/style.css">
-<link rel="stylesheet" href="/css/plugins/gitment.css">
-  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
-  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
-  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
-  <script src="/js/qrious.js"></script>
-<script src="/js/gitment.js"></script>
+    	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+	 
+    <noscript>
+        <link rel="stylesheet" href="/css/noscript.css">
+    </noscript>
+    <style type="text/css">
+        body:before {
+          content: ' ';
+          position: fixed;
+          top: 0;
+          background: url('/image/bg.jpg') center 0 no-repeat;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          background-size: cover; 
+        }
+    </style>
+
+			    
   
-  
-    <!-- MathJax support START -->
     <script type="text/x-mathjax-config">
       MathJax.Hub.Config({
         tex2jax: {
@@ -44,639 +52,140 @@
         }
       });
     </script>
-    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <!-- MathJax support END -->
+    <script async type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
 
-  
-    <script src="https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js"></script>
-    <script>
-      if (window.mermaid) {
-        mermaid.initialize({theme: 'forest'});
-      }
-    </script>
-  
-  
-
-  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
-  <script>AV.initialize("hSA9zIWVnlMtWiRWj3moDXYB-gzGzoHsz", "QMHtExy8JF1LXMOj58DFLYVp");</script>
-  <script>
-    function showTime(Counter) {
-      var query = new AV.Query(Counter);
-      var entries = [];
-      var $visitors = $(".leancloud_visitors");
-
-      $visitors.each(function () {
-        entries.push( $(this).attr("id").trim() );
-      });
-
-      query.containedIn('url', entries);
-      query.find()
-        .done(function (results) {
-          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-
-          if (results.length === 0) {
-            $visitors.find(COUNT_CONTAINER_REF).text(0);
-            return;
-          }
-
-          for (var i = 0; i < results.length; i++) {
-            var item = results[i];
-            var url = item.get('url');
-            var time = item.get('time');
-            var element = document.getElementById(url);
-
-            $(element).find(COUNT_CONTAINER_REF).text(time);
-          }
-          for(var i = 0; i < entries.length; i++) {
-            var url = entries[i];
-            var element = document.getElementById(url);
-            var countSpan = $(element).find(COUNT_CONTAINER_REF);
-            if( countSpan.text() == '') {
-              countSpan.text(0);
-            }
-          }
-        })
-        .fail(function (object, error) {
-          console.log("Error: " + error.code + " " + error.message);
-        });
-    }
-
-    function addCount(Counter) {
-      var $visitors = $(".leancloud_visitors");
-      var url = $visitors.attr('id').trim();
-      var title = $visitors.attr('data-flag-title').trim();
-      var query = new AV.Query(Counter);
-
-      query.equalTo("url", url);
-      query.find({
-        success: function(results) {
-          if (results.length > 0) {
-            var counter = results[0];
-            counter.fetchWhenSave(true);
-            counter.increment("time");
-            counter.save(null, {
-              success: function(counter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(counter.get('time'));
-              },
-              error: function(counter, error) {
-                console.log('Failed to save Visitor num, with error message: ' + error.message);
-              }
-            });
-          } else {
-            var newcounter = new Counter();
-            /* Set ACL */
-            var acl = new AV.ACL();
-            acl.setPublicReadAccess(true);
-            acl.setPublicWriteAccess(true);
-            newcounter.setACL(acl);
-            /* End Set ACL */
-            newcounter.set("title", title);
-            newcounter.set("url", url);
-            newcounter.set("time", 1);
-            newcounter.save(null, {
-              success: function(newcounter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
-              },
-              error: function(newcounter, error) {
-                console.log('Failed to create');
-              }
-            });
-          }
-        },
-        error: function(error) {
-          console.log('Error:' + error.code + " " + error.message);
-        }
-      });
-    }
-
-    $(function() {
-      var Counter = AV.Object.extend("Counter");
-      if ($('.leancloud_visitors').length == 1) {
-        addCount(Counter);
-      } else if ($('.post-title-link').length > 1) {
-        showTime(Counter);
-      }
-    });
-  </script>
-
-
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.scrollex.min.js"></script>
+    <script src="/js/jquery.scrolly.min.js"></script>
+    <script src="/js/skel.min.js"></script>
+    <script src="/js/util.js"></script>
+    <script src="/js/main.js"></script>
+	
 </head>
-<div class="wechat-share">
-  <img src="/css/images/logo.png">
-</div>
+    
+		
+<!-- Layouts -->
 
-  <body>
-    <header class="header fixed-header">
-  <div class="header-container">
-    <a class="home-link" href="/">
-      <div class="logo"></div>
-      <span>おはよう</span>
-    </a>
-    <ul class="right-list">
-      
-        <li class="list-item">
-          
-            <a href="/" class="item-link">Home</a>
-          
-        </li>
-      
-        <li class="list-item">
-          
-            <a href="/tags/" class="item-link">Tags</a>
-          
-        </li>
-      
-        <li class="list-item">
-          
-            <a href="/archives/" class="item-link">Archives</a>
-          
-        </li>
-      
-        <li class="list-item">
-          
-            <a href="/project/" class="item-link">Projects</a>
-          
-        </li>
-      
-        <li class="list-item">
-          
-            <a href="/about/" class="item-link">About</a>
-          
-        </li>
-      
-    </ul>
-    <div class="menu">
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-    </div>
-    <div class="menu-mask">
-      <ul class="menu-list">
-        
-          <li class="menu-item">
-            
-              <a href="/" class="menu-link">Home</a>
-            
-          </li>
-        
-          <li class="menu-item">
-            
-              <a href="/tags/" class="menu-link">Tags</a>
-            
-          </li>
-        
-          <li class="menu-item">
-            
-              <a href="/archives/" class="menu-link">Archives</a>
-            
-          </li>
-        
-          <li class="menu-item">
-            
-              <a href="/project/" class="menu-link">Projects</a>
-            
-          </li>
-        
-          <li class="menu-item">
-            
-              <a href="/about/" class="menu-link">About</a>
-            
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-</header>
-
-    <div id="article-banner">
-  <h2>Tags</h2>
-  <p class="post-date">标签检索</p>
-</div>
-<main class="app-body">
-  <div id="tag-cloud">
+    <!-- Tags Cloud -->
     
-      <a class="tag2" data-name="tag-JVM">JVM</a>
-    
-      <a class="tag1" data-name="tag-GC">GC</a>
-    
-      <a class="tag1" data-name="tag-DASS">DASS</a>
-    
-      <a class="tag3" data-name="tag-excerpts">excerpts</a>
-    
-      <a class="tag0" data-name="tag-distributed system">distributed system</a>
-    
-      <a class="tag2" data-name="tag-database">database</a>
-    
-      <a class="tag2" data-name="tag-kubernetes">kubernetes</a>
-    
-      <a class="tag2" data-name="tag-map reduce">map reduce</a>
-    
-      <a class="tag2" data-name="tag-mit6.824">mit6.824</a>
-    
-      <a class="tag3" data-name="tag-mermaid">mermaid</a>
-    
-      <a class="tag0" data-name="tag-随笔">随笔</a>
-    
-      <a class="tag1" data-name="tag-rust">rust</a>
-    
-      <a class="tag0" data-name="tag-ownership">ownership</a>
-    
-      <a class="tag0" data-name="tag-lifetime">lifetime</a>
-    
-      <a class="tag3" data-name="tag-RAII">RAII</a>
-    
-      <a class="tag1" data-name="tag-apm">apm</a>
-    
-      <a class="tag3" data-name="tag-skywalking">skywalking</a>
-    
-      <a class="tag2" data-name="tag-JAVA">JAVA</a>
-    
-      <a class="tag0" data-name="tag-raft">raft</a>
-    
-      <a class="tag0" data-name="tag-cap">cap</a>
-    
-      <a class="tag3" data-name="tag-distributed consensus">distributed consensus</a>
-    
-  </div>
-  
-    <div class="tag-list">
-      <h3 class="tag-name" id="tag-JVM">JVM</h3>
-      
-        <ul class="tag-preview">
-          <li>
-            <a href="/2017/11/25/GC-notes-1-GC-history/">GC学习笔记:GC定义及历史(一)</a>
-          </li>
-        </ul>
-        
-        <ul class="tag-preview">
-          <li>
-            <a href="/2017/11/26/GC-notes-2-GC-related-knowledge/">GC学习笔记:GC相关知识(二)</a>
-          </li>
-        </ul>
-        
-        <ul class="tag-preview">
-          <li>
-            <a href="/2017/11/26/GC-notes-3-GC-mark-clear-algorithm/">GC学习笔记:GC标记-清除算法(三)</a>
-          </li>
-        </ul>
-        
-        <ul class="tag-preview">
-          <li>
-            <a href="/2018/10/16/The_Constant_Pool/">JVM常量池小解</a>
-          </li>
-        </ul>
-        
-        <ul class="tag-preview">
-          <li>
-            <a href="/2017/07/28/rednaxelafx_share/">莫枢的JVM分享笔记</a>
-          </li>
-        </ul>
-        
-    </div>
-    
-    <div class="tag-list">
-      <h3 class="tag-name" id="tag-GC">GC</h3>
-      
-        <ul class="tag-preview">
-          <li>
-            <a href="/2017/11/25/GC-notes-1-GC-history/">GC学习笔记:GC定义及历史(一)</a>
-          </li>
-        </ul>
-        
-        <ul class="tag-preview">
-          <li>
-            <a href="/2017/11/26/GC-notes-2-GC-related-knowledge/">GC学习笔记:GC相关知识(二)</a>
-          </li>
-        </ul>
-        
-        <ul class="tag-preview">
-          <li>
-            <a href="/2017/11/26/GC-notes-3-GC-mark-clear-algorithm/">GC学习笔记:GC标记-清除算法(三)</a>
-          </li>
-        </ul>
-        
-    </div>
-    
-    <div class="tag-list">
-      <h3 class="tag-name" id="tag-DASS">DASS</h3>
-      
-        <ul class="tag-preview">
-          <li>
-            <a href="/2017/11/26/GC-notes-2-GC-related-knowledge/">GC学习笔记:GC相关知识(二)</a>
-          </li>
-        </ul>
-        
-        <ul class="tag-preview">
-          <li>
-            <a href="/2017/11/26/GC-notes-3-GC-mark-clear-algorithm/">GC学习笔记:GC标记-清除算法(三)</a>
-          </li>
-        </ul>
-        
-    </div>
-    
-    <div class="tag-list">
-      <h3 class="tag-name" id="tag-excerpts">excerpts</h3>
-      
-        <ul class="tag-preview">
-          <li>
-            <a href="/2018/12/27/distributed_db_roadmap/">摘录:分布式数据库学习路线</a>
-          </li>
-        </ul>
-        
-        <ul class="tag-preview">
-          <li>
-            <a href="/2018/12/10/kubernetes_summary/">k8s部署笔记</a>
-          </li>
-        </ul>
-        
-    </div>
-    
-    <div class="tag-list">
-      <h3 class="tag-name" id="tag-distributed system">distributed system</h3>
-      
-        <ul class="tag-preview">
-          <li>
-            <a href="/2018/12/27/distributed_db_roadmap/">摘录:分布式数据库学习路线</a>
-          </li>
-        </ul>
-        
-        <ul class="tag-preview">
-          <li>
-            <a href="/2019/02/05/map-reduce_summary/">MapReduce论文总结</a>
-          </li>
-        </ul>
-        
-    </div>
-    
-    <div class="tag-list">
-      <h3 class="tag-name" id="tag-database">database</h3>
-      
-        <ul class="tag-preview">
-          <li>
-            <a href="/2018/12/27/distributed_db_roadmap/">摘录:分布式数据库学习路线</a>
-          </li>
-        </ul>
-        
-    </div>
-    
-    <div class="tag-list">
-      <h3 class="tag-name" id="tag-kubernetes">kubernetes</h3>
-      
-        <ul class="tag-preview">
-          <li>
-            <a href="/2018/12/10/kubernetes_summary/">k8s部署笔记</a>
-          </li>
-        </ul>
-        
-    </div>
-    
-    <div class="tag-list">
-      <h3 class="tag-name" id="tag-map reduce">map reduce</h3>
-      
-        <ul class="tag-preview">
-          <li>
-            <a href="/2019/02/05/map-reduce_summary/">MapReduce论文总结</a>
-          </li>
-        </ul>
-        
-    </div>
-    
-    <div class="tag-list">
-      <h3 class="tag-name" id="tag-mit6.824">mit6.824</h3>
-      
-        <ul class="tag-preview">
-          <li>
-            <a href="/2019/02/05/map-reduce_summary/">MapReduce论文总结</a>
-          </li>
-        </ul>
-        
-    </div>
-    
-    <div class="tag-list">
-      <h3 class="tag-name" id="tag-mermaid">mermaid</h3>
-      
-        <ul class="tag-preview">
-          <li>
-            <a href="/2017/12/04/mermaid-test/">hexo mermaid</a>
-          </li>
-        </ul>
-        
-    </div>
-    
-    <div class="tag-list">
-      <h3 class="tag-name" id="tag-随笔">随笔</h3>
-      
-        <ul class="tag-preview">
-          <li>
-            <a href="/2017/07/28/preface/">建站前言</a>
-          </li>
-        </ul>
-        
-    </div>
-    
-    <div class="tag-list">
-      <h3 class="tag-name" id="tag-rust">rust</h3>
-      
-        <ul class="tag-preview">
-          <li>
-            <a href="/2018/11/29/rust_ownership/">rust中所有权,引用,生命周期小记</a>
-          </li>
-        </ul>
-        
-    </div>
-    
-    <div class="tag-list">
-      <h3 class="tag-name" id="tag-ownership">ownership</h3>
-      
-        <ul class="tag-preview">
-          <li>
-            <a href="/2018/11/29/rust_ownership/">rust中所有权,引用,生命周期小记</a>
-          </li>
-        </ul>
-        
-    </div>
-    
-    <div class="tag-list">
-      <h3 class="tag-name" id="tag-lifetime">lifetime</h3>
-      
-        <ul class="tag-preview">
-          <li>
-            <a href="/2018/11/29/rust_ownership/">rust中所有权,引用,生命周期小记</a>
-          </li>
-        </ul>
-        
-    </div>
-    
-    <div class="tag-list">
-      <h3 class="tag-name" id="tag-RAII">RAII</h3>
-      
-        <ul class="tag-preview">
-          <li>
-            <a href="/2018/11/29/rust_ownership/">rust中所有权,引用,生命周期小记</a>
-          </li>
-        </ul>
-        
-    </div>
-    
-    <div class="tag-list">
-      <h3 class="tag-name" id="tag-apm">apm</h3>
-      
-        <ul class="tag-preview">
-          <li>
-            <a href="/2018/05/15/skywalking5-0-0-beta-deployment-build/">skywalking5.0部署搭建</a>
-          </li>
-        </ul>
-        
-    </div>
-    
-    <div class="tag-list">
-      <h3 class="tag-name" id="tag-skywalking">skywalking</h3>
-      
-        <ul class="tag-preview">
-          <li>
-            <a href="/2018/05/15/skywalking5-0-0-beta-deployment-build/">skywalking5.0部署搭建</a>
-          </li>
-        </ul>
-        
-    </div>
-    
-    <div class="tag-list">
-      <h3 class="tag-name" id="tag-JAVA">JAVA</h3>
-      
-        <ul class="tag-preview">
-          <li>
-            <a href="/2018/10/16/The_Constant_Pool/">JVM常量池小解</a>
-          </li>
-        </ul>
-        
-        <ul class="tag-preview">
-          <li>
-            <a href="/2017/07/28/rednaxelafx_share/">莫枢的JVM分享笔记</a>
-          </li>
-        </ul>
-        
-    </div>
-    
-    <div class="tag-list">
-      <h3 class="tag-name" id="tag-raft">raft</h3>
-      
-        <ul class="tag-preview">
-          <li>
-            <a href="/2018/12/07/raft_summary/">Raft学习笔记</a>
-          </li>
-        </ul>
-        
-        <ul class="tag-preview">
-          <li>
-            <a href="/2018/12/05/raft-zh_cn/">寻找一种易于理解的一致性算法(扩展版)--转载</a>
-          </li>
-        </ul>
-        
-    </div>
-    
-    <div class="tag-list">
-      <h3 class="tag-name" id="tag-cap">cap</h3>
-      
-        <ul class="tag-preview">
-          <li>
-            <a href="/2018/12/07/raft_summary/">Raft学习笔记</a>
-          </li>
-        </ul>
-        
-        <ul class="tag-preview">
-          <li>
-            <a href="/2018/12/05/raft-zh_cn/">寻找一种易于理解的一致性算法(扩展版)--转载</a>
-          </li>
-        </ul>
-        
-    </div>
-    
-    <div class="tag-list">
-      <h3 class="tag-name" id="tag-distributed consensus">distributed consensus</h3>
-      
-        <ul class="tag-preview">
-          <li>
-            <a href="/2018/12/07/raft_summary/">Raft学习笔记</a>
-          </li>
-        </ul>
-        
-        <ul class="tag-preview">
-          <li>
-            <a href="/2018/12/05/raft-zh_cn/">寻找一种易于理解的一致性算法(扩展版)--转载</a>
-          </li>
-        </ul>
-        
-    </div>
-    
-</main>
-
-<script>
-  (function () {
-    var url = 'https://oatiz.me/tags/index.html'
-    $('#article-banner').geopattern(url)
-    $('.header').removeClass('fixed-header')
-
-    var tag = location.hash.replace('#', '')
-    if (tag) {
-      var tagId = "#tag-" + tag;
-      $("html, body").animate({
-        scrollTop: $(tagId).offset().top 
-      }, 400)
+<link rel="stylesheet" href="/css/item.css">
+<style>
+    .row a{
+        border-bottom: none;
     }
-  })();
-</script>
-    <div class="scroll-top">
-  <span class="arrow-icon"></span>
-</div>
-    <footer class="app-footer">
-  <p class="copyright">
-    &copy; 2019 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
-    <br>
-    Theme by <a href="https://github.com/yanm1ng/hexo-theme-vexo">Vexo</a>    Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
-  </p>
-</footer>
+    .special{
+        padding: 0;
+        padding: 2rem;
+    }
+</style>
+<body class="is-loading">
+    <!-- Wrapper 外包 s-->
+    <div id="wrapper" class="fade-in">
+        <!-- Intro 头部显示 s -->
+        <!-- Intro 头部显示 e -->
+        <!-- Header 头部logo start -->
+        <header id="header">
+    <a href="/" class="logo">oatiz</a>
+</header>
+        <!-- Nav 导航条 start -->
+        <nav id="nav" class="special">
+            <ul class="menu links">
+			<!-- Homepage  主页  --> 
+			<li>
+	            <a href="/" rel="nofollow">主页</a>
+	        </li>
+			<!-- categories_name  分类   --> 
+	        
+	        <li class="active">
+	            <a href="#s1">分类</a>
+	                    <ul class="submenu">
+	                        <li>
+	                        
+	                    </li></ul>
+	        </li>
+	        
+	        <!-- archives  归档   --> 
+	        
+	        
+		        <!-- Pages 自定义   -->
+		        
+		        <li>
+		            <a href="/about/" title="简历">
+		                简历
+		            </a>
+		        </li>
+		        
+		        <li>
+		            <a href="/group/" title="团队">
+		                团队
+		            </a>
+		        </li>
+		        
+		        <li>
+		            <a href="/gallery/" title="图库">
+		                图库
+		            </a>
+		        </li>
+		        
+		        <li>
+		            <a href="/tag/" title="标签">
+		                标签
+		            </a>
+		        </li>
+		        
 
-<script>
-  function async(u, c) {
-    var d = document, t = 'script',
-      o = d.createElement(t),
-      s = d.getElementsByTagName(t)[0];
-    o.src = u;
-    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
-    s.parentNode.insertBefore(o, s);
-  }
-</script>
-<script>
-  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
-    FastClick.attach(document.body);
-  })
-</script>
 
-<script>
-  var hasLine = 'true';
-  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
-    $('figure pre').each(function(i, block) {
-      var figure = $(this).parents('figure');
-      if (hasLine === 'false') {
-        figure.find('.gutter').hide();
-      }
-      var lang = figure.attr('class').split(' ')[1] || 'code';
-      var codeHtml = $(this).html();
-      var codeTag = document.createElement('code');
-      codeTag.className = lang;
-      codeTag.innerHTML = codeHtml;
-      $(this).attr('class', '').empty().html(codeTag);
-      figure.attr('data-lang', lang.toUpperCase());
-      hljs.highlightBlock(block);
-    });
-  })
-</script>
-<!-- Baidu Tongji -->
+            </ul>
+            <!-- icons 图标   -->
+			<ul class="icons">
+                    
+                    <li>
+                        <a title="github" href="https://github.com/oatiz" target="_blank" rel="noopener">
+                            <i class="icon fa fa-github"></i>
+                        </a>
+                    </li>
+                    
+			</ul>
+</nav>
+                <div id="main">
+            <!-- Main first s-->
+            <article id="me" class="panel">
+                <header style="color: #000000">
+                    <h1>oatiz</h1>
+                    <p>Stay hungry, Stay foolish</p>
+                </header>
+                <a href class="jumplink pic">
+                    <span class="arrow icon fa-chevron-right"><span></span></span>
+                    <img src="/images/avatar.png" alt>
+                </a>
+            </article>
+            <!-- Main first e-->
+        </div>
 
-<script src="/js/script.js"></script>
-  </body>
+        <section class="special">
+                            <div class="row" style="border-bottom: none;">
+
+        <a href="/tags/DASS/" style="font-size: 16.33px;">DASS</a> <a href="/tags/GC/" style="font-size: 16.67px;">GC</a> <a href="/tags/JAVA/" style="font-size: 16.33px;">JAVA</a> <a href="/tags/JVM/" style="font-size: 17px;">JVM</a> <a href="/tags/RAII/" style="font-size: 16px;">RAII</a> <a href="/tags/apm/" style="font-size: 16px;">apm</a> <a href="/tags/cap/" style="font-size: 16.33px;">cap</a> <a href="/tags/database/" style="font-size: 16px;">database</a> <a href="/tags/distributed-consensus/" style="font-size: 16.33px;">distributed consensus</a> <a href="/tags/distributed-system/" style="font-size: 16.33px;">distributed system</a> <a href="/tags/excerpts/" style="font-size: 16.33px;">excerpts</a> <a href="/tags/kubernetes/" style="font-size: 16px;">kubernetes</a> <a href="/tags/lifetime/" style="font-size: 16px;">lifetime</a> <a href="/tags/map-reduce/" style="font-size: 16px;">map reduce</a> <a href="/tags/mermaid/" style="font-size: 16px;">mermaid</a> <a href="/tags/mit6-824/" style="font-size: 16px;">mit6.824</a> <a href="/tags/ownership/" style="font-size: 16px;">ownership</a> <a href="/tags/raft/" style="font-size: 16.33px;">raft</a> <a href="/tags/rust/" style="font-size: 16px;">rust</a> <a href="/tags/skywalking/" style="font-size: 16px;">skywalking</a> <a href="/tags/随笔/" style="font-size: 16px;">随笔</a>
+
+                            </div>
+                    
+        </section>
+
+        <!-- Copyright 版权 start -->
+                <div id="copyright">
+            <ul>
+                <li>&copy;Powered By <a href="https://hexo.io/zh-cn/" style="border-bottom: none;">hexo</a></li>
+                <li>Design: <a href="http://miccall.tech " style="border-bottom: none;">miccall</a></li>
+            </ul>
+            
+                <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+			
+        </div>
+    </div>
+</body>
+
+
+ 	
 </html>
