@@ -7,12 +7,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>
-    rust中所有权,引用,生命周期小记 | おはよう
+    GC学习笔记:GC相关知识(二) | おはよう
   </title>
   <meta name="description" content="迷途的羔羊">
   
   <meta name="keywords" content="
-  rust,ownership,lifetime,RAII
+  JVM,GC,DASS
   ">
   
   <meta name="author" content="oatiz">
@@ -119,63 +119,53 @@
     <i class="fa fa-user-o"></i>
     oatiz
 
-    <span class="post-date float-right" title="{{moment(1543479184000).format('MMM DD, YYYY, h:mm:ss A')}}">
+    <span class="post-date float-right" title="{{moment(1511626583000).format('MMM DD, YYYY, h:mm:ss A')}}">
       <i class="fa fa-pencil-square-o"></i>
-      {{moment(1543479184000).fromNow()}}
+      {{moment(1511626583000).fromNow()}}
     </span>
   </h3>
 
   <article class="post-content">
-    <h1>rust中所有权,引用,生命周期小记</h1>
-    <h2 id="rust-所有权-引用-生命周期"><a href="#rust-所有权-引用-生命周期" class="headerlink" title="rust 所有权,引用,生命周期"></a>rust 所有权,引用,生命周期</h2><h3 id="所有权"><a href="#所有权" class="headerlink" title="所有权"></a>所有权</h3><p>存在即是为了管理<code>堆数据</code></p>
+    <h1>GC学习笔记:GC相关知识(二)</h1>
+    <h2 id="GC中基本概念"><a href="#GC中基本概念" class="headerlink" title="GC中基本概念"></a>GC中基本概念</h2><h3 id="对象-头-域"><a href="#对象-头-域" class="headerlink" title="对象/头/域"></a>对象/头/域</h3><h4 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h4><p>在GC里,对象表示”通过应用程序利用的数据的集合”。对象配置在内存空间中,GC会根据情况将配置好的对象进行移动或销毁操作。因此,对象是GC的基本单位。<br>对象由“头(header)”与“域(field)”组成</p>
+<h4 id="头"><a href="#头" class="headerlink" title="头"></a>头</h4><p>将对象中保存对象本身信息的部分称为“头”,主要包括以下信息:</p>
 <ul>
-<li>跟踪代码正在堆上使用的数据</li>
-<li>最大限度减少堆上的重复数据</li>
-<li>清理堆上不再使用的数据</li>
+<li>GC运行所需信息(预先存有)</li>
+<li>对象的大小</li>
+<li>对象的种类</li>
 </ul>
-<h3 id="rules"><a href="#rules" class="headerlink" title="rules"></a>rules</h3><ul>
-<li>Each value in Rust has a variable that’s called its owner.<ul>
-<li>rust每个值都有一个被叫做owner的变量</li>
-</ul>
-</li>
-<li>There can only be one owner at a time.<ul>
-<li>值只能有一个所有者</li>
-</ul>
-</li>
-<li>When the owner goes out of scope, the value will be dropped.<ul>
-<li>当所有者离开作用域,值将会被清除</li>
-</ul>
-</li>
-</ul>
-<h3 id="RAII"><a href="#RAII" class="headerlink" title="RAII"></a>RAII</h3><p>Resource Acquisition Is Initialization (RAII)</p>
-<h2 id="引用与借用"><a href="#引用与借用" class="headerlink" title="引用与借用"></a>引用与借用</h2><p>引用作为方法函数为<code>借用</code>, 脱离作用域值不会被丢弃掉</p>
-<h3 id="数据竞争-data-race"><a href="#数据竞争-data-race" class="headerlink" title="数据竞争(data race)"></a>数据竞争(data race)</h3><p>数据竞争先决条件:</p>
+<h4 id="域"><a href="#域" class="headerlink" title="域"></a>域</h4><p>把对象使用者在对象中可访问的部分称为“域”,域中的数据类型大致分为2种:</p>
 <ul>
-<li>Two or more pointers access the same data at the same time.<ul>
-<li>两个或多个指针同时访问同一数据</li>
+<li>指针<br>指向内存空间中某块区域的值</li>
+<li>非指针<br>编程中直接使用值本身</li>
 </ul>
-</li>
-<li>At least one of the pointers is being used to write to the data.<ul>
-<li>至少有一个指针被用来写入数据</li>
+<h4 id="mutator"><a href="#mutator" class="headerlink" title="mutator"></a>mutator</h4><p>mutator有改变某物的意思,即改变GC对象间的引用关系。它的实体即为“应用程序”,它进行的实际操作分为2种:</p>
+<ul>
+<li>生成对象</li>
+<li>更新指针</li>
 </ul>
-</li>
-<li>There’s no mechanism being used to synchronize access to the data.<ul>
-<li>没有同步数据访问的机制</li>
+<p>mutator在进行这些操作是,会为应用程序的用户进行一些处理,随着这些处理的推进,对象间的引用关系随之也会发生”改变”,伴随着这些变化会产生垃圾,而负责会后这些就是GC</p>
+<h4 id="堆"><a href="#堆" class="headerlink" title="堆"></a>堆</h4><p>堆是用于存放对象的内存空间,在java堆的实现是一种特殊的树型数据结构</p>
+<h4 id="活动对象-非活动对象"><a href="#活动对象-非活动对象" class="headerlink" title="活动对象/非活动对象"></a>活动对象/非活动对象</h4><p>在已分配到堆中的对象,那些能通过程序引用的对象称为”活动对象”,反之,不能通过引用的对象称为”非活动对象”,也就是GC需要回收掉的部分</p>
+<h4 id="分配"><a href="#分配" class="headerlink" title="分配"></a>分配</h4><p>分配(allocation)指的是在内存空间分配对象。<br>当堆被活动对象占满,运行GC也无法配置可用空间时,有以下两种选择:</p>
+<ul>
+<li>销毁所有计算结果,输出错误信息</li>
+<li>扩大堆,分配可用空间</li>
 </ul>
-</li>
+<h4 id="分块"><a href="#分块" class="headerlink" title="分块"></a>分块</h4><p>分块(chunk)在GC世界里指的是为利用对象而事先准备出来的空间。<br>初始情况下,堆被一个大的分块占据,然后根据mutator的要求把这个分块分割成合适的大小,作为(活动)对象使用。活动对象不久会转化为垃圾回收,此时这部分被回收的内存空间再次分为分块,为下次被利用做准备。周而复始…</p>
+<pre class="mermaid">graph LR
+A[分块] --> B(活动对象)
+B --> C{非活动对象}
+C -->A</pre>
+
+<h4 id="根"><a href="#根" class="headerlink" title="根"></a>根</h4><p>根是指向对象的指针的“起点部分”。 在Java中,可作为根的主要在全局性的引用(例如常量或类静态属性)与执行上下文(例如栈帧中的本地变量表)中。</p>
+<h4 id="评价标准"><a href="#评价标准" class="headerlink" title="评价标准"></a>评价标准</h4><p>评价GC算法性能时,采用以下4个标准:</p>
+<ul>
+<li>吞吐量<br>吞吐量指的是单位时间内的处理能力,大概为HEAP_SIZE／(GC TIME)</li>
+<li>最大暂停时间<br>因执行GC而暂停执行mutator的最长时间, 如mutator执行过程中,共GC了3次,分别耗时1s,5s,3s那么最大暂停时间为5s</li>
+<li>堆使用效率</li>
+<li>访问的局限性<br>具有引用关系的对象之间通常很可能存在连续访问的情况称为“访问的局限性”。一般会把数据存放到内存中,当cpu访问数据时,仅把要使用的数据从内存中读取到缓存。与此同时,我们还将它附件的所有数据都读取到缓存中,从而压缩读取数据所需要的时间。考虑到访问的局限性,把具有引用关系的对象安排到堆中相近的位置,就能提高在缓存中读取到想利用数据的概率。</li>
 </ul>
-<h3 id="rules-1"><a href="#rules-1" class="headerlink" title="rules"></a>rules</h3><ul>
-<li>At any given time, you can have either one mutable reference or any number of immutable references.<ul>
-<li>任意给定时间,只能拥有一个可变引用或者多个不可变引用</li>
-</ul>
-</li>
-<li>References must always be valid.<ul>
-<li>引用必须总是有效的</li>
-</ul>
-</li>
-</ul>
-<h2 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h2><p>用来解决悬垂指针问题<br>悬垂指针(dangling pointer): 指针指向的内存已经被分配给其他自由者</p>
-<p>TODO …</p>
 
   </article>
 </div>

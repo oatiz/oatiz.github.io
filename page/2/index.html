@@ -1,303 +1,476 @@
-<!DOCTYPE HTML>
-<html>
+<!DOCTYPE html>
+<html lang="zh-cn">
+
 
 <head><meta name="generator" content="Hexo 3.8.0">
-	<link rel="bookmark" type="image/x-icon" href="/img/brick.png">
-	<link rel="shortcut icon" href="/img/brick.png">
-	
-			    <title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>
     おはよう
-    </title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <link rel="stylesheet" href="/css/mic_main.css">
-    <link rel="stylesheet" href="/css/dropdownMenu.css">
-    <meta name="keywords" content="oatiz">
-    
-    	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-	 
-    <noscript>
-        <link rel="stylesheet" href="/css/noscript.css">
-    </noscript>
-    <style type="text/css">
-        body:before {
-          content: ' ';
-          position: fixed;
-          top: 0;
-          background: url('/img/bg.jpg') center 0 no-repeat;
-          right: 0;
-          bottom: 0;
-          left: 0;
-          background-size: cover; 
-        }
-    </style>
-
-			    
+  </title>
+  <meta name="description" content="迷途的羔羊">
   
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-          processEscapes: true,
-          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        }
-      });
-    </script>
+  <meta name="author" content="oatiz">
 
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for (i=0; i < all.length; i += 1) {
-          all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-      });
-    </script>
-    <script async type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+  <link rel="icon" type="image/x-icon" href="undefined">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   
 
+  
 
-    <script src="/js/jquery.min.js"></script>
-    <script src="/js/jquery.scrollex.min.js"></script>
-    <script src="/js/jquery.scrolly.min.js"></script>
-    <script src="/js/skel.min.js"></script>
-    <script src="/js/util.js"></script>
-    <script src="/js/main.js"></script>
-	
+  <script src="//cdnjs.cloudflare.com/ajax/libs/vue/1.0.25-csp/vue.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
 </head>
-    
-		<body class="is-loading">
-    <!-- Wrapper 外包 s-->
-    <div id="wrapper" class="fade-in overlay">
-        <!-- Intro 头部显示 s -->
-                <div id="intro">
-            <h1>This is<br>
-                        oatiz </h1>
-            <p> Whatever is worth doing is worth doing well <br> I'll think of you every step of the way
-            </p>
-            <ul class="actions">
-                <li><a href="#header" class="button icon solo fa-arrow-down scrolly">Continue</a></li>
-            </ul>
+
+<body id="replica-app">
+
+<nav class="navbar-wrapper">
+  <div class="navbar">
+    <div class="container clearfix">
+      <a href="/" class="navbar-logo"><i class="fa fa-github"></i></a>
+
+      <div class="navbar-search float-left desktop-only">
+        <div class="navbar-search-form">
+          <label for="gsc-i-id1">This website</label>
+          <div id="google-search">
+            <gcse:search></gcse:search>
+          </div>
         </div>
-        <!-- Intro 头部显示 e -->
-        <!-- Header 头部logo start -->
-        <header id="header">
-    <a href="/" class="logo">oatiz</a>
-</header>
-        <!-- Header 头部logo end -->
-        <!-- Nav 导航条 start -->
-        <nav id="nav" class="special">
-            <ul class="menu links">
-			<!-- Homepage  主页  --> 
-			<li>
-	            <a href="/" rel="nofollow">主页</a>
-	        </li>
-			<!-- categories_name  分类   --> 
-	        
-	        <li class="active">
-	            <a href="#s1">分类</a>
-	                    <ul class="submenu">
-	                        <li>
-	                        
-	                    </li></ul>
-	        </li>
-	        
-	        <!-- archives  归档   --> 
-	        
-	        <li class="active">
-	            <a href="#s1">归档</a>
-	                    <ul class="submenu">
-	                        <li>
-	                        <a class="archive-link" href="/archives/2019/02/">二月 2019</a></li><li><a class="archive-link" href="/archives/2018/12/">十二月 2018</a></li><li><a class="archive-link" href="/archives/2018/11/">十一月 2018</a></li><li><a class="archive-link" href="/archives/2018/10/">十月 2018</a></li><li><a class="archive-link" href="/archives/2018/05/">五月 2018</a></li><li><a class="archive-link" href="/archives/2017/12/">十二月 2017</a></li><li><a class="archive-link" href="/archives/2017/11/">十一月 2017</a></li><li><a class="archive-link" href="/archives/2017/07/">七月 2017</a>
-	                    </li></ul>
-	        </li>
-	        
-	        
-		        <!-- Pages 自定义   -->
-		        
-		        <li>
-		            <a href="/about/" title="简历">
-		                简历
-		            </a>
-		        </li>
-		        
-		        <li>
-		            <a href="/group/" title="团队">
-		                团队
-		            </a>
-		        </li>
-		        
-		        <li>
-		            <a href="/tag/" title="标签">
-		                标签
-		            </a>
-		        </li>
-		        
+      </div>
 
-
-            </ul>
-            <!-- icons 图标   -->
-			<ul class="icons">
-                    
-                    <li>
-                        <a title="github" href="https://github.com/oatiz" target="_blank" rel="noopener">
-                            <i class="icon fa fa-github"></i>
-                        </a>
-                    </li>
-                    
-			</ul>
-</nav>
-        <!-- Nav 导航条 end -->
-        <!-- Main 主要部分 start -->
+      <ul class="navbar-nav float-left">
         
-        <!-- 文章列表   s -->
-        <div id="main" style="background-color: transparent; padding:0;">
-        <section class="link_container" style="margin-top: 0; background-color: transparent; ">
-            <div class="link_row">
-                <!-- 文章sample  s-->
+        <li><a href="/archives">Archives</a></li>
+        
+        
+        <li><a href="/categories">Categories</a></li>
+        
+        
+        <li><a href="/tags">Tags</a></li>
+        
+        
+        <li class="desktop-only"><a href="/atom.xml" target="_blank">RSS</a></li>
+        
+      </ul>
 
-                
-                <div class="6u 12u(narrower)">
-                    <section class="link_box special">
-                       <a href="/2017/11/26/GC-notes-2-GC-related-knowledge/">
-                        <div class="page_title" style="background-image: url(undefined);background-position: center; background-repeat:no-repeat; background-size:cover;-moz-background-size:cover;">
-                            <!--标题-->
-                            <h2 class="page_title_text"> GC学习笔记:GC相关知识(二) </h2>
-                            <!--段落-->
-                        </div>
-                        </a>
-                        <div class="home-post-info">
-                            <!-- Author Avatar -->
-                            <div class="home-post-info-author-avatar">
-                                <h6><span class="home-post-info-data">2017-11-26</span></h6>
-                                <div class="home-post-info-Category">
-                                    <!-- Category -->
-                                    <span>
-                            <h6>
-                            <a class="post_category-link" href="http://localhost:4000/categories/Algorithm/">
-                                </a>
-                            </h6>
-                        </span>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                </div>
-                <!-- 文章sample  e-->
-            
-                <div class="6u 12u(narrower)">
-                    <section class="link_box special">
-                       <a href="/2017/11/25/GC-notes-1-GC-history/">
-                        <div class="page_title" style="background-image: url(undefined);background-position: center; background-repeat:no-repeat; background-size:cover;-moz-background-size:cover;">
-                            <!--标题-->
-                            <h2 class="page_title_text"> GC学习笔记:GC定义及历史(一) </h2>
-                            <!--段落-->
-                        </div>
-                        </a>
-                        <div class="home-post-info">
-                            <!-- Author Avatar -->
-                            <div class="home-post-info-author-avatar">
-                                <h6><span class="home-post-info-data">2017-11-25</span></h6>
-                                <div class="home-post-info-Category">
-                                    <!-- Category -->
-                                    <span>
-                            <h6>
-                            <a class="post_category-link" href="http://localhost:4000/categories/Algorithm/">
-                                </a>
-                            </h6>
-                        </span>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                </div>
-                <!-- 文章sample  e-->
-            
-                <div class="6u 12u(narrower)">
-                    <section class="link_box special">
-                       <a href="/2017/07/28/rednaxelafx_share/">
-                        <div class="page_title" style="background-image: url(undefined);background-position: center; background-repeat:no-repeat; background-size:cover;-moz-background-size:cover;">
-                            <!--标题-->
-                            <h2 class="page_title_text"> 莫枢的JVM分享笔记 </h2>
-                            <!--段落-->
-                        </div>
-                        </a>
-                        <div class="home-post-info">
-                            <!-- Author Avatar -->
-                            <div class="home-post-info-author-avatar">
-                                <h6><span class="home-post-info-data">2017-07-28</span></h6>
-                                <div class="home-post-info-Category">
-                                    <!-- Category -->
-                                    <span>
-                            <h6>
-                            <a class="post_category-link" href="http://localhost:4000/categories/Algorithm/">
-                                </a>
-                            </h6>
-                        </span>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                </div>
-                <!-- 文章sample  e-->
-            
-                <div class="6u 12u(narrower)">
-                    <section class="link_box special">
-                       <a href="/2017/07/28/preface/">
-                        <div class="page_title" style="background-image: url(undefined);background-position: center; background-repeat:no-repeat; background-size:cover;-moz-background-size:cover;">
-                            <!--标题-->
-                            <h2 class="page_title_text"> 建站前言 </h2>
-                            <!--段落-->
-                        </div>
-                        </a>
-                        <div class="home-post-info">
-                            <!-- Author Avatar -->
-                            <div class="home-post-info-author-avatar">
-                                <h6><span class="home-post-info-data">2017-07-28</span></h6>
-                                <div class="home-post-info-Category">
-                                    <!-- Category -->
-                                    <span>
-                            <h6>
-                            <a class="post_category-link" href="http://localhost:4000/categories/Algorithm/">
-                                </a>
-                            </h6>
-                        </span>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                </div>
-                <!-- 文章sample  e-->
-            
-            </div>
-        </section>
-        </div>
-        <!-- 文章列表   end -->
-        <!-- Main 主要部分 end -->
-        <!-- footer  页码 start-->
-        <footer style="text-align: center; padding-top: 2em;">
-  
-    <div class="pagination">
-        <a class="extend prev" rel="prev" href="/">pre</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
-    </div>  
-    
-</footer>
-
-        <!-- footer  页码 end-->
-        <!-- Copyright 版权 start -->
-                <div id="copyright">
-            <ul>
-                <li>&copy;Powered By <a href="https://hexo.io/zh-cn/" style="border-bottom: none;">hexo</a></li>
-                <li>Design: <a href="http://miccall.tech " style="border-bottom: none;">miccall</a></li>
-            </ul>
-            
-                <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
-			
-        </div>
-        <!-- Copyright 版权 end -->
+      <ul class="navbar-nav user-nav float-right desktop-only">
+        <li class="user-nav-notification">
+          <a><span class="user-nav-unread"></span><i class="fa fa-bell"></i></a>
+        </li>
+        <li>
+          <a><i class="fa fa-plus"></i> <i class="fa fa-caret-down"></i></a>
+        </li>
+        <li class="user-nav-logo">
+          <a><img src="https://coding.net/u/oatiz/p/oatiz/git/raw/master/images/avatar.png"> <i class="fa fa-caret-down"></i></a>
+        </li>
+      </ul>
     </div>
-    <!-- Wrapper 外包 e-->
-    <!-- Scripts -->
-</body>
+  </div>
+</nav>
 
- 	
+<div class="main-container">
+  
+
+<div class="container-lg">
+  
+
+<div class="blog-intro">
+  <div class="blog-intro-user">
+    <img class="avatar" src="https://coding.net/u/oatiz/p/oatiz/git/raw/master/images/avatar.png">
+    <div class="user-name">
+      <div class="blog-title">おはよう</div>
+      <div class="blog-author">oatiz</div>
+        <ul class="user-detail mobile-only">
+    
+    <li>
+      <i class="fa fa-map-marker"></i>
+      Beijing, China
+    </li>
+    
+    <li>
+      <i class="fa fa-link"></i>
+      <a href="https://oatiz.me">https://oatiz.me</a>
+    </li>
+  </ul>
+    </div>
+    <div class="blog-description">
+      迷途的羔羊
+    </div>
+  </div>
+
+  <ul class="user-detail desktop-only">
+    
+    <li>
+      <i class="fa fa-map-marker"></i>
+      Beijing, China
+    </li>
+    
+    <li>
+      <i class="fa fa-link"></i>
+      <a href="https://oatiz.me">https://oatiz.me</a>
+    </li>
+  </ul>
+
+  <div class="social-media desktop-only">
+    <h4>Social Media</h4>
+    <ul>
+      
+      <li class="social-media-item"><a href="https://github.com/oatiz" target="_blank"><i class="fa fa-github"></i></a></li>
+      
+    </ul>
+  </div>
+</div>
+
+
+  <div class="blog-detail">
+    
+<nav class="blog-detail-nav desktop-only">
+  <ul class="clearfix">
+    <li class="selected">
+      <a href="/">Overview</a></li>
+    <li class>
+      <a href="/archives">Posts <span class="counter">14</span></a>
+    </li>
+    <li class>
+      <a href="/categories">Categories <span class="counter">0</span></a></li>
+    <li class>
+      <a href="/tags">Tags <span class="counter">21</span></a></li>
+  </ul>
+</nav>
+
+    <div class="body-secondary">
+      <p class="right-title">Recent post</p>
+      <ul class="recent-post clearfix">
+        
+        <li class="recent-post-item">
+          <div class="clearfix">
+            <h5 class="post-title text-ellipsis">
+              <i class="fa fa-bars"></i>
+              <a href="/2017/11/25/GC-notes-2-GC-related-knowledge/">GC学习笔记:GC相关知识(二)</a>
+            </h5>
+            <p class="post-description text-ellipsis desktop-only">
+                 GC中基本概念    对象/头/域    对象  在GC里,对象表示”通过应用程序利用的数据
+            </p>
+            <p class="post-info desktop-only">
+              <span>
+                
+                  <i class="fa fa-folder-open"></i> Uncategorized
+                
+              </span>
+              <span><i class="fa fa-tag"></i> 3 </span>
+            </p>
+          </div>
+        </li>
+        
+        <li class="recent-post-item">
+          <div class="clearfix">
+            <h5 class="post-title text-ellipsis">
+              <i class="fa fa-bars"></i>
+              <a href="/2017/11/25/GC-notes-1-GC-history/">GC学习笔记:GC定义及历史(一)</a>
+            </h5>
+            <p class="post-description text-ellipsis desktop-only">
+                 前言    现实开发中,业务开发人员其实很少接触到GC相关的工作,本人接触GC纯粹是因为好
+            </p>
+            <p class="post-info desktop-only">
+              <span>
+                
+                  <i class="fa fa-folder-open"></i> Uncategorized
+                
+              </span>
+              <span><i class="fa fa-tag"></i> 2 </span>
+            </p>
+          </div>
+        </li>
+        
+        <li class="recent-post-item">
+          <div class="clearfix">
+            <h5 class="post-title text-ellipsis">
+              <i class="fa fa-bars"></i>
+              <a href="/2017/07/28/rednaxelafx_share/">莫枢的JVM分享笔记</a>
+            </h5>
+            <p class="post-description text-ellipsis desktop-only">
+                 前言  这篇文章是2010年R大做的一次jvm分享 
+   语言处理器的基本结构    语言处
+            </p>
+            <p class="post-info desktop-only">
+              <span>
+                
+                  <i class="fa fa-folder-open"></i> Uncategorized
+                
+              </span>
+              <span><i class="fa fa-tag"></i> 2 </span>
+            </p>
+          </div>
+        </li>
+        
+        <li class="recent-post-item">
+          <div class="clearfix">
+            <h5 class="post-title text-ellipsis">
+              <i class="fa fa-bars"></i>
+              <a href="/2017/07/27/preface/">建站前言</a>
+            </h5>
+            <p class="post-description text-ellipsis desktop-only">
+                 组件   hexo   yilia  
+   tips  
+  评论采用Disqus,需翻墙后
+            </p>
+            <p class="post-info desktop-only">
+              <span>
+                
+                  <i class="fa fa-folder-open"></i> Uncategorized
+                
+              </span>
+              <span><i class="fa fa-tag"></i> 1 </span>
+            </p>
+          </div>
+        </li>
+        
+      </ul>
+      <div class="calendar-container" id="calendar">
+  <div class="calendar">
+    <h3>
+      {{posts.length}} contributions in the last year
+    </h3>
+    <div class="calendar-graph-container">
+      <div class="calendar-graph">
+        <svg width="676" height="104" @mouseout="mouseoverDate=null">
+          <g transform="translate(16, 20)">
+            <g v-for="week in calendar" :transform="week.transform">
+              <rect v-for="day in week.days" :x="day.x" :y="day.y" :fill="day.fill" @click="selectedDate=day.date" @mouseover="mouseoverDate=day.date" :class="{active:selectedDate===day.date}" data-count="{{day.posts.length}}" data-date="{{day.date}}" class="day" width="10" height="10"/>
+            </g>
+
+            <text v-for="month in monthLabels" :x="month.x" y="-5" class="month">{{month.text}}
+            </text>
+
+
+            <text text-anchor="start" class="wday" dx="-14" dy="8" style="display: none;">S
+            </text>
+            <text text-anchor="start" class="wday" dx="-14" dy="20">Mon</text>
+            <text text-anchor="start" class="wday" dx="-14" dy="32" style="display: none;">T
+            </text>
+            <text text-anchor="start" class="wday" dx="-14" dy="44">Wed</text>
+            <text text-anchor="start" class="wday" dx="-14" dy="57" style="display: none;">T
+            </text>
+            <text text-anchor="start" class="wday" dx="-14" dy="69">Fri</text>
+            <text text-anchor="start" class="wday" dx="-14" dy="81" style="display: none;">S
+            </text>
+          </g>
+        </svg>
+        <div class="svg-tip svg-tip-one-line" v-bind:style="{ top: svgtip.top, left: svgtip.left, display: svgtip.display}">
+          <strong>{{svgtip.text}}</strong> on
+          {{moment(mouseoverDate).format('MMM DD, YYYY')}}
+        </div>
+      </div>
+      <div class="calendar-footer clearfix">
+      <span>
+        <a href="#">Learn how we count contributions.</a>
+      </span>
+        <div class="calendar-legend">
+          <span>Less</span>
+          <ul class="legend">
+            <li style="background-color: #eee"></li>
+            <li style="background-color: #d6e685"></li>
+            <li style="background-color: #8cc665"></li>
+            <li style="background-color: #44a340"></li>
+            <li style="background-color: #1e6823"></li>
+          </ul>
+          <span>More</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h3>Contribution activity</h3>
+  <div class="contribution-list">
+    <ul>
+      <li v-for="post in posts | filterBy selectedDate in 'date'">
+        <a href="{{post.url}}">{{post.title}}
+        </a>
+        <span>{{post.date}}</span>
+      </li>
+    </ul>
+  </div>
+</div>
+
+
+<script>
+  var posts = [{"date":"2018-05-15","title":"skywalking5.0部署搭建","url":"https://oatiz.me/2018/05/15/skywalking5-0-0-beta-deployment-build/"},{"date":"2018-10-16","title":"JVM常量池小解","url":"https://oatiz.me/2018/10/16/The_Constant_Pool/"},{"date":"2018-11-29","title":"rust中所有权,引用,生命周期小记","url":"https://oatiz.me/2018/11/29/rust_ownership/"},{"date":"2018-12-05","title":"寻找一种易于理解的一致性算法(扩展版)--转载","url":"https://oatiz.me/2018/12/05/raft-zh_cn/"},{"date":"2018-12-07","title":"Raft学习笔记","url":"https://oatiz.me/2018/12/07/raft_summary/"},{"date":"2018-12-10","title":"k8s部署笔记","url":"https://oatiz.me/2018/12/10/kubernetes_summary/"},{"date":"2018-12-27","title":"摘录:分布式数据库学习路线","url":"https://oatiz.me/2018/12/27/distributed_db_roadmap/"},{"date":"2019-02-05","title":"MapReduce论文总结","url":"https://oatiz.me/2019/02/05/map-reduce_summary/"}];
+  var today = moment().format('YYYY-MM-DD');
+  var oneYearAgo = moment(today).subtract(1, 'years');
+  posts = posts.filter(function(post) {
+    return new Date(post.date) > oneYearAgo;
+  });
+  var monthLabels = [];
+  var monthName = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  var calendar = getCalendar(posts);
+
+  var dateRange = {
+    start: moment(oneYearAgo).format('MMM D, YYYY'),
+    end: moment().format('MMM D, YYYY')
+  }
+
+  var app = new Vue({
+    el: '#calendar',
+    data: {
+      posts: posts,
+      selectedDate: null,
+      calendar: calendar,
+      dateRange: dateRange,
+      mouseoverDate: null,
+      moment: moment,
+      monthLabels: monthLabels
+    },
+    created: function() {
+      this.selectedDate = 'none';
+    },
+    methods: {},
+    computed: {
+      svgtip: function() {
+        var date = this.mouseoverDate;
+        var display = date ? 'block' : 'none';
+        if (date) {
+          var coordinator = getIndexByDate(date);
+          var x = coordinator[0];
+          var y = coordinator[1];
+          var len = this.calendar[x].days[y].posts.length;
+          var text = len ? len + ' contributions' : 'No contributions';
+          var left = coordinator[0] * 12 - 37 + 'px';
+          coordinator[1] = coordinator[0] ? coordinator[1] : coordinator[1] + oneYearAgo.day();
+          var top = coordinator[1] * 12 + 12 - 32 + 'px';
+        }
+        return {
+          text: text,
+          left: left,
+          top: top,
+          display: display
+        }
+      }
+    }
+  });
+
+  function getCalendar(posts) {
+    // raw calendar
+    var maxCount = 0;
+    var tmr = new Date();
+    tmr.setDate(tmr.getDate() + 1);
+    var tmrStr = tmr.toISOString().slice(0, 10);
+    var date = new Date();
+    date.setYear(date.getFullYear() - 1); // start date is a year ago;
+    var calendar = [];
+    while (date.toISOString().slice(0, 10) !== tmrStr) {
+      var day = date.getDay();
+      if (day === 0 || calendar.length === 0) {
+        var x = calendar.length * 13;
+        calendar.push({
+          transform: 'translate(' + x + ',0)',
+          days: []
+        })
+      }
+
+      calendar[calendar.length - 1].days.push({
+        x: 14 - calendar.length,
+        y: day * 12,
+        date: date.toISOString().slice(0, 10),
+        posts: []
+      });
+
+      if (day === 0 && date.getDate() < 8) {
+        monthLabels.push({
+          x: 14 - calendar.length + x,
+          text: monthName[date.getMonth() - 1]
+        })
+      }
+
+      date.setDate(date.getDate() + 1);
+    }
+
+    // handle post info
+    posts.forEach(function(post) {
+      var x = getIndexByDate(post.date)[0];
+      var y = getIndexByDate(post.date)[1];
+
+      calendar[x].days[y].posts.push({
+        title: post.title,
+        url: post.url
+      });
+
+      var len = calendar[x].days[y].posts.length;
+      maxCount = Math.max(len, maxCount);
+    })
+
+    // handle fill color
+    calendar.forEach(function(week) {
+      week.days.forEach(function(day) {
+        day.fill = getColorByLength(day.posts.length, maxCount);
+      })
+    })
+
+    return calendar;
+  }
+
+  function getIndexByDate(date) {
+    date = moment(date);
+    var firstColumnLen = 7 - oneYearAgo.day();
+    var days = date.diff(oneYearAgo, 'days');
+
+    var x = days > firstColumnLen - 1 ? Math.ceil((days - firstColumnLen + 1) / 7) : 0;
+    var y = days > firstColumnLen - 1 ? date.day() : date.day() - oneYearAgo.day();
+    return [x, y];
+  }
+
+  function getColorByLength(len, max) {
+    var colors = ['#eee', '#d6e685', '#8cc665', '#44a340', '#1e6823'];
+    var colorsLen = colors.length - 1;
+    var color = len ? colors[0] : colors[1];
+    var interval = max / colorsLen;
+    if (max < colorsLen) {
+      color = colors[len];
+    } else {
+      color = colors[Math.ceil(len / interval)];
+    }
+    return color;
+  }
+
+</script>
+
+
+    </div>
+  </div>
+</div>
+
+</div>
+
+<div class="footer-wrapper container">
+  <footer class="footer clearfix">
+    <div class="clearfix">
+    <a href="https://oatiz.me" class="footer-logo">
+      <i class="fa fa-github"></i>
+    </a>
+    <ul class="footer-social-link">
+      <li>© 2018 oatiz</li>
+      <li><a href="https://oatiz.me">Home</a></li>
+      
+      <li><a href="https://github.com/oatiz">Github</a></li>
+      
+    </ul>
+    <div class="footer-theme-info">
+      Theme <a href="//github.com/sabrinaluo/hexo-theme-replica">Replica</a>
+      by <a href="//github.com/sabrinaluo">Hiitea</a> ❤ Powered by Hexo
+    </div>
+    </div>
+    
+  </footer>
+</div>
+
+
+
+
+<script src="/js/main.js"></script>
+
+</body>
 </html>

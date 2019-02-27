@@ -7,12 +7,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>
-    hexo mermaid | おはよう
+    GC学习笔记:GC标记-清除算法(三) | おはよう
   </title>
   <meta name="description" content="迷途的羔羊">
   
   <meta name="keywords" content="
-  mermaid
+  JVM,GC,DASS
   ">
   
   <meta name="author" content="oatiz">
@@ -119,61 +119,15 @@
     <i class="fa fa-user-o"></i>
     oatiz
 
-    <span class="post-date float-right" title="{{moment(1512375906000).format('MMM DD, YYYY, h:mm:ss A')}}">
+    <span class="post-date float-right" title="{{moment(1511626672000).format('MMM DD, YYYY, h:mm:ss A')}}">
       <i class="fa fa-pencil-square-o"></i>
-      {{moment(1512375906000).fromNow()}}
+      {{moment(1511626672000).fromNow()}}
     </span>
   </h3>
 
   <article class="post-content">
-    <h1>hexo mermaid</h1>
-    <h3 id="mermaid"><a href="#mermaid" class="headerlink" title="mermaid"></a>mermaid</h3><h4 id="flowchart"><a href="#flowchart" class="headerlink" title="flowchart"></a>flowchart</h4><pre class="mermaid">graph TD
-    A-->B;
-    A-->C;
-    B-->D;
-    C-->D;</pre>
-
-<h4 id="sequence"><a href="#sequence" class="headerlink" title="sequence"></a>sequence</h4><pre class="mermaid">sequenceDiagram
-    participant Alice
-    participant Bob
-    Alice->>John: Hello John, how are you?
-    loop Healthcheck
-        John->>John: Fight against hypochondria
-    end
-    Note right of John: Rational thoughts <br>prevail...
-    John-->>Alice: Great!
-    John->>Bob: How about you?
-    Bob-->>John: Jolly good!</pre>
-
-<h4 id="gantt"><a href="#gantt" class="headerlink" title="gantt"></a>gantt</h4><pre class="mermaid">gantt
-dateFormat  YYYY-MM-DD
-title Adding GANTT diagram to mermaid
-
-section A section
-Completed task            :done,    des1, 2014-01-06,2014-01-08
-Active task               :active,  des2, 2014-01-09, 3d
-Future task               :         des3, after des2, 5d
-Future task2               :         des4, after des3, 5d</pre>
-
-<h4 id="git-graph"><a href="#git-graph" class="headerlink" title="git graph"></a>git graph</h4><pre class="mermaid">gitGraph:
-options
-{
-    "nodeSpacing": 150,
-    "nodeRadius": 10
-}
-end
-commit
-branch newbranch
-checkout newbranch
-commit
-commit
-checkout master
-commit
-commit
-merge newbranch</pre>
-
-<h3 id="code"><a href="#code" class="headerlink" title="code"></a>code</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo "HelloWorld"</span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@requires_authorization</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">somefunc</span><span class="params">(param1=<span class="string">''</span>, param2=<span class="number">0</span>)</span>:</span></span><br><span class="line">    <span class="string">r'''A docstring'''</span></span><br><span class="line">    <span class="comment"># interesting</span></span><br><span class="line">    <span class="keyword">if</span> param1 &gt; param2: </span><br><span class="line">        <span class="keyword">print</span> <span class="string">'Gre\'ater'</span></span><br><span class="line">    <span class="keyword">return</span> (param2 - param1 + <span class="number">1</span>) <span class="keyword">or</span> <span class="literal">None</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SomeClass</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+    <h1>GC学习笔记:GC标记-清除算法(三)</h1>
+    <h3 id="GC标记-清除算法"><a href="#GC标记-清除算法" class="headerlink" title="GC标记-清除算法"></a>GC标记-清除算法</h3><h4 id="标记阶段"><a href="#标记阶段" class="headerlink" title="标记阶段"></a>标记阶段</h4><h4 id="清除阶段"><a href="#清除阶段" class="headerlink" title="清除阶段"></a>清除阶段</h4><h4 id="分配"><a href="#分配" class="headerlink" title="分配"></a>分配</h4><h4 id="合并"><a href="#合并" class="headerlink" title="合并"></a>合并</h4><h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><h4 id="实现简单"><a href="#实现简单" class="headerlink" title="实现简单"></a>实现简单</h4><h4 id="与保守式GC兼容"><a href="#与保守式GC兼容" class="headerlink" title="与保守式GC兼容"></a>与保守式GC兼容</h4><h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><h4 id="碎片化"><a href="#碎片化" class="headerlink" title="碎片化"></a>碎片化</h4><h4 id="分配速度"><a href="#分配速度" class="headerlink" title="分配速度"></a>分配速度</h4><h4 id="与写时复制技术不兼容"><a href="#与写时复制技术不兼容" class="headerlink" title="与写时复制技术不兼容"></a>与写时复制技术不兼容</h4><h3 id="多个空闲链表"><a href="#多个空闲链表" class="headerlink" title="多个空闲链表"></a>多个空闲链表</h3><h3 id="BiBOP算法"><a href="#BiBOP算法" class="headerlink" title="BiBOP算法"></a>BiBOP算法</h3><h3 id="位图标记"><a href="#位图标记" class="headerlink" title="位图标记"></a>位图标记</h3><h4 id="优点-1"><a href="#优点-1" class="headerlink" title="优点"></a>优点</h4><h5 id="与写时复制技术兼容"><a href="#与写时复制技术兼容" class="headerlink" title="与写时复制技术兼容"></a>与写时复制技术兼容</h5><h5 id="清除操作更高效"><a href="#清除操作更高效" class="headerlink" title="清除操作更高效"></a>清除操作更高效</h5><h3 id="延迟清除法"><a href="#延迟清除法" class="headerlink" title="延迟清除法"></a>延迟清除法</h3>
   </article>
 </div>
 
