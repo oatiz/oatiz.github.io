@@ -136,9 +136,9 @@
     <li class>
       <a href="/archives">Posts <span class="counter">14</span></a>
     </li>
-    <li class>
-      <a href="/categories">Categories <span class="counter">10</span></a></li>
     <li class="selected">
+      <a href="/categories">Categories <span class="counter">10</span></a></li>
+    <li class>
       <a href="/tags">Tags <span class="counter">21</span></a></li>
   </ul>
 </nav>
@@ -147,78 +147,32 @@
       <ul class="archive-list">
         
         <li class="archive-list-item">
-          <h2><a href="/2017/11/25/GC-notes-3-GC-mark-clear-algorithm/">GC学习笔记:GC标记-清除算法(三)</a></h2>
+          <h2><a href="/2018/12/10/kubernetes_summary/">k8s部署笔记</a></h2>
           <p>
-               GC标记-清除算法    标记阶段    清除阶段    分配    合并    优点    实现简单    与保守式GC兼容    缺点    碎片化    分配速度    与写时复制技术不兼容    多个空闲链表    BiBOP算法    位图标记    优点    与写时复制技术兼容 ...
+               centOS  
+  确认centos 7 内核为3.10以上 
+ 
+  关闭swap (使用命令 swapoff -a 进行暂时关闭，如果永久关闭，自己查方法吧) 
+ 
+  设置selinux 为permissive 状态  执行命令: 
+  setenforce 0
+sed -i &amp;apo...
           </p>
           <ul class="tag-list clearfix">
             
-            <li class="tag-list-item"><a href="/tags/JVM/">JVM</a></li>
+            <li class="tag-list-item"><a href="/tags/excerpts/">excerpts</a></li>
             
-            <li class="tag-list-item"><a href="/tags/GC/">GC</a></li>
-            
-            <li class="tag-list-item"><a href="/tags/DASS/">DASS</a></li>
+            <li class="tag-list-item"><a href="/tags/kubernetes/">kubernetes</a></li>
             
           </ul>
           <div class="post-info">
             <span>
               
-              <a class="category-link" href="/categories/Garbage-Collection/"><i class="fa fa-folder-open"></i> Garbage Collection</a>
-              
-            </span>
-            <span><i class="fa fa-tag"></i> 3 </span>
-            <span>Published {{moment(1511626672000).fromNow()}}</span>
-          </div>
-        </li>
-        
-        <li class="archive-list-item">
-          <h2><a href="/2017/11/25/GC-notes-2-GC-related-knowledge/">GC学习笔记:GC相关知识(二)</a></h2>
-          <p>
-               GC中基本概念    对象/头/域    对象  在GC里,对象表示”通过应用程序利用的数据的集合”。对象配置在内存空间中,GC会根据情况将配置好的对象进行移动或销毁操作。因此,对象是GC的基本单位。 对象由“头(header)”与“域(field)”组成 
-   头  将对象中保存对象本身...
-          </p>
-          <ul class="tag-list clearfix">
-            
-            <li class="tag-list-item"><a href="/tags/JVM/">JVM</a></li>
-            
-            <li class="tag-list-item"><a href="/tags/GC/">GC</a></li>
-            
-            <li class="tag-list-item"><a href="/tags/DASS/">DASS</a></li>
-            
-          </ul>
-          <div class="post-info">
-            <span>
-              
-              <a class="category-link" href="/categories/Garbage-Collection/"><i class="fa fa-folder-open"></i> Garbage Collection</a>
-              
-            </span>
-            <span><i class="fa fa-tag"></i> 3 </span>
-            <span>Published {{moment(1511626583000).fromNow()}}</span>
-          </div>
-        </li>
-        
-        <li class="archive-list-item">
-          <h2><a href="/2017/11/25/GC-notes-1-GC-history/">GC学习笔记:GC定义及历史(一)</a></h2>
-          <p>
-               前言    现实开发中,业务开发人员其实很少接触到GC相关的工作,本人接触GC纯粹是因为好奇和R大的早期博文与一些论坛的回答。断断续续的接触一些碎片化的知识,借此将其写下来作为自己学习的一个论证吧。 
- 此系列是阅读中村成洋与相川光著的 垃圾回收的算法与实现 的笔记。 
-   定义  ...
-          </p>
-          <ul class="tag-list clearfix">
-            
-            <li class="tag-list-item"><a href="/tags/JVM/">JVM</a></li>
-            
-            <li class="tag-list-item"><a href="/tags/GC/">GC</a></li>
-            
-          </ul>
-          <div class="post-info">
-            <span>
-              
-              <a class="category-link" href="/categories/Garbage-Collection/"><i class="fa fa-folder-open"></i> Garbage Collection</a>
+              <a class="category-link" href="/categories/Kubernetes/"><i class="fa fa-folder-open"></i> Kubernetes</a>
               
             </span>
             <span><i class="fa fa-tag"></i> 2 </span>
-            <span>Published {{moment(1511622674000).fromNow()}}</span>
+            <span>Published {{moment(1544418027000).fromNow()}}</span>
           </div>
         </li>
         
