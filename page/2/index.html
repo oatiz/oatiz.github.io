@@ -141,18 +141,38 @@
     <li class="selected">
       <a href="/">Overview</a></li>
     <li class>
-      <a href="/archives">Posts <span class="counter">14</span></a>
+      <a href="/archives">Posts <span class="counter">15</span></a>
     </li>
     <li class>
-      <a href="/categories">Categories <span class="counter">10</span></a></li>
+      <a href="/categories">Categories <span class="counter">11</span></a></li>
     <li class>
-      <a href="/tags">Tags <span class="counter">21</span></a></li>
+      <a href="/tags">Tags <span class="counter">22</span></a></li>
   </ul>
 </nav>
 
     <div class="body-secondary">
       <p class="right-title">Recent post</p>
       <ul class="recent-post clearfix">
+        
+        <li class="recent-post-item">
+          <div class="clearfix">
+            <h5 class="post-title text-ellipsis">
+              <i class="fa fa-bars"></i>
+              <a href="/2017/11/25/GC-notes-3-GC-mark-clear-algorithm/">GC学习笔记:GC标记-清除算法(三)</a>
+            </h5>
+            <p class="post-description text-ellipsis desktop-only">
+                 GC标记-清除算法    标记阶段    清除阶段    分配    合并    优点    
+            </p>
+            <p class="post-info desktop-only">
+              <span>
+                
+                  <a class="category-link" href="/categories/Garbage-Collection/"><i class="fa fa-folder-open"></i> Garbage Collection</a>
+                
+              </span>
+              <span><i class="fa fa-tag"></i> 3 </span>
+            </p>
+          </div>
+        </li>
         
         <li class="recent-post-item">
           <div class="clearfix">
@@ -306,7 +326,7 @@
 
 
 <script>
-  var posts = [{"date":"2018-05-15","title":"skywalking5.0部署搭建","url":"https://oatiz.me/2018/05/15/skywalking5-0-0-beta-deployment-build/"},{"date":"2018-10-16","title":"JVM常量池小解","url":"https://oatiz.me/2018/10/16/The_Constant_Pool/"},{"date":"2018-11-29","title":"rust中所有权,引用,生命周期小记","url":"https://oatiz.me/2018/11/29/rust_ownership/"},{"date":"2018-12-05","title":"寻找一种易于理解的一致性算法(扩展版)--转载","url":"https://oatiz.me/2018/12/05/raft-zh_cn/"},{"date":"2018-12-07","title":"Raft学习笔记","url":"https://oatiz.me/2018/12/07/raft_summary/"},{"date":"2018-12-10","title":"k8s部署笔记","url":"https://oatiz.me/2018/12/10/kubernetes_summary/"},{"date":"2018-12-27","title":"摘录:分布式数据库学习路线","url":"https://oatiz.me/2018/12/27/distributed_db_roadmap/"},{"date":"2019-02-05","title":"MapReduce论文总结","url":"https://oatiz.me/2019/02/05/map-reduce_summary/"}];
+  var posts = [{"date":"2018-05-15","title":"skywalking5.0部署搭建","url":"https://oatiz.me/2018/05/15/skywalking5-0-0-beta-deployment-build/"},{"date":"2018-10-16","title":"JVM常量池小解","url":"https://oatiz.me/2018/10/16/The_Constant_Pool/"},{"date":"2018-11-29","title":"rust中所有权,引用,生命周期小记","url":"https://oatiz.me/2018/11/29/rust_ownership/"},{"date":"2018-12-05","title":"寻找一种易于理解的一致性算法(扩展版)--转载","url":"https://oatiz.me/2018/12/05/raft-zh_cn/"},{"date":"2018-12-07","title":"Raft学习笔记","url":"https://oatiz.me/2018/12/07/raft_summary/"},{"date":"2018-12-10","title":"k8s部署笔记","url":"https://oatiz.me/2018/12/10/kubernetes_summary/"},{"date":"2018-12-27","title":"摘录:分布式数据库学习路线","url":"https://oatiz.me/2018/12/27/distributed_db_roadmap/"},{"date":"2019-02-05","title":"MapReduce论文总结","url":"https://oatiz.me/2019/02/05/map-reduce_summary/"},{"date":"2019-04-17","title":"数据库系统实现: (一)DBMS 系统概述及辅助储存管理","url":"https://oatiz.me/2019/04/17/db_impl_1_into/"}];
   var today = moment().format('YYYY-MM-DD');
   var oneYearAgo = moment(today).subtract(1, 'years');
   posts = posts.filter(function(post) {
