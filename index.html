@@ -2,7 +2,7 @@
 <html lang="zh-cn">
 
 
-<head><meta name="generator" content="Hexo 3.8.0">
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -73,7 +73,7 @@
           <a><i class="fa fa-plus"></i> <i class="fa fa-caret-down"></i></a>
         </li>
         <li class="user-nav-logo">
-          <a><img src="https://coding.net/u/oatiz/p/oatiz/git/raw/master/images/avatar.png"> <i class="fa fa-caret-down"></i></a>
+          <a><img src="https://coding.net/u/oatiz/p/oatiz/git/raw/master/images/avatar.png"> <i class="fa fa-caret-down"></i></i></a>
         </li>
       </ul>
     </div>
@@ -140,12 +140,13 @@
   <ul class="clearfix">
     <li class="selected">
       <a href="/">Overview</a></li>
-    <li class>
-      <a href="/archives">Posts <span class="counter">15</span></a>
+    <li class="">
+      <a href="/archives">Posts <span class="counter">16</span></a>
     </li>
-    <li class>
-      <a href="/categories">Categories <span class="counter">11</span></a></li>
-    <li class>
+    <li class="">
+      <a href="/categories">Categories <span
+                class="counter">11</span></a></li>
+    <li class="">
       <a href="/tags">Tags <span class="counter">21</span></a></li>
   </ul>
 </nav>
@@ -153,6 +154,26 @@
     <div class="body-secondary">
       <p class="right-title">Recent post</p>
       <ul class="recent-post clearfix">
+        
+        <li class="recent-post-item">
+          <div class="clearfix">
+            <h5 class="post-title text-ellipsis">
+              <i class="fa fa-bars"></i>
+              <a href="/2019/09/16/db_impl_2_secondary_storage/">(二) 辅助储存管理</a>
+            </h5>
+            <p class="post-description text-ellipsis desktop-only">
+                 1. 前言  数据库系统总会涉及辅助存储器(能够存储大量需要长期保存的数据设备)。所以研究辅助
+            </p>
+            <p class="post-info desktop-only">
+              <span>
+                
+                  <a class="category-link" href="/categories/Database-System-Implementation/"><i class="fa fa-folder-open"></i> Database System Implementation</a>
+                
+              </span>
+              <span><i class="fa fa-tag"></i> 1 </span>
+            </p>
+          </div>
+        </li>
         
         <li class="recent-post-item">
           <div class="clearfix">
@@ -264,29 +285,6 @@
           </div>
         </li>
         
-        <li class="recent-post-item">
-          <div class="clearfix">
-            <h5 class="post-title text-ellipsis">
-              <i class="fa fa-bars"></i>
-              <a href="/2018/12/05/raft-zh_cn/">寻找一种易于理解的一致性算法(扩展版)--转载</a>
-            </h5>
-            <p class="post-description text-ellipsis desktop-only">
-               
- 文章转载自 maemual 同学的 raft-zh_cn  
- 
-   摘要   Raft 是
-            </p>
-            <p class="post-info desktop-only">
-              <span>
-                
-                  <a class="category-link" href="/categories/Distributed-Systems/"><i class="fa fa-folder-open"></i> Distributed Systems</a>
-                
-              </span>
-              <span><i class="fa fa-tag"></i> 3 </span>
-            </p>
-          </div>
-        </li>
-        
       </ul>
       <div class="calendar-container" id="calendar">
   <div class="calendar">
@@ -298,27 +296,45 @@
         <svg width="676" height="104" @mouseout="mouseoverDate=null">
           <g transform="translate(16, 20)">
             <g v-for="week in calendar" :transform="week.transform">
-              <rect v-for="day in week.days" :x="day.x" :y="day.y" :fill="day.fill" @click="selectedDate=day.date" @mouseover="mouseoverDate=day.date" :class="{active:selectedDate===day.date}" data-count="{{day.posts.length}}" data-date="{{day.date}}" class="day" width="10" height="10"/>
+              <rect v-for="day in week.days"
+                    :x="day.x"
+                    :y="day.y"
+                    :fill="day.fill"
+                    @click="selectedDate=day.date"
+                    @mouseover="mouseoverDate=day.date"
+                    :class="{active:selectedDate===day.date}"
+                    data-count="{{day.posts.length}}"
+                    data-date="{{day.date}}"
+                    class="day" width="10" height="10"
+              ></rect>
             </g>
 
-            <text v-for="month in monthLabels" :x="month.x" y="-5" class="month">{{month.text}}
+            <text v-for="month in monthLabels"
+                  :x="month.x"
+                  y="-5"
+                  class="month">{{month.text}}
             </text>
 
 
-            <text text-anchor="start" class="wday" dx="-14" dy="8" style="display: none;">S
+            <text text-anchor="start" class="wday" dx="-14" dy="8"
+                  style="display: none;">S
             </text>
             <text text-anchor="start" class="wday" dx="-14" dy="20">Mon</text>
-            <text text-anchor="start" class="wday" dx="-14" dy="32" style="display: none;">T
+            <text text-anchor="start" class="wday" dx="-14" dy="32"
+                  style="display: none;">T
             </text>
             <text text-anchor="start" class="wday" dx="-14" dy="44">Wed</text>
-            <text text-anchor="start" class="wday" dx="-14" dy="57" style="display: none;">T
+            <text text-anchor="start" class="wday" dx="-14" dy="57"
+                  style="display: none;">T
             </text>
             <text text-anchor="start" class="wday" dx="-14" dy="69">Fri</text>
-            <text text-anchor="start" class="wday" dx="-14" dy="81" style="display: none;">S
+            <text text-anchor="start" class="wday" dx="-14" dy="81"
+                  style="display: none;">S
             </text>
           </g>
         </svg>
-        <div class="svg-tip svg-tip-one-line" v-bind:style="{ top: svgtip.top, left: svgtip.left, display: svgtip.display}">
+        <div class="svg-tip svg-tip-one-line"
+             v-bind:style="{ top: svgtip.top, left: svgtip.left, display: svgtip.display}">
           <strong>{{svgtip.text}}</strong> on
           {{moment(mouseoverDate).format('MMM DD, YYYY')}}
         </div>
@@ -356,7 +372,7 @@
 
 
 <script>
-  var posts = [{"date":"2018-05-15","title":"skywalking5.0部署搭建","url":"https://oatiz.me/2018/05/15/skywalking5-0-0-beta-deployment-build/"},{"date":"2018-10-16","title":"JVM常量池小解","url":"https://oatiz.me/2018/10/16/The_Constant_Pool/"},{"date":"2018-11-29","title":"rust中所有权,引用,生命周期小记","url":"https://oatiz.me/2018/11/29/rust_ownership/"},{"date":"2018-12-05","title":"寻找一种易于理解的一致性算法(扩展版)--转载","url":"https://oatiz.me/2018/12/05/raft-zh_cn/"},{"date":"2018-12-07","title":"Raft学习笔记","url":"https://oatiz.me/2018/12/07/raft_summary/"},{"date":"2018-12-10","title":"k8s部署笔记","url":"https://oatiz.me/2018/12/10/kubernetes_summary/"},{"date":"2018-12-27","title":"摘录:分布式数据库学习路线","url":"https://oatiz.me/2018/12/27/distributed_db_roadmap/"},{"date":"2019-02-05","title":"MapReduce论文总结","url":"https://oatiz.me/2019/02/05/map-reduce_summary/"},{"date":"2019-04-17","title":"(一) DBMS系统概述及辅助储存管理","url":"https://oatiz.me/2019/04/17/db_impl_1_into/"}];
+  var posts = [{"date":"2018-10-16","title":"JVM常量池小解","url":"https://oatiz.me/2018/10/16/The_Constant_Pool/"},{"date":"2018-11-29","title":"rust中所有权,引用,生命周期小记","url":"https://oatiz.me/2018/11/29/rust_ownership/"},{"date":"2018-12-05","title":"寻找一种易于理解的一致性算法(扩展版)--转载","url":"https://oatiz.me/2018/12/05/raft-zh_cn/"},{"date":"2018-12-07","title":"Raft学习笔记","url":"https://oatiz.me/2018/12/07/raft_summary/"},{"date":"2018-12-10","title":"k8s部署笔记","url":"https://oatiz.me/2018/12/10/kubernetes_summary/"},{"date":"2018-12-27","title":"摘录:分布式数据库学习路线","url":"https://oatiz.me/2018/12/27/distributed_db_roadmap/"},{"date":"2019-02-05","title":"MapReduce论文总结","url":"https://oatiz.me/2019/02/05/map-reduce_summary/"},{"date":"2019-04-17","title":"(一) DBMS系统概述及辅助储存管理","url":"https://oatiz.me/2019/04/17/db_impl_1_into/"},{"date":"2019-09-16","title":"(二) 辅助储存管理","url":"https://oatiz.me/2019/09/16/db_impl_2_secondary_storage/"}];
   var today = moment().format('YYYY-MM-DD');
   var oneYearAgo = moment(today).subtract(1, 'years');
   posts = posts.filter(function(post) {
