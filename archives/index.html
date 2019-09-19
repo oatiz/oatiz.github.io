@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>
+    おはよう
+  </title>
+  <meta name="description" content="Rust | Distributed Systems | Database Systems">
+  
+  <meta name="author" content="oatiz">
+
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+  <link rel="icon" type="image/x-icon" href="https://github.githubassets.com/favicon.ico">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  
+
+  
+
+  <script src="https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js"></script>
+<script>
+    if (window.mermaid) {
+        mermaid.initialize({ theme: 'forest' });
+    }
+</script>
+
+  
+    
+      <!-- MathJax support START -->
+      <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+            processEscapes: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          }
+        });
+      </script>
+  
+      <script type="text/x-mathjax-config">
+        MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for (i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+        });
+      </script>
+      <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <!-- MathJax support END -->
+    
+  
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/vue/1.0.25-csp/vue.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+</head>
+
+<body id="replica-app">
+
+<nav class="navbar-wrapper">
+  <div class="navbar">
+    <div class="container clearfix">
+      <a href="/" class="navbar-logo"><i class="fa fa-github"></i></a>
+
+      <div class="navbar-search float-left desktop-only">
+        <div class="navbar-search-form">
+          <label for="gsc-i-id1">This website</label>
+          <div id="google-search">
+            <gcse:search></gcse:search>
+          </div>
+        </div>
+      </div>
+
+      <ul class="navbar-nav float-left">
+        
+        <li><a href="/archives">Archives</a></li>
+        
+        
+        <li><a href="/categories">Categories</a></li>
+        
+        
+        <li><a href="/tags">Tags</a></li>
+        
+        
+        <li class="desktop-only"><a href="/atom.xml" target="_blank">RSS</a></li>
+        
+      </ul>
+
+      <ul class="navbar-nav user-nav float-right desktop-only">
+        <li class="user-nav-notification">
+          <a><span class="user-nav-unread"></span><i class="fa fa-bell"></i></a>
+        </li>
+        <li>
+          <a><i class="fa fa-plus"></i> <i class="fa fa-caret-down"></i></a>
+        </li>
+        <li class="user-nav-logo">
+          <a><img src="https://avatars2.githubusercontent.com/u/24953151?v=4&amp;s=460"> <i class="fa fa-caret-down"></i></i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="main-container">
+  
+
+<div class="container-lg">
+  
+
+<div class="blog-intro">
+  <div class="blog-intro-user">
+    <img class="avatar" src="https://avatars2.githubusercontent.com/u/24953151?v=4&amp;s=460">
+    <div class="user-name">
+      <div class="blog-title">おはよう</div>
+      <div class="blog-author">oatiz</div>
+        <ul class="user-detail mobile-only">
+    
+    <li>
+      <i class="fa fa-map-marker"></i>
+      Beijing, China
+    </li>
+    
+    <li>
+      <i class="fa fa-envelope-o"></i>
+      <a href="mailto:zeshawnetq[at]gmail.com">zeshawnetq[at]gmail.com</a>
+    </li>
+    
+    <li>
+      <i class="fa fa-link"></i>
+      <a href="https://oatiz.me">https://oatiz.me</a>
+    </li>
+  </ul>
+    </div>
+    <div class="blog-description">
+      Rust | Distributed Systems | Database Systems
+    </div>
+  </div>
+
+  <ul class="user-detail desktop-only">
+    
+    <li>
+      <i class="fa fa-map-marker"></i>
+      Beijing, China
+    </li>
+    
+    <li>
+      <i class="fa fa-envelope-o"></i>
+      <a href="mailto:zeshawnetq[at]gmail.com">zeshawnetq[at]gmail.com</a>
+    </li>
+    
+    <li>
+      <i class="fa fa-link"></i>
+      <a href="https://oatiz.me">https://oatiz.me</a>
+    </li>
+  </ul>
+
+  <div class="social-media desktop-only">
+    <h4>Social Media</h4>
+    <ul>
+      
+      <li class="social-media-item"><a href="https://github.com/oatiz" target="_blank"><i class="fa fa-github"></i></a></li>
+      
+      <li class="social-media-item"><a href="None" target="_blank"><i class="fa fa-weibo"></i></a></li>
+      
+    </ul>
+  </div>
+</div>
+
+
+  <div class="blog-detail">
+    
+<nav class="blog-detail-nav desktop-only">
+  <ul class="clearfix">
+    <li class="">
+      <a href="/">Overview</a></li>
+    <li class="selected">
+      <a href="/archives">Posts <span class="counter">16</span></a>
+    </li>
+    <li class="">
+      <a href="/categories">Categories <span
+                class="counter">11</span></a></li>
+    <li class="">
+      <a href="/tags">Tags <span class="counter">21</span></a></li>
+  </ul>
+</nav>
+
+    <div class="body-secondary">
+      <ul class="archive-list">
+        
+        <li class="archive-list-item">
+          <h2><a href="/2019/09/16/db-impl-2-secondary-storage/">(二) 辅助储存管理</a></h2>
+          <p>
+               1. 前言  数据库系统总会涉及辅助存储器(能够存储大量需要长期保存的数据设备)。所以研究辅助存储器的结构会利于我们分析SQL执行计划等数据库操作。 
+   2. 存储器层次     
+ 
+  高速缓存(Cache)。是用于减少 CPU 访问内存所需平均时间的部件。 CPU 访问高速缓存的数据...
+          </p>
+          <ul class="tag-list clearfix">
+            
+            <li class="tag-list-item"><a href="/tags/database/">database</a></li>
+            
+          </ul>
+          <div class="post-info">
+            <span>
+              
+              <a class="category-link" href="/categories/Database-System-Implementation/"><i class="fa fa-folder-open"></i> Database System Implementation</a>
+              
+            </span>
+            <span><i class="fa fa-tag"></i> 1 </span>
+            <span>Published {{moment(1568608200000).fromNow()}}</span>
+          </div>
+        </li>
+        
+        <li class="archive-list-item">
+          <h2><a href="/2019/04/17/db-impl-1-into/">(一) DBMS系统概述及辅助储存管理</a></h2>
+          <p>
+             
+ TODO 
+ 
+ 
+   1.1 数据库系统发展    1.2 数据库管理系统概述    2.1 存储器层次    2.2 磁盘    2.3 加速对辅助存储器的访问    2.4 磁盘故障    2.5 组织磁盘上的数据    2.6 块和记录地址的表示    2.7 变长数据和记录    ...
+          </p>
+          <ul class="tag-list clearfix">
+            
+            <li class="tag-list-item"><a href="/tags/database/">database</a></li>
+            
+          </ul>
+          <div class="post-info">
+            <span>
+              
+              <a class="category-link" href="/categories/Database-System-Implementation/"><i class="fa fa-folder-open"></i> Database System Implementation</a>
+              
+            </span>
+            <span><i class="fa fa-tag"></i> 1 </span>
+            <span>Published {{moment(1555500600000).fromNow()}}</span>
+          </div>
+        </li>
+        
+        <li class="archive-list-item">
+          <h2><a href="/2019/02/05/map-reduce-summary/">MapReduce论文总结</a></h2>
+          <p>
+             原论文地址: MapReduce  
+   Introduction  MapReduce is a programming model and an associated implementation for processing and generating large data sets. ...
+          </p>
+          <ul class="tag-list clearfix">
+            
+            <li class="tag-list-item"><a href="/tags/distributed-system/">distributed system</a></li>
+            
+            <li class="tag-list-item"><a href="/tags/map-reduce/">map reduce</a></li>
+            
+            <li class="tag-list-item"><a href="/tags/mit6-824/">mit6.824</a></li>
+            
+          </ul>
+          <div class="post-info">
+            <span>
+              
+              <a class="category-link" href="/categories/6-824/"><i class="fa fa-folder-open"></i> 6.824</a>
+              
+            </span>
+            <span><i class="fa fa-tag"></i> 3 </span>
+            <span>Published {{moment(1549338600000).fromNow()}}</span>
+          </div>
+        </li>
+        
+        <li class="archive-list-item">
+          <h2><a href="/2018/12/27/distributed-db-roadmap/">摘录:分布式数据库学习路线</a></h2>
+          <p>
+               来源  摘录自知乎问题: 对数据库和分布式很感兴趣，学习路线是什么？  
+    李晨曦的回答 :  分布式的学习不是很了解，数据库有些经验可以按照如下步骤学习 
+   1. 入门  接触过数据库的基础知识和应用之后，就可以开始进行内核级的学习了，先学习传统的关系型数据库，因为它是一切数据库的...
+          </p>
+          <ul class="tag-list clearfix">
+            
+            <li class="tag-list-item"><a href="/tags/database/">database</a></li>
+            
+            <li class="tag-list-item"><a href="/tags/excerpts/">excerpts</a></li>
+            
+            <li class="tag-list-item"><a href="/tags/distributed-system/">distributed system</a></li>
+            
+          </ul>
+          <div class="post-info">
+            <span>
+              
+              <a class="category-link" href="/categories/Database-Systems/"><i class="fa fa-folder-open"></i> Database Systems</a>
+              
+            </span>
+            <span><i class="fa fa-tag"></i> 3 </span>
+            <span>Published {{moment(1545893474000).fromNow()}}</span>
+          </div>
+        </li>
+        
+        <li class="archive-list-item">
+          <h2><a href="/2018/12/10/kubernetes-summary/">k8s部署笔记</a></h2>
+          <p>
+               centOS  
+  确认centos 7 内核为3.10以上 
+ 
+  关闭swap (使用命令 swapoff -a 进行暂时关闭，如果永久关闭，自己查方法吧) 
+ 
+  设置selinux 为permissive 状态  执行命令: 
+  setenforce 0
+sed -i &amp;apo...
+          </p>
+          <ul class="tag-list clearfix">
+            
+            <li class="tag-list-item"><a href="/tags/excerpts/">excerpts</a></li>
+            
+            <li class="tag-list-item"><a href="/tags/kubernetes/">kubernetes</a></li>
+            
+          </ul>
+          <div class="post-info">
+            <span>
+              
+              <a class="category-link" href="/categories/Kubernetes/"><i class="fa fa-folder-open"></i> Kubernetes</a>
+              
+            </span>
+            <span><i class="fa fa-tag"></i> 2 </span>
+            <span>Published {{moment(1544418027000).fromNow()}}</span>
+          </div>
+        </li>
+        
+        <li class="archive-list-item">
+          <h2><a href="/2018/12/07/raft-summary/">Raft学习笔记</a></h2>
+          <p>
+               概念  
+  Raft  is an algorithm for managing a replicated log. 
+ 
+  Raft 是一种用来管理复制日志的一致性算法. 
+   实现  
+  Raft  implements consensus by first electing a ...
+          </p>
+          <ul class="tag-list clearfix">
+            
+            <li class="tag-list-item"><a href="/tags/raft/">raft</a></li>
+            
+            <li class="tag-list-item"><a href="/tags/cap/">cap</a></li>
+            
+            <li class="tag-list-item"><a href="/tags/distributed-consensus/">distributed consensus</a></li>
+            
+          </ul>
+          <div class="post-info">
+            <span>
+              
+              <a class="category-link" href="/categories/Distributed-Systems/"><i class="fa fa-folder-open"></i> Distributed Systems</a>
+              
+            </span>
+            <span><i class="fa fa-tag"></i> 3 </span>
+            <span>Published {{moment(1544157319000).fromNow()}}</span>
+          </div>
+        </li>
+        
+        <li class="archive-list-item">
+          <h2><a href="/2018/12/05/raft-zh-cn/">寻找一种易于理解的一致性算法(扩展版)--转载</a></h2>
+          <p>
+             
+ 文章转载自 maemual 同学的 raft-zh_cn  
+ 
+   摘要   Raft 是一种为了管理复制日志的一致性算法。它提供了和 Paxos 算法相同的功能和性能，但是它的算法结构和 Paxos 不同，使得 Raft 算法更加容易理解并且更容易构建实际的系统。为了提升可理解性 Raf...
+          </p>
+          <ul class="tag-list clearfix">
+            
+            <li class="tag-list-item"><a href="/tags/raft/">raft</a></li>
+            
+            <li class="tag-list-item"><a href="/tags/cap/">cap</a></li>
+            
+            <li class="tag-list-item"><a href="/tags/distributed-consensus/">distributed consensus</a></li>
+            
+          </ul>
+          <div class="post-info">
+            <span>
+              
+              <a class="category-link" href="/categories/Distributed-Systems/"><i class="fa fa-folder-open"></i> Distributed Systems</a>
+              
+            </span>
+            <span><i class="fa fa-tag"></i> 3 </span>
+            <span>Published {{moment(1543990465000).fromNow()}}</span>
+          </div>
+        </li>
+        
+        <li class="archive-list-item">
+          <h2><a href="/2018/11/29/rust-ownership/">rust中所有权,引用,生命周期小记</a></h2>
+          <p>
+               rust 所有权,引用,生命周期    所有权  存在即是为了管理 堆数据  
+ 
+ 跟踪代码正在堆上使用的数据 
+ 最大限度减少堆上的重复数据 
+ 清理堆上不再使用的数据 
+ 
+   rules  
+ Each value in Rust has a variable that’s call...
+          </p>
+          <ul class="tag-list clearfix">
+            
+            <li class="tag-list-item"><a href="/tags/rust/">rust</a></li>
+            
+            <li class="tag-list-item"><a href="/tags/ownership/">ownership</a></li>
+            
+            <li class="tag-list-item"><a href="/tags/lifetime/">lifetime</a></li>
+            
+            <li class="tag-list-item"><a href="/tags/RAII/">RAII</a></li>
+            
+          </ul>
+          <div class="post-info">
+            <span>
+              
+              <a class="category-link" href="/categories/Rust/"><i class="fa fa-folder-open"></i> Rust</a>
+              
+            </span>
+            <span><i class="fa fa-tag"></i> 4 </span>
+            <span>Published {{moment(1543479184000).fromNow()}}</span>
+          </div>
+        </li>
+        
+        <li class="archive-list-item">
+          <h2><a href="/2018/10/16/The-Constant-Pool/">JVM常量池小解</a></h2>
+          <p>
+               前言  今日,同事问我一个问题,以下java代码输出什么:       1   2   3       String s1 =  &quot;hello world&quot; ;   String s2 =  &quot;hello&quot;  +  &quot; &quot;  +  &quot;world&quot; ;   System.out.println(...
+          </p>
+          <ul class="tag-list clearfix">
+            
+            <li class="tag-list-item"><a href="/tags/JVM/">JVM</a></li>
+            
+            <li class="tag-list-item"><a href="/tags/JAVA/">JAVA</a></li>
+            
+          </ul>
+          <div class="post-info">
+            <span>
+              
+              <a class="category-link" href="/categories/JVM/"><i class="fa fa-folder-open"></i> JVM</a>
+              
+            </span>
+            <span><i class="fa fa-tag"></i> 2 </span>
+            <span>Published {{moment(1539697200000).fromNow()}}</span>
+          </div>
+        </li>
+        
+        <li class="archive-list-item">
+          <h2><a href="/2018/05/15/skywalking5-0-0-beta-deployment-build/">skywalking5.0部署搭建</a></h2>
+          <p>
+               介绍   skywalking官网  
+  skywalking-github  
+   背景  相关文章:  几种分布式调用链监控组件的实践与比较  
+ 我们生产使用的spring cloud体系, eureka来做服务发现,feign进行通信,默认使用 hystrix做服务熔断. 
+ 结...
+          </p>
+          <ul class="tag-list clearfix">
+            
+            <li class="tag-list-item"><a href="/tags/apm/">apm</a></li>
+            
+            <li class="tag-list-item"><a href="/tags/skywalking/">skywalking</a></li>
+            
+          </ul>
+          <div class="post-info">
+            <span>
+              
+              <a class="category-link" href="/categories/Skywalking/"><i class="fa fa-folder-open"></i> Skywalking</a>
+              
+            </span>
+            <span><i class="fa fa-tag"></i> 2 </span>
+            <span>Published {{moment(1526352105000).fromNow()}}</span>
+          </div>
+        </li>
+        
+        <li class="archive-list-item">
+          <h2><a href="/2017/12/04/mermaid-test/">hexo mermaid</a></h2>
+          <p>
+               mermaid    flowchart  graph TD
+    A--&gt;B;
+    A--&gt;C;
+    B--&gt;D;
+    C--&gt;D; 
+
+   sequence  sequenceDiagram
+    participant Alice
+    participant Bob...
+          </p>
+          <ul class="tag-list clearfix">
+            
+            <li class="tag-list-item"><a href="/tags/mermaid/">mermaid</a></li>
+            
+          </ul>
+          <div class="post-info">
+            <span>
+              
+              <a class="category-link" href="/categories/Mermaid/"><i class="fa fa-folder-open"></i> Mermaid</a>
+              
+            </span>
+            <span><i class="fa fa-tag"></i> 1 </span>
+            <span>Published {{moment(1512375906000).fromNow()}}</span>
+          </div>
+        </li>
+        
+        <li class="archive-list-item">
+          <h2><a href="/2017/11/25/GC-notes-3-GC-mark-clear-algorithm/">GC学习笔记:GC标记-清除算法(三)</a></h2>
+          <p>
+               GC标记-清除算法    标记阶段    清除阶段    分配    合并    优点    实现简单    与保守式GC兼容    缺点    碎片化    分配速度    与写时复制技术不兼容    多个空闲链表    BiBOP算法    位图标记    优点    与写时复制技术兼容 ...
+          </p>
+          <ul class="tag-list clearfix">
+            
+            <li class="tag-list-item"><a href="/tags/JVM/">JVM</a></li>
+            
+            <li class="tag-list-item"><a href="/tags/GC/">GC</a></li>
+            
+            <li class="tag-list-item"><a href="/tags/DASS/">DASS</a></li>
+            
+          </ul>
+          <div class="post-info">
+            <span>
+              
+              <a class="category-link" href="/categories/Garbage-Collection/"><i class="fa fa-folder-open"></i> Garbage Collection</a>
+              
+            </span>
+            <span><i class="fa fa-tag"></i> 3 </span>
+            <span>Published {{moment(1511626672000).fromNow()}}</span>
+          </div>
+        </li>
+        
+        <li class="archive-list-item">
+          <h2><a href="/2017/11/25/GC-notes-2-GC-related-knowledge/">GC学习笔记:GC相关知识(二)</a></h2>
+          <p>
+               GC中基本概念    对象/头/域    对象  在GC里,对象表示”通过应用程序利用的数据的集合”。对象配置在内存空间中,GC会根据情况将配置好的对象进行移动或销毁操作。因此,对象是GC的基本单位。 对象由“头(header)”与“域(field)”组成 
+   头  将对象中保存对象本身...
+          </p>
+          <ul class="tag-list clearfix">
+            
+            <li class="tag-list-item"><a href="/tags/JVM/">JVM</a></li>
+            
+            <li class="tag-list-item"><a href="/tags/GC/">GC</a></li>
+            
+            <li class="tag-list-item"><a href="/tags/DASS/">DASS</a></li>
+            
+          </ul>
+          <div class="post-info">
+            <span>
+              
+              <a class="category-link" href="/categories/Garbage-Collection/"><i class="fa fa-folder-open"></i> Garbage Collection</a>
+              
+            </span>
+            <span><i class="fa fa-tag"></i> 3 </span>
+            <span>Published {{moment(1511626583000).fromNow()}}</span>
+          </div>
+        </li>
+        
+        <li class="archive-list-item">
+          <h2><a href="/2017/11/25/GC-notes-1-GC-history/">GC学习笔记:GC定义及历史(一)</a></h2>
+          <p>
+               前言    现实开发中,业务开发人员其实很少接触到GC相关的工作,本人接触GC纯粹是因为好奇和R大的早期博文与一些论坛的回答。断断续续的接触一些碎片化的知识,借此将其写下来作为自己学习的一个论证吧。 
+ 此系列是阅读中村成洋与相川光著的 垃圾回收的算法与实现 的笔记。 
+   定义  ...
+          </p>
+          <ul class="tag-list clearfix">
+            
+            <li class="tag-list-item"><a href="/tags/JVM/">JVM</a></li>
+            
+            <li class="tag-list-item"><a href="/tags/GC/">GC</a></li>
+            
+          </ul>
+          <div class="post-info">
+            <span>
+              
+              <a class="category-link" href="/categories/Garbage-Collection/"><i class="fa fa-folder-open"></i> Garbage Collection</a>
+              
+            </span>
+            <span><i class="fa fa-tag"></i> 2 </span>
+            <span>Published {{moment(1511622674000).fromNow()}}</span>
+          </div>
+        </li>
+        
+        <li class="archive-list-item">
+          <h2><a href="/2017/07/28/rednaxelafx-share/">莫枢的JVM分享笔记</a></h2>
+          <p>
+               前言  这篇文章是2010年R大做的一次jvm分享 
+   语言处理器的基本结构    语言处理器的种类  
+ 编译器 
+  gcc ,  javac  
+ 
+ 
+ 解释器 
+ Ruby,Pythond等一些实现 
+ 
+ 
+ IDE 
+ Eclipse,NetBeans等 
+ 
+ 
+ 代码分析...
+          </p>
+          <ul class="tag-list clearfix">
+            
+            <li class="tag-list-item"><a href="/tags/JVM/">JVM</a></li>
+            
+            <li class="tag-list-item"><a href="/tags/JAVA/">JAVA</a></li>
+            
+          </ul>
+          <div class="post-info">
+            <span>
+              
+              <a class="category-link" href="/categories/JVM/"><i class="fa fa-folder-open"></i> JVM</a>
+              
+            </span>
+            <span><i class="fa fa-tag"></i> 2 </span>
+            <span>Published {{moment(1501230484000).fromNow()}}</span>
+          </div>
+        </li>
+        
+        <li class="archive-list-item">
+          <h2><a href="/2017/07/27/preface/">建站前言</a></h2>
+          <p>
+               组件   hexo   yilia  
+   tips  
+  评论采用Disqus,需翻墙后才可留言  
+ 
+   碎碎念  其实在建站之前已经有过一个blog了,但是没有保持下去。原因个人觉得别人已经写好了,没必要重复的去抄别人:)。现在重新得去编写,其实觉得现在的生活乏味无趣,不如找个事...
+          </p>
+          <ul class="tag-list clearfix">
+            
+            <li class="tag-list-item"><a href="/tags/随笔/">随笔</a></li>
+            
+          </ul>
+          <div class="post-info">
+            <span>
+              
+              <a class="category-link" href="/categories/Note/"><i class="fa fa-folder-open"></i> Note</a>
+              
+            </span>
+            <span><i class="fa fa-tag"></i> 1 </span>
+            <span>Published {{moment(1501172665000).fromNow()}}</span>
+          </div>
+        </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<div class="footer-wrapper container">
+  <footer class="footer clearfix">
+    <div class="clearfix">
+    <a href="https://oatiz.me" class="footer-logo">
+      <i class="fa fa-github"></i>
+    </a>
+    <ul class="footer-social-link">
+      <li>© 2018 oatiz</li>
+      <li><a href="https://oatiz.me">Home</a></li>
+      
+      <li><a href="https://github.com/oatiz">Github</a></li>
+      
+      <li><a href="None">Weibo</a></li>
+      
+    </ul>
+    <div class="footer-theme-info">
+      Theme <a href="//github.com/sabrinaluo/hexo-theme-replica">Replica</a>
+      by <a href="//github.com/sabrinaluo">Hiitea</a> ❤ Powered by Hexo
+    </div>
+    </div>
+    
+    <div class="footer-pageview">
+        <a href="https://info.flagcounter.com/mx4Y">
+          <img src="//s11.flagcounter.com/count2/VDLa/bg_FFFFFF/txt_000000/border_CCCCCC/columns_2/maxflags_10/viewers_0/labels_0/pageviews_0/flags_0/percent_0/">
+        </a>
+    </div>
+    
+  </footer>
+</div>
+
+
+
+
+<script src="/js/main.js"></script>
+
+</body>
+</html>

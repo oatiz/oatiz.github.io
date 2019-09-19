@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>
+    莫枢的JVM分享笔记 | おはよう
+  </title>
+  <meta name="description" content="Rust | Distributed Systems | Database Systems">
+  
+  <meta name="keywords" content="
+  JVM,JAVA
+  ">
+  
+  <meta name="author" content="oatiz">
+
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+  <link rel="icon" type="image/x-icon" href="https://github.githubassets.com/favicon.ico">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  
+
+  
+
+  <script src="https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js"></script>
+<script>
+    if (window.mermaid) {
+        mermaid.initialize({ theme: 'forest' });
+    }
+</script>
+
+  
+    
+      <!-- MathJax support START -->
+      <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+            processEscapes: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          }
+        });
+      </script>
+  
+      <script type="text/x-mathjax-config">
+        MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for (i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+        });
+      </script>
+      <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <!-- MathJax support END -->
+    
+  
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/vue/1.0.25-csp/vue.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+</head>
+
+<body id="replica-app">
+
+<nav class="navbar-wrapper">
+  <div class="navbar">
+    <div class="container clearfix">
+      <a href="/" class="navbar-logo"><i class="fa fa-github"></i></a>
+
+      <div class="navbar-search float-left desktop-only">
+        <div class="navbar-search-form">
+          <label for="gsc-i-id1">This website</label>
+          <div id="google-search">
+            <gcse:search></gcse:search>
+          </div>
+        </div>
+      </div>
+
+      <ul class="navbar-nav float-left">
+        
+        <li><a href="/archives">Archives</a></li>
+        
+        
+        <li><a href="/categories">Categories</a></li>
+        
+        
+        <li><a href="/tags">Tags</a></li>
+        
+        
+        <li class="desktop-only"><a href="/atom.xml" target="_blank">RSS</a></li>
+        
+      </ul>
+
+      <ul class="navbar-nav user-nav float-right desktop-only">
+        <li class="user-nav-notification">
+          <a><span class="user-nav-unread"></span><i class="fa fa-bell"></i></a>
+        </li>
+        <li>
+          <a><i class="fa fa-plus"></i> <i class="fa fa-caret-down"></i></a>
+        </li>
+        <li class="user-nav-logo">
+          <a><img src="https://avatars2.githubusercontent.com/u/24953151?v=4&amp;s=460"> <i class="fa fa-caret-down"></i></i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="main-container">
+  <header class="header-wrapper desktop-only">
+  <div class="container header-site-detail">
+    <ul class="header-toolbar">
+      <li class="clearfix">
+        <a href="/archives" class="header-toolbar-left"><i
+                  class="fa fa-file-text"></i> Posts </a>
+        <a href="/archives"
+           class="header-toolbar-right"> 16 </a>
+      </li>
+      <li>
+        <a href="/tags" class="header-toolbar-left"><i
+                  class="fa fa-tags"></i> Tags </a>
+        <a href="/tags"
+           class="header-toolbar-right"> 21 </a>
+      </li>
+      <li>
+        <a href="/categories" class="header-toolbar-left"><i
+                  class="fa fa-folder-open"></i> Categories </a>
+        <a href="/categories"
+           class="header-toolbar-right"> 11 </a>
+      </li>
+    </ul>
+    <h2 class="header-title">
+      <i class="fa fa-book text-muted"></i>
+      <a href="/">おはよう</a>
+      
+      
+    </h2>
+  </div>
+
+  <div class="container">
+    <div class="header-tab-wrapper clearfix">
+      <span class="header-tab header-tab-selected"><i class="fa fa-thumbs-o-up"></i> Like</span>
+      <span class="header-tab"><i class="fa fa-share-alt"></i> Share</span>
+      <span class="header-tab"><i class="fa fa-comments-o"></i> Discussion</span>
+      <span class="header-tab"><i class="fa fa-bookmark-o"></i> Bookmark </span>
+      <span class="header-tab"><i class="fa fa-smile-o"></i> Smile <i class="fa fa-caret-down"></i></span>
+    </div>
+  </div>
+</header>
+
+
+<div class="post-container container">
+  <h3>
+    <i class="fa fa-user-o"></i>
+    oatiz
+
+    <span class="post-date float-right" title="{{moment(1501230484000).format('MMM DD, YYYY, h:mm:ss A')}}">
+      <i class="fa fa-pencil-square-o"></i>
+      {{moment(1501230484000).fromNow()}}
+    </span>
+  </h3>
+
+  <article class="post-content">
+    <h1>莫枢的JVM分享笔记</h1>
+    <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这篇文章是2010年R大做的一次jvm分享</p>
+<h2 id="语言处理器的基本结构"><a href="#语言处理器的基本结构" class="headerlink" title="语言处理器的基本结构"></a>语言处理器的基本结构</h2><h3 id="语言处理器的种类"><a href="#语言处理器的种类" class="headerlink" title="语言处理器的种类"></a>语言处理器的种类</h3><ul>
+<li>编译器<ul>
+<li><a href="http://gcc.gnu.org/" target="_blank" rel="noopener">gcc</a>, <a href="http://openjdk.java.net/groups/compiler/" target="_blank" rel="noopener">javac</a></li>
+</ul>
+</li>
+<li>解释器<ul>
+<li>Ruby,Pythond等一些实现</li>
+</ul>
+</li>
+<li>IDE<ul>
+<li>Eclipse,NetBeans等</li>
+</ul>
+</li>
+<li>代码分析器<ul>
+<li><a href="http://findbugs.sourceforge.net/" target="_blank" rel="noopener">FindBugs</a>等</li>
+</ul>
+</li>
+<li>反编译器<ul>
+<li><a href="http://jd.benow.ca/" target="_blank" rel="noopener">JD</a>,<a href="https://varaneckas.com/jad/" target="_blank" rel="noopener">Jad</a>, <a href="https://www.red-gate.com/products/dotnet-development/reflector/" target="_blank" rel="noopener">Reflector.NET</a>等</li>
+</ul>
+</li>
+</ul>
+<h4 id="编译器"><a href="#编译器" class="headerlink" title="编译器"></a>编译器</h4><pre class="mermaid">graph LR
+    source[源代码] --> lexicalAnalyzer[词法分析器]
+    lexicalAnalyzer --> tokens[TOKEN流]
+    tokens1[TOKEN流] --> parser[语法分析器]
+    parser --> ast[语法树/抽象语法树]
+    ast1[语法树/抽象语法树] --> semanticAnalyzer[语义分析器]
+    semanticAnalyzer --> annotationAst[注解抽象语法树]
+    annotationAst1[注解抽象语法树] --> intermediateCodeGen[中间代码生成器]
+    intermediateCodeGen --> intermediateCode[中间代码]
+    intermediateCode1[中间代码] --> independentOptimizingMachines[机器无关优化]
+    independentOptimizingMachines --> intermediateCode2[中间代码]
+    intermediateCode3[中间代码] --> machineRelatedOptimization[机器相关优化]
+    machineRelatedOptimization --> intermediateCode4[中间代码]
+    intermediateCode5[中间代码] --> registerAllocator[寄存器分配器]
+    registerAllocator --> intermediateCode6[中间代码]
+    intermediateCode7[中间代码] --> targetCodeGen[目标代码生成器]
+    targetCodeGen --> target[目标代码]
+
+style source fill:#EDB784
+style tokens fill:#EDB784
+style tokens1 fill:#EDB784
+style ast fill:#EDB784
+style ast1 fill:#EDB784
+style annotationAst fill:#EDB784
+style annotationAst1 fill:#EDB784
+style intermediateCode fill:#EDB784
+style intermediateCode1 fill:#EDB784
+style intermediateCode2 fill:#EDB784
+style intermediateCode2 fill:#EDB784
+style intermediateCode3 fill:#EDB784
+style intermediateCode4 fill:#EDB784
+style intermediateCode5 fill:#EDB784
+style intermediateCode6 fill:#EDB784
+style intermediateCode7 fill:#EDB784
+style target fill:#EDB784
+
+style lexicalAnalyzer fill:#DAF7A6
+style parser fill:#DAF7A6
+style semanticAnalyzer fill:#DAF7A6
+style intermediateCodeGen fill:#DAF7A6
+style independentOptimizingMachines fill:#DAF7A6
+style machineRelatedOptimization fill:#DAF7A6
+style registerAllocator fill:#DAF7A6
+style targetCodeGen fill:#DAF7A6</pre>
+
+<h2 id="Java语言与平台"><a href="#Java语言与平台" class="headerlink" title="Java语言与平台"></a>Java语言与平台</h2><h3 id="Java-Conceptual-Diagram"><a href="#Java-Conceptual-Diagram" class="headerlink" title="Java Conceptual Diagram"></a><a href="https://docs.oracle.com/javase/8/docs/technotes/guides/desc_jdk_structure.html" target="_blank" rel="noopener">Java Conceptual Diagram</a></h3><table summary cellspacing="0" cellpadding="0"><br><!-- Row 1 of 9 --><br><tr valign="top"><br><td rowspan="9">JDK</td><br><td rowspan="2">&nbsp;</td><br><td title="Java programming language"><b>JavaLanguage</b></td><br><!-- Java Language --><br><td><br><table class="tablerows" summary><br><tr><br><td bgcolor="#BDBEC0">JavaLanguage</td><br></tr><br></table><br></td><br><td rowspan="5">&nbsp;</td><br><td rowspan="4">&nbsp;</td><br></tr><br><!-- Row 2 of 9 --><br><tr valign="top"><br><td title="Tools and Tool APIs"><b>Tools &amp;<br>Tool APIs</b></td><br><td><br><table class="tablerows" summary><br><tr><br><td bgcolor="#A3B8CB" title="Java runtime launcher">java</td><br><td bgcolor="#A3B8CB" title="Java compiler">javac</td><br><td bgcolor="#A3B8CB" title="Java documentation generator">javadoc</td><br><td bgcolor="#A3B8CB" title="Java archive tool">jar</td><br><td bgcolor="#A3B8CB" title="Java class file disassembler">javap</td><br><td bgcolor="#A3B8CB" title="Java class dependency analyzer">jdeps</td><br><td bgcolor="#A3B8CB" title="Scripting tools">Scripting</td><br></tr><br><tr><br><td bgcolor="#A3B8CB" title="Security tools">Security</td><br><td bgcolor="#A3B8CB" title="Monitoring and Management tools">Monitoring</td><br><td bgcolor="#A3B8CB" title="jconsole">JConsole</td><br><td bgcolor="#A3B8CB" title="Java VisualVM">VisualVM</td><br><td bgcolor="#A3B8CB" title="Java Mission Control">JMC</td><br><td bgcolor="#A3B8CB" title="Java Flight Recorder" colspan="2">JFR</td><br></tr><br><tr><br><td bgcolor="#A3B8CB" title="Java Platform Debugger Architecture">JPDA</td><br><td bgcolor="#A3B8CB" title="Java Virtual Machine Tool Interface">JVM TI</td><br><td bgcolor="#A3B8CB" title="Interface Definition Language and RMI-IIOP tools">IDL</td><br><td bgcolor="#A3B8CB" title="Remote Method Invocation tools">RMI</td><br><td bgcolor="#A3B8CB" title="Java DB">JavaDB</td><br><td bgcolor="#A3B8CB" title="Deployment, Plug-in and Web Start tools" colspan="2">Deployment</td><br></tr><br><tr><br><td colspan="2" bgcolor="#A3B8CB" title="Internationalization tools">Internationalization</td><br><td colspan="2" bgcolor="#A3B8CB" title="Java Web Services Tools">WebServices</td><br><td colspan="3" bgcolor="#A3B8CB" title="Troubleshooting tools">Troubleshooting</td><br></tr><br></table><br></td><br></tr><br><!-- Row 3 of 9 --><br><tr valign="top"><br><td rowspan="7" class="tdleftside" title="Java Runtime Environment">JRE</td><br><td class="tdhead" title="Deployment Technologies"><b>Deployment</b></td><br><td><br><table class="tablerows" summary><br><tr><br><td bgcolor="#ED9B4F" title="Java Web Start">Java WebStart</td><br><td bgcolor="#ED9B4F" title="Java Plug-In for browsers">Applet / Java Plug-in</td><br></tr><br></table><br></td><br></tr><br><!-- Row 4 of 9 --><br><tr valign="top"><br><td class="tdhead" rowspan="2" title="User Interface programming"><b>User Interface<br>Toolkits</b></td><br><td><br><table class="tablerows" summary><br><tr><br><td bgcolor="#E76F00" title="JavaFX">JavaFX</td><br></tr><br></table><br></td><br></tr><br><!-- Row 5 of 9 --><br><tr valign="top"><br><td><br><table class="tablerows" summary><br><tr><br><td bgcolor="#E76F00" title="Graphical user interface components">Swing</td><br><td bgcolor="#E76F00" title="2D graphics, text and images">Java 2D</td><br><td bgcolor="#E76F00" title="Abstract Window Toolkit">AWT</td><br><td colspan="2" bgcolor="#E76F00" title="Assistive technologies for user interfaces">Accessibility</td><br></tr><br><tr><br><td bgcolor="#E76F00" title="Drag and drop data transfer">Drag andDrop</td><br><td bgcolor="#E76F00" title="Input Method Framework">Input Methods</td><br><td bgcolor="#E76F00" title="Image input/output API">ImageI/O</td><br><td bgcolor="#E76F00" title="Print service API">PrintService</td><br><td bgcolor="#E76F00" title="MIDI API">Sound</td><br></tr><br></table><br></td><br><td class="tdrightside" rowspan="4" title="Java SE API. See API Documentation section for more links.">Java SE<br>API</td><br></tr><br><!-- Row 6 of 9 --><br><tr valign="top"><br><td class="tdhead" title="Integration libraries"><b>Integration<br>Libraries</b></td><br><td><br><table class="tablerows" summary><br><tr><br><td bgcolor="#B2BC00" title="CORBA Interface Definition Language API">IDL</td><br><td bgcolor="#B2BC00" title="Java Database Connectivity API">JDBC</td><br><td bgcolor="#B2BC00" title="Java Naming and Directory Interface API">JNDI</td><br><td bgcolor="#B2BC00" title="Remote Method Invocation API">RMI</td><br><td bgcolor="#B2BC00" title="RMI interfaces over IIOP">RMI-IIOP</td><br><td bgcolor="#B2BC00" title="Scripting for the Java Platform">Scripting</td><br></tr><br></table><br></td><br><td class="tdrightside" rowspan="3" title="Compact Profiles">Compact<br> Profiles</td><br></tr><br><!-- Row 7 of 9 --><br><tr valign="top"><br><td class="tdhead" title="Base libraries other than java.lang and java.util"><b>OtherBase<br>Libraries</b></td><br><td><br><table class="tablerows" summary><br><tr><br><td bgcolor="#C69200" title="Java Beans component API">Beans</td><br><td bgcolor="#C69200" title="Security API">Security</td><br><td bgcolor="#C69200" title="Object Serialization">Serialization</td><br><td bgcolor="#C69200" title="Package extension mechanism">Extension Mechanism</td><br></tr><br><tr><br><td bgcolor="#C69200" title="Java Management Extensions">JMX</td><br><td bgcolor="#C69200" nowrap="nowrap" title="Java API for XML Processing">XML JAXP</td><br><td bgcolor="#C69200" title="Networking API">Networking</td><br><td bgcolor="#C69200" title="Endorsed Standards Override Mechanism">Override Mechanism</td><br></tr><br><tr><br><td bgcolor="#C69200" title="Java Native Interface">JNI</td><br><td bgcolor="#C69200" title="Date and Time">Date and Time</td><br><td bgcolor="#C69200" title="Input/Output API">Input/Output</td><br><td bgcolor="#C69200" title="Internationalization of applications">Internationalization</td><br></tr><br></table><br></td><br></tr><br><!-- Row 8 of 9 --><br><tr valign="top"><br><td class="tdhead" title="java.lang and java.util libraries"><b>lang and util<br>Base Libraries</b><br></td><br><td><br><table class="tablerows" summary><br><tr><br><td colspan="5" bgcolor="#FFC726" title="java.lang and java.util packages">lang and util<br></td><br></tr><br><tr><br><td bgcolor="#FFC726" title="Math classes">Math</td><br><td bgcolor="#FFC726" title="Collections framework">Collections</td><br><td bgcolor="#FFC726" title="Reference Objects API">RefObjects</td><br><td colspan="2" bgcolor="#FFC726" title="Regular expressions">Regular Expressions</td><br></tr><br><tr><br><td bgcolor="#FFC726" title="Logging API">Logging</td><br><td bgcolor="#FFC726" title="JVM Monitoring and Management">Management</td><br><td bgcolor="#FFC726" title="Instrumentation">Instrumentation</td><br><td colspan="2" bgcolor="#FFC726" title="Concurrency utilities">Concurrency Utilities</td><br></tr><br><tr><br><td bgcolor="#FFC726" title="Reflection API">Reflection</td><br><td bgcolor="#FFC726" title="Package version identification">Versioning</td><br><td bgcolor="#FFC726" title="Preferences API">Preferences API</td><br><td bgcolor="#FFC726" title="Java archive file format">JAR</td><br><td bgcolor="#FFC726" title="Zip and gzip file formats">Zip</td><br></tr><br></table><br></td><br></tr><br><!-- Row 9 of 9 --><br><tr valign="top"><br><td class="tdhead" title="Java Virtual Machine"><b>Java VirtualMachine</b></td><br><td><br><table class="tablerows" summary><br><tr><br><td bgcolor="#C5D5A9">Java HotSpot Clientand Server VM</td><br></tr><br></table><br></td><br><td>&nbsp;</td><br><td>&nbsp;</td><br></tr><br></table>
+
+<h2 id="Java源码级编译器-javac"><a href="#Java源码级编译器-javac" class="headerlink" title="Java源码级编译器(javac)"></a>Java源码级编译器(javac)</h2><h2 id="Class文件"><a href="#Class文件" class="headerlink" title="Class文件"></a>Class文件</h2><h2 id="虚拟机与JVM"><a href="#虚拟机与JVM" class="headerlink" title="虚拟机与JVM"></a>虚拟机与JVM</h2><h2 id="HotSpot-VM"><a href="#HotSpot-VM" class="headerlink" title="HotSpot VM"></a>HotSpot VM</h2><h2 id="HotSpot-VM的运行时支持"><a href="#HotSpot-VM的运行时支持" class="headerlink" title="HotSpot VM的运行时支持"></a>HotSpot VM的运行时支持</h2><h2 id="HotSpot与解释器"><a href="#HotSpot与解释器" class="headerlink" title="HotSpot与解释器"></a>HotSpot与解释器</h2><h2 id="HotSpot与JIT编译器"><a href="#HotSpot与JIT编译器" class="headerlink" title="HotSpot与JIT编译器"></a>HotSpot与JIT编译器</h2><h2 id="HotSpot-VM与JSR-292"><a href="#HotSpot-VM与JSR-292" class="headerlink" title="HotSpot VM与JSR 292"></a>HotSpot VM与JSR 292</h2>
+  </article>
+</div>
+
+
+    
+<div class="container disqus-container">
+  <div id="disqus_thread"></div>
+</div>
+
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://oatiz.me/2017/07/28/rednaxelafx-share/";
+    this.page.identifier = 1501230484;
+  };
+
+  (function() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://zeshawne.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
+</script>
+
+
+
+
+
+</div>
+
+<div class="footer-wrapper container">
+  <footer class="footer clearfix">
+    <div class="clearfix">
+    <a href="https://oatiz.me" class="footer-logo">
+      <i class="fa fa-github"></i>
+    </a>
+    <ul class="footer-social-link">
+      <li>© 2018 oatiz</li>
+      <li><a href="https://oatiz.me">Home</a></li>
+      
+      <li><a href="https://github.com/oatiz">Github</a></li>
+      
+      <li><a href="None">Weibo</a></li>
+      
+    </ul>
+    <div class="footer-theme-info">
+      Theme <a href="//github.com/sabrinaluo/hexo-theme-replica">Replica</a>
+      by <a href="//github.com/sabrinaluo">Hiitea</a> ❤ Powered by Hexo
+    </div>
+    </div>
+    
+    <div class="footer-pageview">
+        <a href="https://info.flagcounter.com/mx4Y">
+          <img src="//s11.flagcounter.com/count2/VDLa/bg_FFFFFF/txt_000000/border_CCCCCC/columns_2/maxflags_10/viewers_0/labels_0/pageviews_0/flags_0/percent_0/">
+        </a>
+    </div>
+    
+  </footer>
+</div>
+
+
+
+
+<script src="/js/main.js"></script>
+
+</body>
+</html>

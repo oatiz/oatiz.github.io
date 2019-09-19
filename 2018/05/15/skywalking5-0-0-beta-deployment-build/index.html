@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>
+    skywalking5.0部署搭建 | おはよう
+  </title>
+  <meta name="description" content="Rust | Distributed Systems | Database Systems">
+  
+  <meta name="keywords" content="
+  apm,skywalking
+  ">
+  
+  <meta name="author" content="oatiz">
+
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+  <link rel="icon" type="image/x-icon" href="https://github.githubassets.com/favicon.ico">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  
+
+  
+
+  <script src="https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js"></script>
+<script>
+    if (window.mermaid) {
+        mermaid.initialize({ theme: 'forest' });
+    }
+</script>
+
+  
+    
+      <!-- MathJax support START -->
+      <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+            processEscapes: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          }
+        });
+      </script>
+  
+      <script type="text/x-mathjax-config">
+        MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for (i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+        });
+      </script>
+      <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <!-- MathJax support END -->
+    
+  
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/vue/1.0.25-csp/vue.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+</head>
+
+<body id="replica-app">
+
+<nav class="navbar-wrapper">
+  <div class="navbar">
+    <div class="container clearfix">
+      <a href="/" class="navbar-logo"><i class="fa fa-github"></i></a>
+
+      <div class="navbar-search float-left desktop-only">
+        <div class="navbar-search-form">
+          <label for="gsc-i-id1">This website</label>
+          <div id="google-search">
+            <gcse:search></gcse:search>
+          </div>
+        </div>
+      </div>
+
+      <ul class="navbar-nav float-left">
+        
+        <li><a href="/archives">Archives</a></li>
+        
+        
+        <li><a href="/categories">Categories</a></li>
+        
+        
+        <li><a href="/tags">Tags</a></li>
+        
+        
+        <li class="desktop-only"><a href="/atom.xml" target="_blank">RSS</a></li>
+        
+      </ul>
+
+      <ul class="navbar-nav user-nav float-right desktop-only">
+        <li class="user-nav-notification">
+          <a><span class="user-nav-unread"></span><i class="fa fa-bell"></i></a>
+        </li>
+        <li>
+          <a><i class="fa fa-plus"></i> <i class="fa fa-caret-down"></i></a>
+        </li>
+        <li class="user-nav-logo">
+          <a><img src="https://avatars2.githubusercontent.com/u/24953151?v=4&amp;s=460"> <i class="fa fa-caret-down"></i></i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="main-container">
+  <header class="header-wrapper desktop-only">
+  <div class="container header-site-detail">
+    <ul class="header-toolbar">
+      <li class="clearfix">
+        <a href="/archives" class="header-toolbar-left"><i
+                  class="fa fa-file-text"></i> Posts </a>
+        <a href="/archives"
+           class="header-toolbar-right"> 16 </a>
+      </li>
+      <li>
+        <a href="/tags" class="header-toolbar-left"><i
+                  class="fa fa-tags"></i> Tags </a>
+        <a href="/tags"
+           class="header-toolbar-right"> 21 </a>
+      </li>
+      <li>
+        <a href="/categories" class="header-toolbar-left"><i
+                  class="fa fa-folder-open"></i> Categories </a>
+        <a href="/categories"
+           class="header-toolbar-right"> 11 </a>
+      </li>
+    </ul>
+    <h2 class="header-title">
+      <i class="fa fa-book text-muted"></i>
+      <a href="/">おはよう</a>
+      
+      
+    </h2>
+  </div>
+
+  <div class="container">
+    <div class="header-tab-wrapper clearfix">
+      <span class="header-tab header-tab-selected"><i class="fa fa-thumbs-o-up"></i> Like</span>
+      <span class="header-tab"><i class="fa fa-share-alt"></i> Share</span>
+      <span class="header-tab"><i class="fa fa-comments-o"></i> Discussion</span>
+      <span class="header-tab"><i class="fa fa-bookmark-o"></i> Bookmark </span>
+      <span class="header-tab"><i class="fa fa-smile-o"></i> Smile <i class="fa fa-caret-down"></i></span>
+    </div>
+  </div>
+</header>
+
+
+<div class="post-container container">
+  <h3>
+    <i class="fa fa-user-o"></i>
+    oatiz
+
+    <span class="post-date float-right" title="{{moment(1526352105000).format('MMM DD, YYYY, h:mm:ss A')}}">
+      <i class="fa fa-pencil-square-o"></i>
+      {{moment(1526352105000).fromNow()}}
+    </span>
+  </h3>
+
+  <article class="post-content">
+    <h1>skywalking5.0部署搭建</h1>
+    <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p><a href="http://skywalking.io/" target="_blank" rel="noopener">skywalking官网</a></p>
+<p><a href="https://github.com/apache/incubator-skywalking" target="_blank" rel="noopener">skywalking-github</a></p>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>相关文章:<br><a href="https://juejin.im/post/5a274614518825592c07f8b8" target="_blank" rel="noopener">几种分布式调用链监控组件的实践与比较</a></p>
+<p>我们生产使用的spring cloud体系, eureka来做服务发现,feign进行通信,默认使用 hystrix做服务熔断.</p>
+<p>结合上述相关介绍,我们最终采用skywalking</p>
+<h2 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h2><h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><p>点击<a href="http://skywalking.io/downloads/" target="_blank" rel="noopener">下载地址</a>,然后选择对应版本进行下载,解压</p>
+<h3 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h3><p>下载后解压,文件目录可以分为三部分:</p>
+<ul>
+<li>agent: 需要监控的应用的代理</li>
+<li>collector: 应用trace信息收集器(被监控应用内数据会被收集起来)</li>
+<li>webapp: 前端页面展示</li>
+</ul>
+<p>结构如下:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">apache-skywalking-apm-incubating</span><br><span class="line">|-- agent</span><br><span class="line">|   |-- activations</span><br><span class="line">|   |   |-- apm-toolkit-log4j-1.x-activation-5.0.0-beta-SNAPSHOT.jar</span><br><span class="line">|   |   |-- apm-toolkit-log4j-2.x-activation-5.0.0-beta-SNAPSHOT.jar</span><br><span class="line">|   |   |-- apm-toolkit-logback-1.x-activation-5.0.0-beta-SNAPSHOT.jar</span><br><span class="line">|   |   |-- apm-toolkit-opentracing-activation-5.0.0-beta-SNAPSHOT.jar</span><br><span class="line">|   |   `-- apm-toolkit-trace-activation-5.0.0-beta-SNAPSHOT.jar</span><br><span class="line">|   |-- config</span><br><span class="line">|   |   `-- agent.config</span><br><span class="line">|   |-- logs</span><br><span class="line">|   |-- optional-plugins</span><br><span class="line">|   |   `-- apm-spring-annotation-plugin-5.0.0-beta-SNAPSHOT.jar</span><br><span class="line">|   |-- plugins</span><br><span class="line">|   |   |-- apm-dubbo-plugin-5.0.0-beta-SNAPSHOT.jar</span><br><span class="line">|   |   |-- apm-elastic-job-2.x-plugin-5.0.0-beta-SNAPSHOT.jar</span><br><span class="line">|   |   |-- ......</span><br><span class="line">|   |   `-- tomcat-7.x-8.x-plugin-5.0.0-beta-SNAPSHOT.jar</span><br><span class="line">|   `-- skywalking-agent.jar</span><br><span class="line">|-- bin</span><br><span class="line">|   |-- collectorService.bat</span><br><span class="line">|   |-- collectorService.sh</span><br><span class="line">|   |-- startup.bat</span><br><span class="line">|   |-- startup.sh</span><br><span class="line">|   |-- webappService.bat</span><br><span class="line">|   `-- webappService.sh</span><br><span class="line">|-- collector-libs</span><br><span class="line">|   |-- agent-grpc-define-5.0.0-beta-SNAPSHOT.jar</span><br><span class="line">|   |-- agent-grpc-provider-5.0.0-beta-SNAPSHOT.jar</span><br><span class="line">|   |-- agent-jetty-define-5.0.0-beta-SNAPSHOT.jar</span><br><span class="line">|   |-- ......</span><br><span class="line">|   `-- zookeeper-3.4.10.jar</span><br><span class="line">|-- config</span><br><span class="line">|   |-- application.yml</span><br><span class="line">|   |-- component-libraries.yml</span><br><span class="line">|   `-- log4j2.xml</span><br><span class="line">|-- DISCLAIMER</span><br><span class="line">|-- LICENSE</span><br><span class="line">|-- licenses</span><br><span class="line">|   |-- LICENSE-annotations.txt</span><br><span class="line">|   |-- LICENSE-antlr4-runtime.txt</span><br><span class="line">|   |-- ......</span><br><span class="line">|   |-- LICENSE-zuul.txt</span><br><span class="line">|   `-- ui-licenses</span><br><span class="line">|       |-- LICENSE-add-dom-event-listener</span><br><span class="line">|       |-- LICENSE-antd</span><br><span class="line">|       |-- ......</span><br><span class="line">|       `-- LICENSE-whatwg-fetch</span><br><span class="line">|-- logs</span><br><span class="line">|   |-- collector.log</span><br><span class="line">|   |-- skywalking-collector-server.log</span><br><span class="line">|   |-- webapp-console.log</span><br><span class="line">|   `-- webapp.log</span><br><span class="line">|-- NOTICE</span><br><span class="line">|-- README.txt</span><br><span class="line">`-- webapp</span><br><span class="line">    `-- skywalking-webapp.jar</span><br></pre></td></tr></table></figure>
+<h3 id="后端部署"><a href="#后端部署" class="headerlink" title="后端部署"></a>后端部署</h3><ul>
+<li>修改config/application.yml,将里面所有host改为物理机ip</li>
+<li>修改bin/webappService.sh,将collector.ribbon.listOfServers=127.0.0.1:10800,改为config/application.yml里面naming.jetty.host与port</li>
+<li>执行bin/startup.sh</li>
+</ul>
+<p>需要注意的是,skywalking数据采用elasticsearch 存储.需要部署es,并且修改es的配置文件 elasticsearch.yml,将对应配置改为以下配置:</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">network.host:</span> <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span></span><br><span class="line"><span class="string">thread_pool.bulk.queue_size:</span> <span class="number">1000</span></span><br></pre></td></tr></table></figure>
+<h3 id="agent部署"><a href="#agent部署" class="headerlink" title="agent部署"></a>agent部署</h3><ul>
+<li>复制skywalking-agent到任意目录</li>
+<li>配置agent/config/agent.config文件<ul>
+<li>将collector.servers填写为collector配置文件(config/application.yml)中naming/jetty/ip:port</li>
+</ul>
+</li>
+<li>添加参数<ul>
+<li>在jvm启动参数添加:<strong>-javaagent:/path/to/skywalking-agent/skywalking-agent.jar</strong></li>
+</ul>
+</li>
+</ul>
+<p>假设我们已经将skywalking-agent放到/opt/skywalking/目录下,那么我们的启动命令应该写为:</p>
+<blockquote>
+<p>java -javaagent:/opt/skywalking/agent/skywalking-agent.jar -Dskywalking.agent.application_code=gateway -jar gateway.jar</p>
+</blockquote>
+<p>配置除了通过/config/agent.config文件外,可以通过环境变量和VM参数(-D)来进行设置</p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>因为现有版本5.0.0-alpha有bug,所以需要使用新发布的5.0.0-beta版,所以需要编译对应版本源码</p>
+<ul>
+<li>拉取skywalking对应版本代码<ul>
+<li>git clone <a href="https://github.com/apache/incubator-skywalking.git" target="_blank" rel="noopener">https://github.com/apache/incubator-skywalking.git</a></li>
+<li>git checkout v5.0.0-beta</li>
+</ul>
+</li>
+<li>拉取子模块<ul>
+<li>git submodule init</li>
+<li>git submodule update</li>
+</ul>
+</li>
+<li>修改npm源<ul>
+<li>打开apm-webapp/pom.xml,搜索frontend-maven-plugin</li>
+<li>将install --registry=<a href="https://registry.npmjs.org/" target="_blank" rel="noopener">https://registry.npmjs.org/</a> 替换为 install --registry=<a href="https://registry.npm.taobao.org/" target="_blank" rel="noopener">https://registry.npm.taobao.org/</a></li>
+</ul>
+</li>
+<li>编译<ul>
+<li>mvn clean package -DskipTests</li>
+</ul>
+</li>
+</ul>
+<p>打包成功后对应的skywalking存放在apm-dist/target目录下,根据上面的部署步骤使用</p>
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><ul>
+<li>agent中的collector.ip需要与collector 中配置文件中的相同(agent与collector在不同机器时,注意将ip改为对应机器的ip)</li>
+<li>部署agent,collector机器的系统时区必须一致(不同时dashboard中查看不到数据)</li>
+<li>编译时替换npm源</li>
+</ul>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://github.com/apache/incubator-skywalking/blob/master/docs/README_ZH.md" target="_blank" rel="noopener">skywalking-中文文档</a><br></p>
+
+  </article>
+</div>
+
+
+    
+<div class="container disqus-container">
+  <div id="disqus_thread"></div>
+</div>
+
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://oatiz.me/2018/05/15/skywalking5-0-0-beta-deployment-build/";
+    this.page.identifier = 1526352105;
+  };
+
+  (function() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://zeshawne.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
+</script>
+
+
+
+
+
+</div>
+
+<div class="footer-wrapper container">
+  <footer class="footer clearfix">
+    <div class="clearfix">
+    <a href="https://oatiz.me" class="footer-logo">
+      <i class="fa fa-github"></i>
+    </a>
+    <ul class="footer-social-link">
+      <li>© 2018 oatiz</li>
+      <li><a href="https://oatiz.me">Home</a></li>
+      
+      <li><a href="https://github.com/oatiz">Github</a></li>
+      
+      <li><a href="None">Weibo</a></li>
+      
+    </ul>
+    <div class="footer-theme-info">
+      Theme <a href="//github.com/sabrinaluo/hexo-theme-replica">Replica</a>
+      by <a href="//github.com/sabrinaluo">Hiitea</a> ❤ Powered by Hexo
+    </div>
+    </div>
+    
+    <div class="footer-pageview">
+        <a href="https://info.flagcounter.com/mx4Y">
+          <img src="//s11.flagcounter.com/count2/VDLa/bg_FFFFFF/txt_000000/border_CCCCCC/columns_2/maxflags_10/viewers_0/labels_0/pageviews_0/flags_0/percent_0/">
+        </a>
+    </div>
+    
+  </footer>
+</div>
+
+
+
+
+<script src="/js/main.js"></script>
+
+</body>
+</html>

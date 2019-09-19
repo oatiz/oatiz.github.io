@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>
+    摘录:分布式数据库学习路线 | おはよう
+  </title>
+  <meta name="description" content="Rust | Distributed Systems | Database Systems">
+  
+  <meta name="keywords" content="
+  database,excerpts,distributed system
+  ">
+  
+  <meta name="author" content="oatiz">
+
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+  <link rel="icon" type="image/x-icon" href="https://github.githubassets.com/favicon.ico">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  
+
+  
+
+  <script src="https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js"></script>
+<script>
+    if (window.mermaid) {
+        mermaid.initialize({ theme: 'forest' });
+    }
+</script>
+
+  
+    
+      <!-- MathJax support START -->
+      <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+            processEscapes: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          }
+        });
+      </script>
+  
+      <script type="text/x-mathjax-config">
+        MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for (i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+        });
+      </script>
+      <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <!-- MathJax support END -->
+    
+  
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/vue/1.0.25-csp/vue.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+</head>
+
+<body id="replica-app">
+
+<nav class="navbar-wrapper">
+  <div class="navbar">
+    <div class="container clearfix">
+      <a href="/" class="navbar-logo"><i class="fa fa-github"></i></a>
+
+      <div class="navbar-search float-left desktop-only">
+        <div class="navbar-search-form">
+          <label for="gsc-i-id1">This website</label>
+          <div id="google-search">
+            <gcse:search></gcse:search>
+          </div>
+        </div>
+      </div>
+
+      <ul class="navbar-nav float-left">
+        
+        <li><a href="/archives">Archives</a></li>
+        
+        
+        <li><a href="/categories">Categories</a></li>
+        
+        
+        <li><a href="/tags">Tags</a></li>
+        
+        
+        <li class="desktop-only"><a href="/atom.xml" target="_blank">RSS</a></li>
+        
+      </ul>
+
+      <ul class="navbar-nav user-nav float-right desktop-only">
+        <li class="user-nav-notification">
+          <a><span class="user-nav-unread"></span><i class="fa fa-bell"></i></a>
+        </li>
+        <li>
+          <a><i class="fa fa-plus"></i> <i class="fa fa-caret-down"></i></a>
+        </li>
+        <li class="user-nav-logo">
+          <a><img src="https://avatars2.githubusercontent.com/u/24953151?v=4&amp;s=460"> <i class="fa fa-caret-down"></i></i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="main-container">
+  <header class="header-wrapper desktop-only">
+  <div class="container header-site-detail">
+    <ul class="header-toolbar">
+      <li class="clearfix">
+        <a href="/archives" class="header-toolbar-left"><i
+                  class="fa fa-file-text"></i> Posts </a>
+        <a href="/archives"
+           class="header-toolbar-right"> 16 </a>
+      </li>
+      <li>
+        <a href="/tags" class="header-toolbar-left"><i
+                  class="fa fa-tags"></i> Tags </a>
+        <a href="/tags"
+           class="header-toolbar-right"> 21 </a>
+      </li>
+      <li>
+        <a href="/categories" class="header-toolbar-left"><i
+                  class="fa fa-folder-open"></i> Categories </a>
+        <a href="/categories"
+           class="header-toolbar-right"> 11 </a>
+      </li>
+    </ul>
+    <h2 class="header-title">
+      <i class="fa fa-book text-muted"></i>
+      <a href="/">おはよう</a>
+      
+      
+    </h2>
+  </div>
+
+  <div class="container">
+    <div class="header-tab-wrapper clearfix">
+      <span class="header-tab header-tab-selected"><i class="fa fa-thumbs-o-up"></i> Like</span>
+      <span class="header-tab"><i class="fa fa-share-alt"></i> Share</span>
+      <span class="header-tab"><i class="fa fa-comments-o"></i> Discussion</span>
+      <span class="header-tab"><i class="fa fa-bookmark-o"></i> Bookmark </span>
+      <span class="header-tab"><i class="fa fa-smile-o"></i> Smile <i class="fa fa-caret-down"></i></span>
+    </div>
+  </div>
+</header>
+
+
+<div class="post-container container">
+  <h3>
+    <i class="fa fa-user-o"></i>
+    oatiz
+
+    <span class="post-date float-right" title="{{moment(1545893474000).format('MMM DD, YYYY, h:mm:ss A')}}">
+      <i class="fa fa-pencil-square-o"></i>
+      {{moment(1545893474000).fromNow()}}
+    </span>
+  </h3>
+
+  <article class="post-content">
+    <h1>摘录:分布式数据库学习路线</h1>
+    <h2 id="来源"><a href="#来源" class="headerlink" title="来源"></a>来源</h2><p>摘录自知乎问题:<a href="https://www.zhihu.com/question/62464757" target="_blank" rel="noopener">对数据库和分布式很感兴趣，学习路线是什么？</a></p>
+<h2 id="李晨曦的回答"><a href="#李晨曦的回答" class="headerlink" title="李晨曦的回答:"></a><a href="https://www.zhihu.com/question/62464757/answer/202033688" target="_blank" rel="noopener">李晨曦的回答</a>:</h2><p>分布式的学习不是很了解，数据库有些经验可以按照如下步骤学习</p>
+<h3 id="1-入门"><a href="#1-入门" class="headerlink" title="1. 入门"></a>1. 入门</h3><p>接触过数据库的基础知识和应用之后，就可以开始进行内核级的学习了，先学习传统的关系型数据库，因为它是一切数据库的基础，包括现在比较火的内存数据库，分布式数据库等。</p>
+<p>从<code>IV Database System Implementation</code>开始，把这本书吃透了，包括数据的物理存储结构，索引，查询引擎，缓冲池，SQL编译，查询优化，系统恢复，并发控制。然后实现上面这些理论知识，完成一个支持简单DML，DDL的数据库。一定要实现，只是学习理论，不动手实践是不可能深刻理解的，就像空中楼阁。</p>
+<p><a href="http://rtbs24.com/?target=https%3A%2F%2Fytthn.com%2Fclick-IQL4686A-HFDQCIIE%3Fbt%3D25%26tl%3D1__%26url%3Dhttp%3A%2F%2Fitem.jd.com%2F10059733.html" target="_blank" rel="noopener">《数据库系统实现（英文版）（第2版）》</a></p>
+<p><a href="http://dsm.fudan.edu.cn/JSPWiki/attach/Material_db/database%20system%20complete%20book_2nd.pdf2" target="_blank" rel="noopener">http://dsm.fudan.edu.cn/JSPWiki/attach/Material_db/database%20system%20complete%20book_2nd.pdf2</a></p>
+<h3 id="2-深入理解"><a href="#2-深入理解" class="headerlink" title="2. 深入理解"></a>2. 深入理解</h3><p>参考这个论文列表，把里面的论文都读一遍，了解关系型数据库历史，了解数据库的发展过程中走过的弯路，理解它为什么会变成现在这个样子</p>
+<p><a href="https://github.com/rxin/db-readings" target="_blank" rel="noopener">rxin/db-readings</a></p>
+<p>同时也要锻炼系统级编程的能力，深刻理解操作系统的工作原理，并行编程，熟悉一些硬件的工作原理，为以后打下良好的基础。可以读一些优秀的开源数据库的源码，如Peloton的<a href="https://github.com/cmu-db/peloton" target="_blank" rel="noopener">cmu-db/peloton</a>，只有几万行代码，PostgreSQL的，代码非常多，不过注释非常清晰</p>
+<h3 id="3-进阶"><a href="#3-进阶" class="headerlink" title="3. 进阶"></a>3. 进阶</h3><p>看最近几年数据库相关的论文，各个方向的发展都全面了解一下，可以参考这两个课程提到的论文<a href="https://15721.courses.cs.cmu.edu/spring2017/schedule.html" target="_blank" rel="noopener">Schedule - CMU 15-721 :: Advanced Database System (Spring 2017)</a>，<a href="https://db.in.tum.de/teaching/ws1617/imlab/?lang=en" target="_blank" rel="noopener">Practical Course: Database Implementation</a>，找一些感觉兴趣的论文复现一下里面提到的方法。很多算法，数据结构都有一定的适用场景和局限性，要通过自己实现与实验来深刻体会。</p>
+<h3 id="4-破茧成蝶"><a href="#4-破茧成蝶" class="headerlink" title="4. 破茧成蝶"></a>4. 破茧成蝶</h3><p>这才是读博最重要的阶段，通过之前的学习，应该对数据库的各个方面都非常了解了，而且也打下了良好的编程能力，可以选1,2个感兴趣的方向，看看有没有什么可以改进，突破的点，想出自己的idea，实现并与现有的方法进行对比，如果可以做的很好，就非常厉害了。</p>
+<h2 id="Ed-Huang的回答"><a href="#Ed-Huang的回答" class="headerlink" title="Ed Huang的回答:"></a><a href="https://www.zhihu.com/question/62464757/answer/202312500" target="_blank" rel="noopener">Ed Huang的回答</a>:</h2><p>深夜倒时差睡不着，上来写写</p>
+<p>对传统数据库不太了解，毕竟不是科班出身。</p>
+<p>对分布式系统学习还是有点心得，理论基础要打牢。</p>
+<ol>
+<li><p>从存储系统入手，Google 的老三篇入门，最好能顺手把 6.824 做了，不难，智商正常的本科生都能做完，另外推荐一本书 Distributed systems for fun and profit</p>
+</li>
+<li><p>做完 6.824 后就可以从复制协议开始入手, Paxos 的几篇，Lamport 那篇有空膜拜一下好了，真正有价值的是 Paxos made live / Paxos made simple 那几篇，然后可以深入看看 Raft, 这个在 6.824 里面会用到.</p>
+</li>
+<li><p>然后开始开非 Google 系的存储系统比如 Dynamo ，Haystack 啊什么的还有一些最终一致性的系统，比如 FB 在一些系统上的设计虽然没有 Google 那么 fancy，但是看看还是不错的，至少知道在 FB 的数量级下会遇到那些问题，如何用糙快猛的办法 workaround。。。 和一些分布式计算系统和流计算系统，比如  MR 就不说了，比如 Dremel 啊，Spark 啊，MillWheel 啊，Sawzall 啊</p>
+</li>
+<li><p>把 SQL 优化器的一些基础知识学会咯，然后尽量用分布式系统的思想去思考。然后有点感觉了以后，可以看 F1 和 2017 的 Spanner 那两篇论文找找感觉，毕竟比较简单。然后就可以去找一些 OLAP 系统的论文看看了，HyPer 有一堆论文，Impala / Presto / Kudu 啊， AsterixDB 啊什么的，这个领域就多了去了。</p>
+</li>
+<li><p>这时候就可以开始实践了，自己动手撸没啥意思，而且工程量巨大无比，我建议还是要和靠谱的团队一起工作，进步很快，比如暑假没事或者实验室老师不管的话可以来我们这边实实习啊，毕竟鄙司是分布式系统和数据库技术融合得很不错的公司，离你们学校又近，打个车 20 分钟就到了，我的邮箱是 huang at <a href="http://pingcap.com，不过建议还是你把邮件发给" target="_blank" rel="noopener">http://pingcap.com，不过建议还是你把邮件发给</a> shenli，毕竟我推荐没有 iPhone 拿，他是有的…有机会未来见。</p>
+</li>
+</ol>
+
+  </article>
+</div>
+
+
+    
+<div class="container disqus-container">
+  <div id="disqus_thread"></div>
+</div>
+
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://oatiz.me/2018/12/27/distributed-db-roadmap/";
+    this.page.identifier = 1545893474;
+  };
+
+  (function() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://zeshawne.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
+</script>
+
+
+
+
+
+</div>
+
+<div class="footer-wrapper container">
+  <footer class="footer clearfix">
+    <div class="clearfix">
+    <a href="https://oatiz.me" class="footer-logo">
+      <i class="fa fa-github"></i>
+    </a>
+    <ul class="footer-social-link">
+      <li>© 2018 oatiz</li>
+      <li><a href="https://oatiz.me">Home</a></li>
+      
+      <li><a href="https://github.com/oatiz">Github</a></li>
+      
+      <li><a href="None">Weibo</a></li>
+      
+    </ul>
+    <div class="footer-theme-info">
+      Theme <a href="//github.com/sabrinaluo/hexo-theme-replica">Replica</a>
+      by <a href="//github.com/sabrinaluo">Hiitea</a> ❤ Powered by Hexo
+    </div>
+    </div>
+    
+    <div class="footer-pageview">
+        <a href="https://info.flagcounter.com/mx4Y">
+          <img src="//s11.flagcounter.com/count2/VDLa/bg_FFFFFF/txt_000000/border_CCCCCC/columns_2/maxflags_10/viewers_0/labels_0/pageviews_0/flags_0/percent_0/">
+        </a>
+    </div>
+    
+  </footer>
+</div>
+
+
+
+
+<script src="/js/main.js"></script>
+
+</body>
+</html>
