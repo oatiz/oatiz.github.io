@@ -7,12 +7,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>
-    rust中所有权,引用,生命周期小记 | おはよう
+    (一) DBMS系统概述及辅助储存管理 | おはよう
   </title>
   <meta name="description" content="Rust | Distributed Systems | Database Systems">
   
   <meta name="keywords" content="
-  rust,ownership,lifetime,RAII
+  database
   ">
   
   <meta name="author" content="oatiz">
@@ -20,7 +20,7 @@
   <meta http-equiv="Cache-Control" content="no-transform">
   <meta http-equiv="Cache-Control" content="no-siteapp">
 
-  <link rel="icon" type="image/x-icon" href="https://coding.net/u/oatiz/p/oatiz/git/raw/master/images/logo.png">
+  <link rel="icon" type="image/x-icon" href="https://github.githubassets.com/favicon.ico">
   <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   
@@ -77,7 +77,7 @@
           <a><i class="fa fa-plus"></i> <i class="fa fa-caret-down"></i></a>
         </li>
         <li class="user-nav-logo">
-          <a><img src="https://coding.net/u/oatiz/p/oatiz/git/raw/master/images/avatar.png"> <i class="fa fa-caret-down"></i></i></a>
+          <a><img src="https://avatars2.githubusercontent.com/u/24953151?v=4&amp;s=460"> <i class="fa fa-caret-down"></i></i></a>
         </li>
       </ul>
     </div>
@@ -132,64 +132,19 @@
     <i class="fa fa-user-o"></i>
     oatiz
 
-    <span class="post-date float-right" title="{{moment(1543479184000).format('MMM DD, YYYY, h:mm:ss A')}}">
+    <span class="post-date float-right" title="{{moment(1555500600000).format('MMM DD, YYYY, h:mm:ss A')}}">
       <i class="fa fa-pencil-square-o"></i>
-      {{moment(1543479184000).fromNow()}}
+      {{moment(1555500600000).fromNow()}}
     </span>
   </h3>
 
   <article class="post-content">
-    <h1>rust中所有权,引用,生命周期小记</h1>
-    <h2 id="rust-所有权-引用-生命周期"><a href="#rust-所有权-引用-生命周期" class="headerlink" title="rust 所有权,引用,生命周期"></a>rust 所有权,引用,生命周期</h2><h3 id="所有权"><a href="#所有权" class="headerlink" title="所有权"></a>所有权</h3><p>存在即是为了管理<code>堆数据</code></p>
-<ul>
-<li>跟踪代码正在堆上使用的数据</li>
-<li>最大限度减少堆上的重复数据</li>
-<li>清理堆上不再使用的数据</li>
-</ul>
-<h3 id="rules"><a href="#rules" class="headerlink" title="rules"></a>rules</h3><ul>
-<li>Each value in Rust has a variable that’s called its owner.<ul>
-<li>rust每个值都有一个被叫做owner的变量</li>
-</ul>
-</li>
-<li>There can only be one owner at a time.<ul>
-<li>值只能有一个所有者</li>
-</ul>
-</li>
-<li>When the owner goes out of scope, the value will be dropped.<ul>
-<li>当所有者离开作用域,值将会被清除</li>
-</ul>
-</li>
-</ul>
-<h3 id="RAII"><a href="#RAII" class="headerlink" title="RAII"></a>RAII</h3><p>Resource Acquisition Is Initialization (RAII)</p>
-<h2 id="引用与借用"><a href="#引用与借用" class="headerlink" title="引用与借用"></a>引用与借用</h2><p>引用作为方法函数为<code>借用</code>, 脱离作用域值不会被丢弃掉</p>
-<h3 id="数据竞争-data-race"><a href="#数据竞争-data-race" class="headerlink" title="数据竞争(data race)"></a>数据竞争(data race)</h3><p>数据竞争先决条件:</p>
-<ul>
-<li>Two or more pointers access the same data at the same time.<ul>
-<li>两个或多个指针同时访问同一数据</li>
-</ul>
-</li>
-<li>At least one of the pointers is being used to write to the data.<ul>
-<li>至少有一个指针被用来写入数据</li>
-</ul>
-</li>
-<li>There’s no mechanism being used to synchronize access to the data.<ul>
-<li>没有同步数据访问的机制</li>
-</ul>
-</li>
-</ul>
-<h3 id="rules-1"><a href="#rules-1" class="headerlink" title="rules"></a>rules</h3><ul>
-<li>At any given time, you can have either one mutable reference or any number of immutable references.<ul>
-<li>任意给定时间,只能拥有一个可变引用或者多个不可变引用</li>
-</ul>
-</li>
-<li>References must always be valid.<ul>
-<li>引用必须总是有效的</li>
-</ul>
-</li>
-</ul>
-<h2 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h2><p>用来解决悬垂指针问题<br>悬垂指针(dangling pointer): 指针指向的内存已经被分配给其他自由者</p>
-<p>TODO …</p>
-
+    <h1>(一) DBMS系统概述及辅助储存管理</h1>
+    <blockquote>
+<p>TODO</p>
+</blockquote>
+<hr>
+<h2 id="1-1-数据库系统发展"><a href="#1-1-数据库系统发展" class="headerlink" title="1.1 数据库系统发展"></a>1.1 数据库系统发展</h2><h2 id="1-2-数据库管理系统概述"><a href="#1-2-数据库管理系统概述" class="headerlink" title="1.2 数据库管理系统概述"></a>1.2 数据库管理系统概述</h2><h2 id="2-1-存储器层次"><a href="#2-1-存储器层次" class="headerlink" title="2.1 存储器层次"></a>2.1 存储器层次</h2><h2 id="2-2-磁盘"><a href="#2-2-磁盘" class="headerlink" title="2.2 磁盘"></a>2.2 磁盘</h2><h2 id="2-3-加速对辅助存储器的访问"><a href="#2-3-加速对辅助存储器的访问" class="headerlink" title="2.3 加速对辅助存储器的访问"></a>2.3 加速对辅助存储器的访问</h2><h2 id="2-4-磁盘故障"><a href="#2-4-磁盘故障" class="headerlink" title="2.4 磁盘故障"></a>2.4 磁盘故障</h2><h2 id="2-5-组织磁盘上的数据"><a href="#2-5-组织磁盘上的数据" class="headerlink" title="2.5 组织磁盘上的数据"></a>2.5 组织磁盘上的数据</h2><h2 id="2-6-块和记录地址的表示"><a href="#2-6-块和记录地址的表示" class="headerlink" title="2.6 块和记录地址的表示"></a>2.6 块和记录地址的表示</h2><h2 id="2-7-变长数据和记录"><a href="#2-7-变长数据和记录" class="headerlink" title="2.7 变长数据和记录"></a>2.7 变长数据和记录</h2><h2 id="2-8-记录的修改"><a href="#2-8-记录的修改" class="headerlink" title="2.8 记录的修改"></a>2.8 记录的修改</h2>
   </article>
 </div>
 
@@ -201,8 +156,8 @@
 
 <script>
   var disqus_config = function() {
-    this.page.url = "https://oatiz.me/2018/11/29/rust_ownership/";
-    this.page.identifier = 1543479184;
+    this.page.url = "https://oatiz.me/2019/04/17/db-impl-1-into/";
+    this.page.identifier = 1555500600;
   };
 
   (function() {
@@ -230,6 +185,8 @@
       <li><a href="https://oatiz.me">Home</a></li>
       
       <li><a href="https://github.com/oatiz">Github</a></li>
+      
+      <li><a href="None">Weibo</a></li>
       
     </ul>
     <div class="footer-theme-info">
