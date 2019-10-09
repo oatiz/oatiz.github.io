@@ -168,7 +168,7 @@
     <h1>(三) 查询执行</h1>
     <p>[toc]</p>
 <h2 id="1-前言"><a href="#1-前言" class="headerlink" title="1. 前言"></a>1. 前言</h2><p><code>查询处理器</code>是<strong>DBMS</strong>中的一个部件集合,它能够将用户的查询和数据修改的命令转变为数据库上的操作序列并且执行这些操作。</p>
-<p><img src="images/db_impl_03_the_major_parts_of_the_query_processor.png" alt="查询处理器的主要部分"></p>
+<p><img src="/images/db_impl_03_the_major_parts_of_the_query_processor.png" alt="查询处理器的主要部分"></p>
 <h3 id="1-1-查询编译预览"><a href="#1-1-查询编译预览" class="headerlink" title="1.1 查询编译预览"></a>1.1 查询编译预览</h3><p>  查询编译可以分为三大步骤:  </p>
 <ul>
 <li>a) <strong>分析</strong>: 建立查询的分析树</li>
@@ -190,7 +190,7 @@
 <p>这些选择中的每一个都依赖于数据库的元数据。查询优化可利用的典型的元数据包括: <code>每个关系的大小</code>, <code>统计数据</code>(比如一个属性的不同值的近似数目和频率,某些索引的存在,以及数据在磁盘上的分布)</p>
 </li>
 </ul>
-<p><img src="images/db_impl_03_outline_of_query_complilation.png" alt="查询编译概貌"></p>
+<p><img src="/images/db_impl_03_outline_of_query_complilation.png" alt="查询编译概貌"></p>
 <h2 id="2-物理查询计划操作符介绍"><a href="#2-物理查询计划操作符介绍" class="headerlink" title="2. 物理查询计划操作符介绍"></a>2. 物理查询计划操作符介绍</h2><p>  <code>物理查询计划</code>由操作符构成,每一个操作符实现计划中的一步。物理操作符常常是一个<code>关系代数操作符</code>的特定的实现。但是,我们也需要物理操作符来完成与另一些和关系代数操作符无关的任务。譬如,我们经常需要”扫描”一个表,即将作为关系代数表达式的操作对象的某个关系的每个元组调入内存。这个关系是对某个其他的操作的典型操作数。</p>
 <h3 id="2-1-扫描表"><a href="#2-1-扫描表" class="headerlink" title="2.1 扫描表"></a>2.1 扫描表</h3><p>  我们在一个物理查询计划中可能可以做的最基本事情就是读一个关系$R$的整个内容。这个操作符的一个<code>variation</code>包含了一个简单的<code>predictate</code>,需要我们只读出关系$R$中满足这个<code>predictate</code>的元组。这里有两种途径来定位关系$R$中的元组:</p>
 <ul>
@@ -260,7 +260,7 @@
 </li>
 </ul>
 <h3 id="3-1-一次单个元组操作的一趟算法"><a href="#3-1-一次单个元组操作的一趟算法" class="headerlink" title="3.1 一次单个元组操作的一趟算法"></a>3.1 一次单个元组操作的一趟算法</h3><p>  无论关系$R$能否被内存容纳,一次单个元组的运算$\sigma(R)$和$\pi(R)$都有显而易见的算法。</p>
-<p><img src="images/db_impl_03_selection_or_projection_on_R.png" alt="selection_projection_on_R"></p>
+<p><img src="/images/db_impl_03_selection_or_projection_on_R.png" alt="selection_projection_on_R"></p>
 <p>  如上图所示,我们读取$R$的一块到输入缓冲区,对每一个元组进行操作,并将选出的元组或投影得到的元组移至输出缓冲区。由于输出缓冲区可能是其他操作的输入缓冲区,或正在向用户或应用发送数据,因此我们不把输出缓冲区算在所需空间内。因此,无论$B$有多大,我们只要求输入缓冲区满足$M \geq 1$。</p>
 <p>  这一过程的磁盘$I/O$需求取决于作为操作对象的关系$R$是怎么提供的。如果$R$最初在磁盘上,那么代价就是执行一个<code>表-扫描</code>或<code>索引-扫描</code>所需代价。通常,如果$R$是聚集的,代价就是$B$,如果$R$不是聚集的,代价就是$T$。然而有一个重要的例外是:当执行的操作是一个选择,且其条件是<strong>比较</strong><code>一个常量</code>和<code>一个带索引的属性</code>时,这种情况下,我们可以使用索引来检索$R$所在块的一个子集,这样通常会显著地提高执行效率。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">                          额外的缓冲区可以加快操作</span><br><span class="line">正如上图所示,尽管一次单个元组的操作只通过一个输入缓冲区和一个输出缓冲区就可以实现,但如果我们分配更多的缓冲区可以加速处理过程。</span><br><span class="line">如果R存储在柱面上连续的块中,那么我们就可以读取完整是柱面到缓冲区,而仅为每一个柱面付出了一个块的查询时间和旋转延迟代价。类似地,如果操作的输出可以存储在全部的柱面上,我们在写上几乎不会浪费时间。</span><br></pre></td></tr></table></figure>
@@ -278,7 +278,7 @@
 <p>当存储已经见过的元组时,我们必须注意所使用的内存数据结构。我们可以简单地列出我们见过的所有元组。当考虑$R$中的一个新元组时,我们将它与迄今为止看到的所有元组比较,如果它与这些元组当中的任何一个都不相等,我们把它复制到输出并将它加入到存于内存中的我们所看到的元组列表中。</p>
 </li>
 </ul>
-<p><img src="images/db_impl_03_duplicate_elimination.png" alt="duplicate_elimination"></p>
+<p><img src="/images/db_impl_03_duplicate_elimination.png" alt="duplicate_elimination"></p>
 <p>  然而,如果内存中有$n$个元组,每一个新元组占用的处理器时间与$n$成比例。因此整个操作占用的处理器时间与$n^{2}$成比例。由于$n$可能非常大,对于我们所做的只有磁盘$I/O$需要大量时间这一假设来说,这样的时间量将带来严重的问题。因此,我们需要一个主存结构,它允许我们增加一个新元组并能够辨别一个给定的元组是否存在,它依赖于元组数量$n$增长。</p>
 <p>  例如,我们可以使用具有大量桶的散列表或某种形式的平衡二叉查找树。每一种结构除了需要存储元组的空间外,还需要一些开销。例如,一个主存散列表需要一个桶数组和连接桶内元组的指针空间。然而,所需额外空间开销与存储元组所需空间相比一般较小。因此在这里我们暂时忽略了这种开销。</p>
 <p>  基于这种假设,我们可以在主存的$M - 1$个可用缓冲区存储与$R$的$M - 1$个块所能容纳的一样多的元组。如果我们希望$R$的每个不同元组的一个副本能装在主存中,那么$B(\delta(R))$肯定不能超过$M - 1$。因此我们预计$M$远远大于$1$,我们将经常用到的这个规则的一个简单近似是:<br>  $$B(\delta (R) ) \leq M$$<br>  注意,通常在计算出$\delta(R)$本身时,我们不能一般地计算出$\delta(R)$的大小。如果我们低估了这个大小,而$B(\delta(R))$实际上大于$M$,那么我们将为系统颠簸付出惨重的代价,因为保存$R$中不同元组的块必须频繁地出入主存。</p>
@@ -300,19 +300,19 @@
 <p>  更精确地讲,一个缓冲区将被用来读取较大关系的块,而大约$M$个缓冲区用来容纳整个较小的关系和它的内存结构。</p>
 <p>  现在我们将给出各个操作的细节。在每一种情况下,我们假设$R$是两个关系中较大的一个,并且我们把$S$放在内存中。</p>
 <h4 id="3-3-1-集合并-Set-Union"><a href="#3-3-1-集合并-Set-Union" class="headerlink" title="3.3.1 集合并(Set Union)"></a>3.3.1 集合并(Set Union)</h4><p>  我们将$S$读到内存的$M-1$个缓冲区并且建立一个查找结构,其查找关键字是整个元组。所有的这些元组也都复制到输出。然后我们一次一块的将$R$的每一块读到第$M$个缓冲区。对于$R$的每一个元组<strong>t</strong>,我们观察<strong>t</strong>是否在$S$中,如果不在,我们就将<strong>t</strong>复制到输出。如果<strong>t</strong>也在$S$中,我们就跳过<strong>t</strong>。</p>
-<p><img src="images/db_impl_03_set_union.png" alt="set_union"></p>
+<p><img src="/images/db_impl_03_set_union.png" alt="set_union"></p>
 <h4 id="3-3-2-集合交-Set-Intersection"><a href="#3-3-2-集合交-Set-Intersection" class="headerlink" title="3.3.2 集合交(Set Intersection)"></a>3.3.2 集合交(Set Intersection)</h4><p>  将$S$读到$M-1$个缓冲区并建立将整个元组作为查找关键字的查找结构。读取$R$的每一块,并且对$R$的元组<strong>t</strong>,观察<strong>t</strong>是否在$S$中。如果在,我们将<strong>t</strong>复制到输出,而如果不在,则忽略<strong>t</strong>。</p>
-<p><img src="images/db_impl_03_set_intersection.png" alt="set_union"></p>
+<p><img src="/images/db_impl_03_set_intersection.png" alt="set_union"></p>
 <h4 id="3-3-3-集合差-Set-Difference"><a href="#3-3-3-集合差-Set-Difference" class="headerlink" title="3.3.3 集合差(Set Difference)"></a>3.3.3 集合差(Set Difference)</h4><p>  既然差不是可交换的,我们必须区别$R -<em>{s} S$和$S -</em>{s} R$,并继续假设$R$是较大的关系。在两种情况下,我们都将$S$读到$M-1$个缓冲区中并建立将整个元组作为查找关键字的查找结构。<br>  为了计算$R -_{s} S$,我们读取$R$的每一个块并检查块中的每一个元组<strong>t</strong>。如果<strong>t</strong>在$S$中,那么忽略<strong>t</strong>; 如果<strong>t</strong>不在$S$中,则将<strong>t</strong>复制到输出。</p>
-<p><img src="images/db_impl_03_set_difference_R.png" alt="set_difference_r"></p>
+<p><img src="/images/db_impl_03_set_difference_R.png" alt="set_difference_r"></p>
 <p>  为了计算$S -_{s} R$,我们还是读取$R$的每一块,并一次检查每一个元组<strong>t</strong>。如果<strong>t</strong>在$S$中,那么我们从主存中$S$的副本删掉<strong>t</strong>,而如果<strong>t</strong>不在$S$中,则我们不做任何处理。在考虑完$R$的每一个元组后,我们将$S$中剩余的那些元组复制到输出缓冲区。</p>
-<p><img src="images/db_impl_03_set_difference_S.png" alt="set_difference_s"></p>
+<p><img src="/images/db_impl_03_set_difference_S.png" alt="set_difference_s"></p>
 <h4 id="3-3-4-包交-Bag-Intersection"><a href="#3-3-4-包交-Bag-Intersection" class="headerlink" title="3.3.4 包交(Bag Intersection)"></a>3.3.4 包交(Bag Intersection)</h4><p>  我们将$S$读到$M-1$个缓冲区中,但是我们把每一个不同的元组与一个<strong>计数</strong>联系起来,其初值是该元组在$S$中出现的次数。元组<strong>t</strong>的多个副本并不分别存储。相反地我们存储<strong>t</strong>的一个副本并且将它与一个计数联系起来,计数等于<strong>t</strong>出现的次数。<br>  如果很少有重复的话,这种结构将占用比$B(S)$块稍大的空间,尽管结果经常是$S$被压缩。因此,我们将继续假设$B(S) \leq M - 1$足以运行一趟算法,尽管这个条件只是一个近似。<br>  接着,我们读取$R$的每一块,并且对于$R$的每一个元组<strong>t</strong>,我们观察<strong>t</strong>是否在$S$中出现。如果不出现,那么我们忽略<strong>t</strong>; 它不会出现在交中。然而,如果<strong>t</strong>在$S$中出现,并且与<strong>t</strong>对应的计数仍为正值,那么我们输出<strong>t</strong>并将计数减$1$。如果<strong>t</strong>在$S$中出现,但是它的计数器已经到$0$,那么我们不输出<strong>t</strong>;  我们在输出中已经产生的<strong>t</strong>的副本与$S$中的一样多。</p>
-<p><img src="images/db_impl_03_bag_intersection.png" alt="bag_intersection"></p>
+<p><img src="/images/db_impl_03_bag_intersection.png" alt="bag_intersection"></p>
 <h4 id="3-3-5-包差-Bag-Difference"><a href="#3-3-5-包差-Bag-Difference" class="headerlink" title="3.3.5 包差(Bag Difference)"></a>3.3.5 包差(Bag Difference)</h4><p>  为了计算$S -_{B} R$,我们将$S$的元组读到内存中,并且像我们在计算包交集的时那样统计每一个不同的元组出现的次数。当我们读取$R$时,对我们每一个元组<strong>t</strong>,我们观察<strong>t</strong>是否在$S$中出现,如果是,那么我们将与之对应的计数减$1$。最后,我们将内存中是计数是正数的每一个元组复制到输出,并且我们复制它的次数等于计数。</p>
-<p><img src="images/db_impl_03_bag_difference_S.png" alt="bag_difference_s"></p>
+<p><img src="/images/db_impl_03_bag_difference_S.png" alt="bag_difference_s"></p>
 <p>  为了计算$R -_{B} S$,我们也将$S$的元组读到内存中,并且统计每一个不同的元组出现的次数。当我们读取$R$的元组时,我们可以把具有计数<strong>c</strong>的元组<strong>t</strong>看作是不将<strong>t</strong>复制到输出的<strong>c</strong>个理由。也就是说,当我们读取$R$的一个元组<strong>t</strong>时,我们观察<strong>t</strong>是否在$S$中出现。如果不出现,那么我们将<strong>t</strong>复制到输出。如果<strong>t</strong>确实在$S$中出现,那么我们与<strong>t</strong>对应的计数<strong>c</strong>的值。如果$c=0$,那么我们将<strong>t</strong>复制到输出。如果$c &gt; 0$,那么不将<strong>t</strong>复制到输出,但将<strong>c</strong>的值减$1$。</p>
-<p><img src="images/db_impl_03_bag_difference_R.png" alt="bag_difference_r"></p>
+<p><img src="/images/db_impl_03_bag_difference_R.png" alt="bag_difference_r"></p>
 <h4 id="3-3-6-积-Product"><a href="#3-3-6-积-Product" class="headerlink" title="3.3.6 积(Product)"></a>3.3.6 积(Product)</h4><p>  将$S$读到主存的$M-1$个缓冲区中,不需要特殊的数据结构。然后读取$R$的每一块,并且对$R$中的每一个元组<strong>t</strong>,将<strong>t</strong>与主存中$S$中的每一个元组连接。在每一个连接而成的元组一形成后立即将其输出。<br>  对$R$的每一个元组,这种算法都可能占用相当多的处理器时间,因为每一个这样的元组必须和装满元组的$M-1$个块相匹配。然而,输出空间占用很大,而输出每个元组的时间很小。</p>
 <h4 id="3-3-7-自然连接-Natural-Join"><a href="#3-3-7-自然连接-Natural-Join" class="headerlink" title="3.3.7 自然连接(Natural Join)"></a>3.3.7 自然连接(Natural Join)</h4><p>  在这一连接算法和其他连接算法中,我们沿袭惯例,即$R(X, Y)$与$S(Y, Z)$连接,$Y$表示$R$和$S$的所有公共属性,$X$是$R$的所有不在$S$中的属性,并且$Z$是$S$的所有的不在$R$中的属性。我们继续假设$S$是较小的关系。要计算自然连接,执行一下步骤:</p>
 <ul>
@@ -402,7 +402,7 @@
 </ul>
 </li>
 </ul>
-<p><img src="images/db_impl_03_TPMMS_memory_organ.png" alt="main-memory organization for multiway merging"></p>
+<p><img src="/images/db_impl_03_TPMMS_memory_organ.png" alt="main-memory organization for multiway merging"></p>
 <p>  为了使<strong>TPMMS</strong>能正常工作,子表不能超过$M-1$个。假设$R$占用$B$个块。因为每个子表包含$M$个块,于是子表的数目为$B/M$。因此我们要求$B/M \leq M -1$,或者$B \leq M (M - 1)$(或者近似表达为$B \leq M^{2}$)。</p>
 <p>  算法要求我们在第一趟时读入$B$个块,此外还有$B$次磁盘$I/O$用于写回排好序的子表。每个子表在第二阶段都会被读入内存,因此总的磁盘$I/O$次数为$3B$。如果按照惯例,我们不计算将结果写回到磁盘的代价(因为此结果可能是用于流水线操作而不用写回到磁盘),那么$3B$就是排序操作符$\pi$所需的总的代价。但是,如果我们需要将结果保存到磁盘,那么总的代价就是$4B$。</p>
 <h4 id="样例-1"><a href="#样例-1" class="headerlink" title="样例"></a>样例</h4><p>  假设块的大小是$64k$字节,而我们有$1G$的内存。那么我们可以提供的$M$为$16k$。于是,要能对一个有$B$个块的关系进行排序,则要求$B$的大小不超过$(16k)^{2} = 2^{28}$。因为块的大小是$64k=2^{14}$,那么大小不超过$2^{42}$字节或$4T$字节的关系都能进行排序。<br>  这个例子告诉我们即使是使用普通的机器,<strong>2PPMS</strong>可以利用两趟对相当大的关系进行排序。但是,如果你有更大的关系,相同的思想可以递归式地使用。将关系分为$M(M-1)$个片段,使用<strong>2PPMS</strong>对其中的每一个片段进行排序,并将排序结果作为第三趟需要用到的字表。这个思想可以被扩展到更多的趟数。</p>
