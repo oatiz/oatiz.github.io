@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>
+    (三) 查询执行 | おはよう
+  </title>
+  <meta name="description" content="Rust | Distributed Systems | Database Systems">
+  
+  <meta name="keywords" content="
+  database
+  ">
+  
+  <meta name="author" content="oatiz">
+
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+  <link rel="icon" type="image/x-icon" href="https://github.githubassets.com/favicon.ico">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  
+
+  
+
+  <script src="https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js"></script>
+<script>
+    if (window.mermaid) {
+        mermaid.initialize({ theme: 'forest' });
+    }
+</script>
+
+  
+    
+      <!-- MathJax support START -->
+      <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+            processEscapes: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          }
+        });
+      </script>
+  
+      <script type="text/x-mathjax-config">
+        MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for (i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+        });
+      </script>
+      <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <!-- MathJax support END -->
+    
+  
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/vue/1.0.25-csp/vue.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+</head>
+
+<body id="replica-app">
+
+<nav class="navbar-wrapper">
+  <div class="navbar">
+    <div class="container clearfix">
+      <a href="/" class="navbar-logo"><i class="fa fa-github"></i></a>
+
+      <div class="navbar-search float-left desktop-only">
+        <div class="navbar-search-form">
+          <label for="gsc-i-id1">This website</label>
+          <div id="google-search">
+            <gcse:search></gcse:search>
+          </div>
+        </div>
+      </div>
+
+      <ul class="navbar-nav float-left">
+        
+        <li><a href="/archives">Archives</a></li>
+        
+        
+        <li><a href="/categories">Categories</a></li>
+        
+        
+        <li><a href="/tags">Tags</a></li>
+        
+        
+        <li class="desktop-only"><a href="/atom.xml" target="_blank">RSS</a></li>
+        
+      </ul>
+
+      <ul class="navbar-nav user-nav float-right desktop-only">
+        <li class="user-nav-notification">
+          <a><span class="user-nav-unread"></span><i class="fa fa-bell"></i></a>
+        </li>
+        <li>
+          <a><i class="fa fa-plus"></i> <i class="fa fa-caret-down"></i></a>
+        </li>
+        <li class="user-nav-logo">
+          <a><img src="https://avatars2.githubusercontent.com/u/24953151?v=4&amp;s=460"> <i class="fa fa-caret-down"></i></i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="main-container">
+  <header class="header-wrapper desktop-only">
+  <div class="container header-site-detail">
+    <ul class="header-toolbar">
+      <li class="clearfix">
+        <a href="/archives" class="header-toolbar-left"><i
+                  class="fa fa-file-text"></i> Posts </a>
+        <a href="/archives"
+           class="header-toolbar-right"> 17 </a>
+      </li>
+      <li>
+        <a href="/tags" class="header-toolbar-left"><i
+                  class="fa fa-tags"></i> Tags </a>
+        <a href="/tags"
+           class="header-toolbar-right"> 21 </a>
+      </li>
+      <li>
+        <a href="/categories" class="header-toolbar-left"><i
+                  class="fa fa-folder-open"></i> Categories </a>
+        <a href="/categories"
+           class="header-toolbar-right"> 11 </a>
+      </li>
+    </ul>
+    <h2 class="header-title">
+      <i class="fa fa-book text-muted"></i>
+      <a href="/">おはよう</a>
+      
+      
+    </h2>
+  </div>
+
+  <div class="container">
+    <div class="header-tab-wrapper clearfix">
+      <span class="header-tab header-tab-selected"><i class="fa fa-thumbs-o-up"></i> Like</span>
+      <span class="header-tab"><i class="fa fa-share-alt"></i> Share</span>
+      <span class="header-tab"><i class="fa fa-comments-o"></i> Discussion</span>
+      <span class="header-tab"><i class="fa fa-bookmark-o"></i> Bookmark </span>
+      <span class="header-tab"><i class="fa fa-smile-o"></i> Smile <i class="fa fa-caret-down"></i></span>
+    </div>
+  </div>
+</header>
+
+
+<div class="post-container container">
+  <h3>
+    <i class="fa fa-user-o"></i>
+    oatiz
+
+    <span class="post-date float-right" title="{{moment(1568971800000).format('MMM DD, YYYY, h:mm:ss A')}}">
+      <i class="fa fa-pencil-square-o"></i>
+      {{moment(1568971800000).fromNow()}}
+    </span>
+  </h3>
+
+  <article class="post-content">
+    <h1>(三) 查询执行</h1>
+    <p>[toc]</p>
+<h2 id="1-前言"><a href="#1-前言" class="headerlink" title="1. 前言"></a>1. 前言</h2><p><code>查询处理器</code>是<strong>DBMS</strong>中的一个部件集合,它能够将用户的查询和数据修改的命令转变为数据库上的操作序列并且执行这些操作。</p>
+<p><img src="images/db_impl_03_the_major_parts_of_the_query_processor.png" alt="查询处理器的主要部分"></p>
+<h3 id="1-1-查询编译预览"><a href="#1-1-查询编译预览" class="headerlink" title="1.1 查询编译预览"></a>1.1 查询编译预览</h3><p>  查询编译可以分为三大步骤:  </p>
+<ul>
+<li>a) <strong>分析</strong>: 建立查询的分析树</li>
+<li>b) <strong>查询重写</strong>: 分析树被转化为<code>初始查询计划</code>,这种查询计划通常是查询的代数表达方式。然后初始查询计划被转化为一个预期所需执行时间较小的等价计划。</li>
+<li><p>c) <strong>物理计划生成</strong>: 通过<strong>查询重写</strong>中抽象的查询计划,即通常所谓<code>逻辑查询计划</code>的每一个操作符选择实现的算法并选择这些操作符的执行顺序,逻辑计划被转换为<code>物理查询计划</code>。与分析结果和逻辑计划一样,物理计划用表达式树来表示。物理计划还包含许多细节,如被查询的关系是怎样被访问的,以及一个关系何时或是应当被排序。  </p>
+<p>(b)和(c)部分常被称作<code>查询优化器</code>,他们是查询编译的难点。为了选择最好的查询计划,我们需要判断:</p>
+</li>
+<li><ol>
+<li>查询的哪一个代数等价形式会为回答查询带来最有效的算法？</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>对选中的形式的每一个操作,我们应当使用什么算法来实现？</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>数据如何从一个操作传到另一个操作,比如流水线方式,主存缓存区还是通过磁盘？</li>
+</ol>
+<p>这些选择中的每一个都依赖于数据库的元数据。查询优化可利用的典型的元数据包括: <code>每个关系的大小</code>, <code>统计数据</code>(比如一个属性的不同值的近似数目和频率,某些索引的存在,以及数据在磁盘上的分布)</p>
+</li>
+</ul>
+<p><img src="images/db_impl_03_outline_of_query_complilation.png" alt="查询编译概貌"></p>
+<h2 id="2-物理查询计划操作符介绍"><a href="#2-物理查询计划操作符介绍" class="headerlink" title="2. 物理查询计划操作符介绍"></a>2. 物理查询计划操作符介绍</h2><p>  <code>物理查询计划</code>由操作符构成,每一个操作符实现计划中的一步。物理操作符常常是一个<code>关系代数操作符</code>的特定的实现。但是,我们也需要物理操作符来完成与另一些和关系代数操作符无关的任务。譬如,我们经常需要”扫描”一个表,即将作为关系代数表达式的操作对象的某个关系的每个元组调入内存。这个关系是对某个其他的操作的典型操作数。</p>
+<h3 id="2-1-扫描表"><a href="#2-1-扫描表" class="headerlink" title="2.1 扫描表"></a>2.1 扫描表</h3><p>  我们在一个物理查询计划中可能可以做的最基本事情就是读一个关系$R$的整个内容。这个操作符的一个<code>variation</code>包含了一个简单的<code>predictate</code>,需要我们只读出关系$R$中满足这个<code>predictate</code>的元组。这里有两种途径来定位关系$R$中的元组:</p>
+<ul>
+<li><ol>
+<li>在很多种情况下,关系$R$存放在二级存储器的某个区域中,它的元组排放在块中。系统知道包含$R$的元组的块,并且可以一个接一个得到这些快。这个操作叫做<code>表-扫描</code>(<strong>table-scan</strong>)</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>如果$R$的任意一个属性上有索引,我们可以使用这个索引来得到$R$的所有元组。比如,$R$上的稀疏索引,可以用来指引我们得到所有的包含$R$的块,即使我们就不知道这些块是哪些。这个操作叫<code>索引-扫描</code>(<strong>index-scan</strong>)</li>
+</ol>
+<blockquote>
+<p>我们使用索引不只是获取它索引关系的所有元组,而是去获取<code>那些构成索引搜索</code>key<code>的属性</code>或<code>属性中具有特定值(有时是特定范围的值)的元组</code></p>
+</blockquote>
+</li>
+</ul>
+<h3 id="2-2-扫描表时排序"><a href="#2-2-扫描表时排序" class="headerlink" title="2.2 扫描表时排序"></a>2.2 扫描表时排序</h3><p>  当我们读一个关系的元组时,有很多原因促使我们将关系排序。举个例子,其中一个查询可能包含一个<code>ORDER BY</code>子句,要求对关系排序。另一个例子, 一些实现了关系代数运算的方法要求一个或全部参数是排序关系。<br>  物理查询计划操作符<strong>排序-扫描</strong>接受关系$R$和<code>要求对哪个属性进行排序的说明</code>,并产生排好顺序的$R$。实现<code>排序-扫描</code>的方法有很多种。如果关系$R$必须按照属性$a$排好序,并且在$a$上有一个<code>b-tree</code>索引,那么扫描索引允许我们以想要的顺序产生$R$。如果$R$小到能装进内存,那我们可以使用<code>表-扫描</code>或<code>索引-扫描</code>来得到它的元组,然后使用主存排序算法。如果$R$太大以至于内存装不下,那么<code>多路归并方法</code>是一个不错的旋转</p>
+<h3 id="2-3-物理操作符计算模型"><a href="#2-3-物理操作符计算模型" class="headerlink" title="2.3 物理操作符计算模型"></a>2.3 物理操作符计算模型</h3><p>  一个查询通常包含几个<code>关系代数</code>操作,相应的<code>物理查询计划</code>由几个<code>物理操作符</code>组成。因为明智的选择<code>物理计划操作符</code>是良好的<code>查询处理器</code>的必要条件,所以我们必须能够估算我们使用每个操作符的”代价”。我们将使用磁盘$I/O$的数目作为衡量每个操作的代价的标准。这个衡量标准与我们前面的一个观点是一致的: <strong>从磁盘中得到的数据时间比对内存中的数据做任何有用操作所花费的时间都要长</strong>。</p>
+<h3 id="2-4-衡量代价的参数"><a href="#2-4-衡量代价的参数" class="headerlink" title="2.4 衡量代价的参数"></a>2.4 衡量代价的参数</h3><p>  现在,让我们引入用于表达一个操作符代价的参数(有时也被称为统计数据)。如果优化器打算确定许多查询计划中的哪一个执行最快,那么估算代价是必需的。  </p>
+<p>  我们需要一个参数来表达操作符使用的内存大小,我们还需要其他参数来衡量它的操作对象的大小。假设内存被分为缓冲区,缓冲区的大小与磁盘块大小相同。那么<span style="border-bottom:2px dashed RED;">$M$表示一个特定的操作符执行时可以获得的内存缓冲区的数目。</span>有时候,我们可以认为$M$是整个内存或内存的绝大部分。事实上,一个操作可得到的缓冲区的数目可能不是一个可以预计的常数,而可能在执行过程中根据同时执行的其他进程决定。如果是这样,$M$实际上是对一个操作可得到的缓冲区数目的估计。</p>
+<p>  接下来,让我们来考虑衡量与访问相关的关系所需代价的参数。这些衡量关系中数据的多少和分布的参数经常被定期的计算,以便帮助查询优化器选择物理操作符。</p>
+<p>  我们将做一个简化的假设,即在磁盘上一次访问一个块的数据。实际上,如果我们能够一次读一个关系的许多块,这些块可能来自一个磁道上连续的块。有三类参数$B$、$T$、和$V$:</p>
+<ul>
+<li><span style="border-bottom:2px dashed BLUE;">当描述一个关系$R$的大小时,绝大多数情况下,我们关心包含$R$的所有元组所需块的数目,这个块的数目表示为$B(R)$</span>。如果我们知道指的是关系$R$,就可以仅仅表示为$B$。通常,我们假设$R$是<code>聚集</code>的,即R存储在$B$个块中或近似$B$个块中。</li>
+<li><span style="border-bottom:2px dashed BLUE;">有时候,我们也需要知道$R$中的元组的数目,我们将这个数量表示为$T(R)$。</span>或在我们知道所指关系为$R$时简记为$T$。如果我们需要一个块中能容纳的$R$的元组数,我们可以使用比例式$T/B$。</li>
+<li>最后,我们有时候希望参考出现在关系的一个列中的不同值的数目。如果$R$是一个关系,它的一个属性是$a$,那么$V(R, a)$是$R$中$a$对应列上不同值的数目。更一般的,如果$[a_{1}, a_{2}, a_{3}, …, a_{n}]$是一个属性列表,那么$V(R, [a_{1}, a_{2}, a_{3}, …, a_{n}])$是$R$中属性$a_{1}, a_{2}, a_{3}, …, a_{n}$对应列上不同的$n$(元组的数目)。换而言之,它是$\delta(\pi_{a_{1}, a_{2}, a_{3}, …, a_{n}}(R))$。</li>
+</ul>
+<h3 id="2-5-扫描操作符的-I-O-代价"><a href="#2-5-扫描操作符的-I-O-代价" class="headerlink" title="2.5 扫描操作符的$I/O$代价"></a>2.5 扫描操作符的$I/O$代价</h3><p>  作为前面介绍的参数的一个简单应用,我们可以表示迄今为止讨论过的每个<code>表-扫描(index-scan)</code>操作符的磁盘$I/O$数目。如果关系$R$是聚集的,那么<code>表-扫描</code>操作符的磁盘$I/O$数目近似为$B$。同样,如果$R$能够全部装入主存,那么我们可以通过将$R$读入主存并做内排序,从而实现<code>排序-扫描(sort-scan)</code>,所需磁盘$I/O$仍是$B$。</p>
+<p>  但是,如果$R$不是聚集的,那么所需磁盘$I/O$数通常要高得多。如果$R$分布在其他关系的元组之间,那么<code>表-扫描</code>所需读的块数可能与$R$的元组一样多;即$I/O$代价为$T$。类似地,如果我们想把$R$排序,但是$R$能够被内存容纳,那么将$R$的全部元组调入内存所需磁盘$I/O$数$T$就是我们所需要的。</p>
+<p>  最后,让我们考虑<code>索引-扫描(index-scan)</code>的代价。通常关系$R$的一个索引需要的块数比$B(R)$少许多。因此,扫描整个$R$(至少需要$B$次磁盘$I/O$)比查看整个索引需要更多的$I/O$。这样,即便<code>索引-扫描</code>继续用检查关系又需要检查它的索引:</p>
+<ul>
+<li><p>我们继续用$B$或$T$作为使用索引时访问整个聚集或不聚集的关系的代价估算。</p>
+<p>但是,如果我们只想要$R$的一部分,我们通常能够避免查看整个索引和整个$R$。我们将对索引的这个使用推迟到以后章节分析。</p>
+</li>
+</ul>
+<h3 id="2-6-实现物理操作符的迭代器"><a href="#2-6-实现物理操作符的迭代器" class="headerlink" title="2.6 实现物理操作符的迭代器"></a>2.6 实现物理操作符的迭代器</h3><p>  许多物理操作符可以实现为<code>迭代器</code>。迭代器是三个方法的集合,这三个方法允许物理操作符结果的使用者一次一个元组地得到这个结果。这三个形成一个迭代器的方法是:</p>
+<ul>
+<li><strong>Open()</strong>。这个方法启动获得元组的过程,但并不获得元组。它初始化执行操作所需的任何数据结构并为操作的任何对象调用<strong>Open()</strong>。</li>
+<li><strong>GetNext()</strong>。这个方法返回结果中的下一个元组,并且对数据结构做必要的调整以得到后续元组。在获取下一个元组时,它通常在操作对象上<code>一次或多次地</code>调用<strong>GetNext()</strong>。如果再也没有元祖返回了,GetNext()将返回特殊值<strong>NotFound</strong>,这个值肯定不会与任何元组混淆。</li>
+<li><p><strong>Close()</strong>。这个方法在所有的元组或使用者想得到的所有元组均获得后终结迭代。它通常为操作符的每个操作对象调用<strong>Close()</strong>。</p>
+<p>当描述迭代器和它们的函数时,我们假设每一类迭代器(例如,实现为迭代器的每一类物理操作符)都有一个“类“,这个”类“在它的实例上定义了<strong>Open()</strong>、<strong>GetNext()</strong> 和<strong>Close()</strong>。</p>
+</li>
+</ul>
+<h2 id="3-一趟算法-One-Pass-Algorithms"><a href="#3-一趟算法-One-Pass-Algorithms" class="headerlink" title="3. 一趟算法(One-Pass Algorithms)"></a>3. 一趟算法(One-Pass Algorithms)</h2><p>  我们在将开始学习查询优化中一个非常重要的问题:我们怎么执行逻辑计划中的每个单独的步骤(例如,连接或选择)?</p>
+<p>  每一个操作符的算法的选择是将逻辑查询计划转变为物理查询计划中必不可少的部分。关于各种操作符已提出了很多算法,它们大体上分为三类:</p>
+<ul>
+<li><span style="border-bottom:2px dashed CYAN;">基于排序的算法</span></li>
+<li><span style="border-bottom:2px dashed CYAN;">基于散列的算法</span></li>
+<li><p><span style="border-bottom:2px dashed CYAN;">基于索引的算法</span></p>
+<p>另外,我们将操作符算法按照难度和代价分为三种”等级”:</p>
+</li>
+<li>a). <span style="border-bottom:2px dashed RED;">一些方法仅从磁盘读取一次数据,这就是<strong>一趟(one-pass)算法</strong></span>。它是这节的主题。它们通常要求操作的至少一个操作对象能完全装入内存,尽管存在例外尤其是选择($\sigma$)和投影($\pi$)。</li>
+<li>b). 一些方法处理的数量太大以至于不能装入可利用的内存,但又不是想象的最大的数据集合。<span style="border-bottom:2px dashed PURPLE;">这些<strong>两趟(two-pass)算法</strong>的特点是首先从磁盘读一遍数据,以某种方式处理,将全部或绝大部分写会磁盘,然后在第二趟为了进一步处理,在读一遍数据。</span></li>
+<li><p>c). <span style="border-bottom:2px dashed GREEN;">多趟算法: 某些方法对于处理的数据量没有限制。这些方法用三趟或更多趟来完成工作,它们是对两趟算法的自然的递归的推广。</span></p>
+<p>我们将操作符分为三大类:</p>
+</li>
+<li><ol>
+<li><strong>一次单个元组,一元操作</strong>。这类操作(选择和投影)不需要在一次在内存中装入整个关系,甚至也不需要关系的绝大部分。这样,我们可以一次读一个块,使用内存缓存池,并产生我们的输出。</li>
+</ol>
+</li>
+<li><ol start="2">
+<li><strong>整个关系,一元操作</strong>。这些单操作对象的操作需要一次从内存中看到所有或绝大部分元组,因此,一趟算法局限于大小约为$M$(内存中可用缓存区的数量)或更小的关系。这里我们考虑的属于这一类的操作是$\gamma$(分组操作符)和$\delta$(去重操作符)。</li>
+</ol>
+</li>
+<li><ol start="3">
+<li><strong>整个关系,二元操作</strong>。其他所有的操作可以归为这一类: 并、交、差、连接和积的集合形式以及包形式。<span style="border-bottom:2px dashed ORANGE;">除了包的并集,如果要使用一趟算法,那么这类操作中的每一个都要求至少一个操作对象的大小限制在$M$以内</span></li>
+</ol>
+</li>
+</ul>
+<h3 id="3-1-一次单个元组操作的一趟算法"><a href="#3-1-一次单个元组操作的一趟算法" class="headerlink" title="3.1 一次单个元组操作的一趟算法"></a>3.1 一次单个元组操作的一趟算法</h3><p>  无论关系$R$能否被内存容纳,一次单个元组的运算$\sigma(R)$和$\pi(R)$都有显而易见的算法。</p>
+<p><img src="images/db_impl_03_selection_or_projection_on_R.png" alt="selection_projection_on_R"></p>
+<p>  如上图所示,我们读取$R$的一块到输入缓冲区,对每一个元组进行操作,并将选出的元组或投影得到的元组移至输出缓冲区。由于输出缓冲区可能是其他操作的输入缓冲区,或正在向用户或应用发送数据,因此我们不把输出缓冲区算在所需空间内。因此,无论$B$有多大,我们只要求输入缓冲区满足$M \geq 1$。</p>
+<p>  这一过程的磁盘$I/O$需求取决于作为操作对象的关系$R$是怎么提供的。如果$R$最初在磁盘上,那么代价就是执行一个<code>表-扫描</code>或<code>索引-扫描</code>所需代价。通常,如果$R$是聚集的,代价就是$B$,如果$R$不是聚集的,代价就是$T$。然而有一个重要的例外是:当执行的操作是一个选择,且其条件是<strong>比较</strong><code>一个常量</code>和<code>一个带索引的属性</code>时,这种情况下,我们可以使用索引来检索$R$所在块的一个子集,这样通常会显著地提高执行效率。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">                          额外的缓冲区可以加快操作</span><br><span class="line">正如上图所示,尽管一次单个元组的操作只通过一个输入缓冲区和一个输出缓冲区就可以实现,但如果我们分配更多的缓冲区可以加速处理过程。</span><br><span class="line">如果R存储在柱面上连续的块中,那么我们就可以读取完整是柱面到缓冲区,而仅为每一个柱面付出了一个块的查询时间和旋转延迟代价。类似地,如果操作的输出可以存储在全部的柱面上,我们在写上几乎不会浪费时间。</span><br></pre></td></tr></table></figure>
+<h3 id="3-2-整个关系的一元操作的一趟算法"><a href="#3-2-整个关系的一元操作的一趟算法" class="headerlink" title="3.2 整个关系的一元操作的一趟算法"></a>3.2 整个关系的一元操作的一趟算法</h3><p>  现在让我们考虑施加于整个关系上而非施加于单个元组的一元操作: <strong>消除重复</strong>($\delta$)和<strong>分组</strong>($\gamma$)。</p>
+<h4 id="3-2-1-消除重复"><a href="#3-2-1-消除重复" class="headerlink" title="3.2.1 消除重复"></a>3.2.1 消除重复</h4><p>  为了消除重复,<span style="border-bottom:2px dashed RED;">我们可以一次一个地读取$R$的每一块</span>,但是对于每一个元组,我们需要判定:</p>
+<ul>
+<li><ol>
+<li><span style="border-bottom:2px dashed RED;">这是我们第一次看到这个元组,这时将它复制到输出</span>。</li>
+</ol>
+</li>
+<li><ol start="2">
+<li><span style="border-bottom:2px dashed RED;">我们已经见过这个元组,这时不必输出它</span>。</li>
+</ol>
+<p>为支持这个判定,我们需要为见过的每一个元组在内存中保留一个备份。用一个内存缓冲区保存$R$的元组的一个块,其余的$M - 1$个缓冲区可以用来保存目前为止我们见过每一个元组的副本。</p>
+<p>当存储已经见过的元组时,我们必须注意所使用的内存数据结构。我们可以简单地列出我们见过的所有元组。当考虑$R$中的一个新元组时,我们将它与迄今为止看到的所有元组比较,如果它与这些元组当中的任何一个都不相等,我们把它复制到输出并将它加入到存于内存中的我们所看到的元组列表中。</p>
+</li>
+</ul>
+<p><img src="images/db_impl_03_duplicate_elimination.png" alt="duplicate_elimination"></p>
+<p>  然而,如果内存中有$n$个元组,每一个新元组占用的处理器时间与$n$成比例。因此整个操作占用的处理器时间与$n^{2}$成比例。由于$n$可能非常大,对于我们所做的只有磁盘$I/O$需要大量时间这一假设来说,这样的时间量将带来严重的问题。因此,我们需要一个主存结构,它允许我们增加一个新元组并能够辨别一个给定的元组是否存在,它依赖于元组数量$n$增长。</p>
+<p>  例如,我们可以使用具有大量桶的散列表或某种形式的平衡二叉查找树。每一种结构除了需要存储元组的空间外,还需要一些开销。例如,一个主存散列表需要一个桶数组和连接桶内元组的指针空间。然而,所需额外空间开销与存储元组所需空间相比一般较小。因此在这里我们暂时忽略了这种开销。</p>
+<p>  基于这种假设,我们可以在主存的$M - 1$个可用缓冲区存储与$R$的$M - 1$个块所能容纳的一样多的元组。如果我们希望$R$的每个不同元组的一个副本能装在主存中,那么$B(\delta(R))$肯定不能超过$M - 1$。因此我们预计$M$远远大于$1$,我们将经常用到的这个规则的一个简单近似是:<br>  $$B(\delta (R) ) \leq M$$<br>  注意,通常在计算出$\delta(R)$本身时,我们不能一般地计算出$\delta(R)$的大小。如果我们低估了这个大小,而$B(\delta(R))$实际上大于$M$,那么我们将为系统颠簸付出惨重的代价,因为保存$R$中不同元组的块必须频繁地出入主存。</p>
+<h4 id="3-2-2-分组"><a href="#3-2-2-分组" class="headerlink" title="3.2.2 分组"></a>3.2.2 分组</h4><p>  分组操作符$\gamma_{L}$给我们零个或多个分组属性以及可能的一个或多个聚集属性。如果我们<span style="border-bottom:2px dashed RED;">在主存为每一个组(也就是为分组属性的每一个值)创建一个项,那么我们可以一次一次地扫描$R$的元组。每个组的<code>项(entry)</code>包括分组属性的值和每个聚集的一个或多个累计值</span>。如下:</p>
+<ul>
+<li><span style="border-bottom:2px dashed DarkBlue;">对$MIN(a)$或$MAX(a)$聚集来说,分别记录组内迄今为止见到的任意元组在属性$a$上的最小或最大值。每当见到组中的一个元组时,如果合适,就改变这个最小值或最大值</span>。</li>
+<li><span style="border-bottom:2px dashed PaleVioletRed;">对于任意$COUNT$聚集来说,为组中见到的每个元组加$1$</span>。</li>
+<li><span style="border-bottom:2px dashed OrangeRed;">对$SUM(a)$来说,如果$a$不为<strong>NULL</strong>的话,在它组里扫描到的累加值上增加属性$a$的值</span>。</li>
+<li><p><span style="border-bottom:2px dashed DarkGreen;">$AVG(a)$的情况比较复杂。我们必须保持两个累计值<em>组内元组个数</em>以及<em>这些元组在$a$上的值的和</em>。二者的计算分别与我们为$COUNT$和$SUM$聚集所做的一样。当$R$中所有元组都被扫描后,我们计算总和和个数的商得到平均值</span>。</p>
+<p><span style="border-bottom:2px dashed RED;">当$R$的全部元组都已经读到输入缓冲区中,并且已用于各自组中聚集的计算,我们就可以通过为每个组写一个元组来产生输出。</span>注意,知道扫描最后一个元组后,我们才开始为$\gamma$操作创建输出。因此这种算法并不太适合迭代器结构;在<strong>GetNext</strong>能获得第一个元组之前,<strong>Open</strong>方法必须将全部分组做好。</p>
+<p>为了使每一个元组在内存的处理过程更有效,我们需要使用一个内存数据结构来帮助我们在已知分组属性值时找到各分组的项。就像前面讨论的$\delta$操作那样,通常的内存数据结构(如散列表或平衡二叉查找树)能发挥很好的作用。然而我们应该记住,这种结构的查找关键字只能是分组属性。</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">                                    非聚簇数据上的操作</span><br><span class="line">  我们所有关于操作所需磁盘I/O数的计算都是在操作对象是聚簇的这一假设基础上进行的预测。在操作对象R没有聚簇的情况下(通常较罕见),</span><br><span class="line">读取R的全部元组可能需要我们进行T(R)次而非B(R)次磁盘I/O。然而请注意,任何作为操作结果的关系总是可以被设想为聚簇的。因为我们没有理由以非聚簇的形式存储临时关系。</span><br></pre></td></tr></table></figure>
+<p>  这个一趟算法所需磁盘$I/O$数是$B$,与任何一元运算的一趟算法相同。尽管通常情况下$M$将小于$B$,但所需内存缓冲区$M$和$B$的关系不是任何一种简单的形式。问题在于组的项可能比$R$的元组长一些或短一些,并且组的数目可能是等于或小于$R$元组的数目的任意一种情况。然而大多数情况下,组的项不会比$R$的元组长,而且组的数目远小于元组数目。</p>
+<h3 id="3-3-二元操作的一趟算法"><a href="#3-3-二元操作的一趟算法" class="headerlink" title="3.3 二元操作的一趟算法"></a>3.3 二元操作的一趟算法</h3><p>  现在我们开始讨论二元操作: 并、交、差、积和连接。为了区分这些操作符对集合和包的版本,我们用$B$和$S$来分别表示包和集合,例如$\cup_{B}$是求包的集合,而$-_{S}$是求集合的差集。为了简化连接的讨论,我们仅考虑自然连接。将属性适当地重命名后,等值连接可以按照相同方式实现,并且<span style="border-bottom:2px dashed RED;"><strong>theta-连接</strong>可以被认为是在<strong>积</strong>或<strong>等值连接</strong>后再跟上在等值连接中不能表达的条件</span>。</p>
+<p>  包的并可以通过一种非常简单的一趟算法计算出来。为了计算$R \cup_{B} S$,我们复制元组$R$的每一个元组到输出,然后复制$S$的每一个元组。磁盘$I/O$数是$B(R) + B(S)$,正如操作对象$R$和$S$的一趟算法那样,并且不管$R$和$S$多么大,$M=1$就够了。</p>
+<p>  其他的二元操作符需要将$R$和$S$中较小的那个操作数读到内存中并且建立一个合适的数据结构。要使元组不仅可以被快速插入还可以被快速检索到。散列表和平衡树即可满足要求。因此,在关系$R$和$S$上用一趟算法执行一个二元操作符的近似需求是:<br>$$min(B(R), B(S)) \leq M$$</p>
+<p>  更精确地讲,一个缓冲区将被用来读取较大关系的块,而大约$M$个缓冲区用来容纳整个较小的关系和它的内存结构。</p>
+<p>  现在我们将给出各个操作的细节。在每一种情况下,我们假设$R$是两个关系中较大的一个,并且我们把$S$放在内存中。</p>
+<h4 id="3-3-1-集合并-Set-Union"><a href="#3-3-1-集合并-Set-Union" class="headerlink" title="3.3.1 集合并(Set Union)"></a>3.3.1 集合并(Set Union)</h4><p>  我们将$S$读到内存的$M-1$个缓冲区并且建立一个查找结构,其查找关键字是整个元组。所有的这些元组也都复制到输出。然后我们一次一块的将$R$的每一块读到第$M$个缓冲区。对于$R$的每一个元组<strong>t</strong>,我们观察<strong>t</strong>是否在$S$中,如果不在,我们就将<strong>t</strong>复制到输出。如果<strong>t</strong>也在$S$中,我们就跳过<strong>t</strong>。</p>
+<p><img src="images/db_impl_03_set_union.png" alt="set_union"></p>
+<h4 id="3-3-2-集合交-Set-Intersection"><a href="#3-3-2-集合交-Set-Intersection" class="headerlink" title="3.3.2 集合交(Set Intersection)"></a>3.3.2 集合交(Set Intersection)</h4><p>  将$S$读到$M-1$个缓冲区并建立将整个元组作为查找关键字的查找结构。读取$R$的每一块,并且对$R$的元组<strong>t</strong>,观察<strong>t</strong>是否在$S$中。如果在,我们将<strong>t</strong>复制到输出,而如果不在,则忽略<strong>t</strong>。</p>
+<p><img src="images/db_impl_03_set_intersection.png" alt="set_union"></p>
+<h4 id="3-3-3-集合差-Set-Difference"><a href="#3-3-3-集合差-Set-Difference" class="headerlink" title="3.3.3 集合差(Set Difference)"></a>3.3.3 集合差(Set Difference)</h4><p>  既然差不是可交换的,我们必须区别$R -<em>{s} S$和$S -</em>{s} R$,并继续假设$R$是较大的关系。在两种情况下,我们都将$S$读到$M-1$个缓冲区中并建立将整个元组作为查找关键字的查找结构。<br>  为了计算$R -_{s} S$,我们读取$R$的每一个块并检查块中的每一个元组<strong>t</strong>。如果<strong>t</strong>在$S$中,那么忽略<strong>t</strong>; 如果<strong>t</strong>不在$S$中,则将<strong>t</strong>复制到输出。</p>
+<p><img src="images/db_impl_03_set_difference_R.png" alt="set_difference_r"></p>
+<p>  为了计算$S -_{s} R$,我们还是读取$R$的每一块,并一次检查每一个元组<strong>t</strong>。如果<strong>t</strong>在$S$中,那么我们从主存中$S$的副本删掉<strong>t</strong>,而如果<strong>t</strong>不在$S$中,则我们不做任何处理。在考虑完$R$的每一个元组后,我们将$S$中剩余的那些元组复制到输出缓冲区。</p>
+<p><img src="images/db_impl_03_set_difference_S.png" alt="set_difference_s"></p>
+<h4 id="3-3-4-包交-Bag-Intersection"><a href="#3-3-4-包交-Bag-Intersection" class="headerlink" title="3.3.4 包交(Bag Intersection)"></a>3.3.4 包交(Bag Intersection)</h4><p>  我们将$S$读到$M-1$个缓冲区中,但是我们把每一个不同的元组与一个<strong>计数</strong>联系起来,其初值是该元组在$S$中出现的次数。元组<strong>t</strong>的多个副本并不分别存储。相反地我们存储<strong>t</strong>的一个副本并且将它与一个计数联系起来,计数等于<strong>t</strong>出现的次数。<br>  如果很少有重复的话,这种结构将占用比$B(S)$块稍大的空间,尽管结果经常是$S$被压缩。因此,我们将继续假设$B(S) \leq M - 1$足以运行一趟算法,尽管这个条件只是一个近似。<br>  接着,我们读取$R$的每一块,并且对于$R$的每一个元组<strong>t</strong>,我们观察<strong>t</strong>是否在$S$中出现。如果不出现,那么我们忽略<strong>t</strong>; 它不会出现在交中。然而,如果<strong>t</strong>在$S$中出现,并且与<strong>t</strong>对应的计数仍为正值,那么我们输出<strong>t</strong>并将计数减$1$。如果<strong>t</strong>在$S$中出现,但是它的计数器已经到$0$,那么我们不输出<strong>t</strong>;  我们在输出中已经产生的<strong>t</strong>的副本与$S$中的一样多。</p>
+<p><img src="images/db_impl_03_bag_intersection.png" alt="bag_intersection"></p>
+<h4 id="3-3-5-包差-Bag-Difference"><a href="#3-3-5-包差-Bag-Difference" class="headerlink" title="3.3.5 包差(Bag Difference)"></a>3.3.5 包差(Bag Difference)</h4><p>  为了计算$S -_{B} R$,我们将$S$的元组读到内存中,并且像我们在计算包交集的时那样统计每一个不同的元组出现的次数。当我们读取$R$时,对我们每一个元组<strong>t</strong>,我们观察<strong>t</strong>是否在$S$中出现,如果是,那么我们将与之对应的计数减$1$。最后,我们将内存中是计数是正数的每一个元组复制到输出,并且我们复制它的次数等于计数。</p>
+<p><img src="images/db_impl_03_bag_difference_S.png" alt="bag_difference_s"></p>
+<p>  为了计算$R -_{B} S$,我们也将$S$的元组读到内存中,并且统计每一个不同的元组出现的次数。当我们读取$R$的元组时,我们可以把具有计数<strong>c</strong>的元组<strong>t</strong>看作是不将<strong>t</strong>复制到输出的<strong>c</strong>个理由。也就是说,当我们读取$R$的一个元组<strong>t</strong>时,我们观察<strong>t</strong>是否在$S$中出现。如果不出现,那么我们将<strong>t</strong>复制到输出。如果<strong>t</strong>确实在$S$中出现,那么我们与<strong>t</strong>对应的计数<strong>c</strong>的值。如果$c=0$,那么我们将<strong>t</strong>复制到输出。如果$c &gt; 0$,那么不将<strong>t</strong>复制到输出,但将<strong>c</strong>的值减$1$。</p>
+<p><img src="images/db_impl_03_bag_difference_R.png" alt="bag_difference_r"></p>
+<h4 id="3-3-6-积-Product"><a href="#3-3-6-积-Product" class="headerlink" title="3.3.6 积(Product)"></a>3.3.6 积(Product)</h4><p>  将$S$读到主存的$M-1$个缓冲区中,不需要特殊的数据结构。然后读取$R$的每一块,并且对$R$中的每一个元组<strong>t</strong>,将<strong>t</strong>与主存中$S$中的每一个元组连接。在每一个连接而成的元组一形成后立即将其输出。<br>  对$R$的每一个元组,这种算法都可能占用相当多的处理器时间,因为每一个这样的元组必须和装满元组的$M-1$个块相匹配。然而,输出空间占用很大,而输出每个元组的时间很小。</p>
+<h4 id="3-3-7-自然连接-Natural-Join"><a href="#3-3-7-自然连接-Natural-Join" class="headerlink" title="3.3.7 自然连接(Natural Join)"></a>3.3.7 自然连接(Natural Join)</h4><p>  在这一连接算法和其他连接算法中,我们沿袭惯例,即$R(X, Y)$与$S(Y, Z)$连接,$Y$表示$R$和$S$的所有公共属性,$X$是$R$的所有不在$S$中的属性,并且$Z$是$S$的所有的不在$R$中的属性。我们继续假设$S$是较小的关系。要计算自然连接,执行一下步骤:</p>
+<ul>
+<li><ol>
+<li>读取$S$的所有元组,并且用它们构建一个以$Y$属性为查找关键字的内存查找结构。将内存的$M-1$块用于这里。</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>将$R$中的每一块读到内存中剩下的那一个缓冲区中。对于$R$的每一个元组<strong>t</strong>,利用查找结构找到$S$中与<strong>t</strong>在$Y$的所有属性上相符合的元组。对于$S$中的每一个匹配的元组,将它与<strong>t</strong>连接后形成一个元组,并且将结果移到输出。  </li>
+</ol>
+<p>和所有一趟的二元操作一样,这一算法读取操作对象需要使用$B(R) + B(S)$次磁盘$I/O$。只要$B(S) \leq M - 1$或近似地$B(S) \leq M$,他就能正常工作。<br>我们不打算讨论自然连接外的连接。记住,<span style="border-bottom:2px dashed RED;">等值连接以和自然连接基本相同的方式执行,但是我们必须考虑两个关系的”相等”属性可能有不同的名字这一事实</span>。<span style="border-bottom:2px dashed GREEN;">不是等值连接的<strong>theta-连接</strong>可以用在等值连接或积之后加以选择来代替</span>。</p>
+</li>
+</ul>
+<h2 id="4-嵌套循环连接"><a href="#4-嵌套循环连接" class="headerlink" title="4. 嵌套循环连接"></a>4. 嵌套循环连接</h2><p>  在讨论更为复杂的算法之前,我们需要将注意力转向一个称为<strong>嵌套循环</strong>连接的连接操作符算法系列。这些算法,在某种意义上来讲需要<strong>一趟半(one-and-a-half-pass)</strong>,因为在其中的各种算法中,两个操作对象有一个元组仅读取一次,而另一个操作对象将重复读取。嵌套循环连接可以用于任何大小关系; 它不是必须要求有一个关系能装入内存中。</p>
+<h3 id="4-1-基于元组的嵌套循环连接"><a href="#4-1-基于元组的嵌套循环连接" class="headerlink" title="4.1 基于元组的嵌套循环连接"></a>4.1 基于元组的嵌套循环连接</h3><p>  嵌套循环系列中最简单的形式是其中的循环是对所涉及关系的各个元组来进行的。在这个我们称为<strong>基于元组的嵌套循环连接</strong>算法中,我们将计算连接$R(X, Y) \bowtie S(Y, Z)$如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">FOR each tuple s IN S DO</span><br><span class="line">    FOR each tuple r IN R DO</span><br><span class="line">        IF r and s join to make a tuple t THEN</span><br><span class="line">            output t;</span><br></pre></td></tr></table></figure>
+<p>  如果我们不注意关系$R$和$S$的块的缓冲方法,那么这种算法需要的磁盘$I/O$可能多达$T(R)T(S)$。然而,在很多情况下这种算法都可以修改,使代价低得多。</p>
+<ul>
+<li>一种情况是当我们可以使用$R$连接属性上的索引来查找与给定的$S$元组匹配的$R$元组时,这样的匹配不必读取整个关系$R$。</li>
+<li>第二种改进更加注重$R$和$S$的元组在各个块中的分布方式,并且在我们执行内层循环时,要尽可能多地使用内层,以减少磁盘$I/O$的数目。</li>
+</ul>
+<h3 id="4-2-基于元组的嵌套循环连接的迭代器"><a href="#4-2-基于元组的嵌套循环连接的迭代器" class="headerlink" title="4.2 基于元组的嵌套循环连接的迭代器"></a>4.2 基于元组的嵌套循环连接的迭代器</h3><p>  嵌套循环连接的一个优点是它非常适用于迭代器结构,因此,在某种情况下它能使我们避免将中间关系存储在磁盘上。$R \bowtie S$的迭代器很容易用$R$和$S$的迭代器构造起来,我们用<strong>R.Open()</strong> 等表示这个迭代器。嵌套循环连接的3个迭代函数的代码如下所示,它假定关系$R$和$S$都是非空的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">Open() &#123;</span><br><span class="line">    R.Open();</span><br><span class="line">    S.Open();</span><br><span class="line">s := S.GetNext();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">GetNext() &#123;</span><br><span class="line">    REPEAT &#123;</span><br><span class="line">        r := R.GetNext();</span><br><span class="line">        IF (r == NotFound) &#123; /* R is exhausted for the current s */</span><br><span class="line">            R.Close();</span><br><span class="line">            s := S.GetNext();</span><br><span class="line">            IF (s == NotFound) &#123;</span><br><span class="line">                RETURN NotFound; /* both R and S are exhausted */</span><br><span class="line">           &#125;</span><br><span class="line">           R.Open();</span><br><span class="line">           r := R.GetNext();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    UNTIL (r and s jon);</span><br><span class="line">    RETURN the join of r and s;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Close &#123;</span><br><span class="line">    R.Close();</span><br><span class="line">    S.Close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="4-3-基于块的嵌套循环连接算法"><a href="#4-3-基于块的嵌套循环连接算法" class="headerlink" title="4.3 基于块的嵌套循环连接算法"></a>4.3 基于块的嵌套循环连接算法</h3><p>  如果我们按以下步骤计算$R \bowtie S$,我们可以改进上面提到的基于元组的嵌套循环连接:</p>
+<ul>
+<li><ol>
+<li>对作为操作对象的两个关系的访问均按块组织。</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>使用尽可能多的内存来存储属于关系$S$的元组,$S$是外层循环中的关系。</li>
+</ol>
+<p>第1点确保了当在内层循环中处理关系$R$的元组时,我们可以用尽可能少的磁盘$I/O$来读取$R$。第2点使我们不是将读到的$R$的每一个元组与$S$的一个元组连接,而是与能装入内存的尽可能多的$S$元组连接。<br>让我们继续假设$B(S) \leq B(R) \&amp; B(S) &gt; M$,也就是说任何一个关系都不能完整地装入内存。我们重复地将$M - 1$个块读到内存缓冲区中。为$S$在内存的元组创建一个查找结构,它的查找关键字是$R$和$S$的公有属性。然后我们浏览$R$的所有块,依次读取每一块到内存的最后一块。我们在读入$R$的一个块后将块中所有元组与$S$在内存中所有块的所有元组进行比较。对于那些能连接的元组,我们输出连接得到元组。</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">FOR each chunk of M-1 blocks of S DO BEGIN</span><br><span class="line">    read these blocks into main-memory buffers;</span><br><span class="line">    organize their tuples into a search structure whose search key is the common attributes of R and S;</span><br><span class="line">    FOR each block b of R DO BEGIN</span><br><span class="line">        read b into main-memory;</span><br><span class="line">        FOR each tuple t of b DO BEGIN</span><br><span class="line">            find the tuples of S in main-memory that join with t;</span><br><span class="line">            output the join of t with each of these tuples;</span><br><span class="line">        END;</span><br><span class="line">    END;</span><br><span class="line">END;</span><br></pre></td></tr></table></figure>
+<p>  上述算法有时被称作<strong>嵌套块连接</strong>。我们将继续将其简单地称为<strong>嵌套循环连接</strong>,因为它是嵌套循环思想在实践中使用最广泛的实现形式。<br>  上述程序似乎有三重嵌套循环。然而,如果我们从正确的抽象层次上看代码,实际上仅有两重循环。第一重循环或外层循环是对$S$元组进行的,其他的两层循环是对$R$的元组进行。然而我们将此过程表达为两层循环是为了强调我们访问$R$的元组的顺序不是任意的。相反的,我们需要一次一块地处理这些元组(第二层循环的作用),并且在继续移动到下一块之前,我们要处理当前块内的所有元组(第三层循环)。</p>
+<h4 id="样例"><a href="#样例" class="headerlink" title="样例"></a>样例</h4><p>  假定$B(R) = 1000$且$B(S) = 500$,并令$M = 101$。我们将使用$100$个内存块来按照大小为$100$块的<strong>chunk</strong>对$S$进行缓冲,因此<strong>嵌套循环连接</strong>的外层循环需迭代$5$次。每一次迭代中。我们用$100$个磁盘$I/O$读取$S$的<strong>chunk</strong>,并且在第二层循环中我们必须使用$1000$个磁盘$I/O$来完整地读取$R$。因此,磁盘$I/O$的总的数量是$5500$。<br>  注意,如果我们颠倒$R$和$S$的角色,算法使用的磁盘$I/O$要略多一些。我们将在外层循环中迭代$10$次,并且每一次迭代使用$500 + 1000 \div 10 = 600$次磁盘$I/O$,总共是$6000$次。一般来说,在外层循环中使用较小关系略有优势。</p>
+<h3 id="4-4-嵌套循环连接的分析"><a href="#4-4-嵌套循环连接的分析" class="headerlink" title="4.4 嵌套循环连接的分析"></a>4.4 嵌套循环连接的分析</h3><p>  4.3中的样例可以重复应用在任何$B(R)$、$B(S)$和$M$上。假设$S$是较小的关系,<strong>chunk</strong>数或外层循环的迭代次数是$B(S) / (M - 1)$。每一次迭代时,我们读取$S$的$M - 1$个块和$R$的$B(R)$个块。这样磁盘$I/O$数量是$B(S)(M - 1 + B(R)) / (M - 1)$或者$B(S) + (B(S)B(R)) / (M - 1)$。<br>  设想$M$、$B(S)$和$B(R)$都很大,但$M$是其中最小的,上面的公式的一个近似值是$B(S)B(R) / M$。也就是说,代价与两个关系大小的乘积再除以可用内存容量得到的商成比例。当两个关系都很大时我们可以做得比嵌套循环连接好得多。尽管我们应当注意对于像4.3中那样相当小的实例来说,嵌套循环连接的代价并不比一趟连接的代价(对于该例子来说是1500次磁盘$I/O$)大多少。实际上,如果$B(S) \leq M - 1$,嵌套循环连接与一趟连接算法是一样的。<br>  经管嵌套循环连接通常并不是可能的连接算法中最有效的算法,我们应该注意在一些早期的关系<strong>DBMS</strong>中,它是唯一可用的方法。即使今天,某些情况下在更有效的连接算法中,仍然需要把它作为一个子程序,例如,当各个关系中大量元组在连接属性上具有相同的值时。</p>
+<h3 id="4-5-迄今为止的算法的总计"><a href="#4-5-迄今为止的算法的总计" class="headerlink" title="4.5 迄今为止的算法的总计"></a>4.5 迄今为止的算法的总计</h3><p>  下面的表格给出了第3和第4节中我们已经讨论过的算法的内存和磁盘$I/O$需求。$\gamma$和$\delta$的内存需求实际上比给出的更复杂,并且$M = B$仅是一个大概的近似。对于$\gamma$,$M$随组的数量增长,而对于$\delta$,$M$随不同元组的数量增长。</p>
+<table>
+<thead>
+<tr>
+<th>Operators</th>
+<th>Approximate M required</th>
+<th>Disk I/O</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\sigma$,$\pi$</td>
+<td>$1$</td>
+<td>$B$</td>
+</tr>
+<tr>
+<td>$\gamma$,$\delta$</td>
+<td>$B$</td>
+<td>$B$</td>
+</tr>
+<tr>
+<td>$\cup$,$\cap$,$-$,$\times$,$\bowtie$</td>
+<td>$min(B(R), B(S))$</td>
+<td>$B(R) + B(S)$</td>
+</tr>
+<tr>
+<td>$\bowtie$</td>
+<td>$any M \geq 2$</td>
+<td>$B(S) + (B(S)B(R))/(M - 1) \approx B(R)B(S)/M$</td>
+</tr>
+</tbody>
+</table>
+<h2 id="5-基于排序的两趟算法"><a href="#5-基于排序的两趟算法" class="headerlink" title="5 基于排序的两趟算法"></a>5 基于排序的两趟算法</h2><p>  现在,我们开始学习关系上执行关系代数操作的多趟算法,这里的关系大于之前我们所讲的一趟算法所能够处理的关系。我们的重点在<span style="border-bottom:2px dashed RED;">两趟算法上,其中来自于操作对象关系中的数据被读到内存,以某种方式处理,在写回磁盘,然后在重新读取磁盘以完成操作</span>。我们可以自然地将这种想法扩展到任何趟数,其中数据被多次读取到内存。然而,我们将重点放在两趟算法上,这是因为:</p>
+<ul>
+<li>a). 即使对于很大关系,两遍通常也就够了。</li>
+<li><p>b). 将两趟算法推广到多趟并不难。</p>
+<p>我们可以用排序操作符$T$的实现来阐述普通方法:对于$B(R) &gt; M$的关系$R$,将它分为大小为$M$的<strong>chunk</strong>并排序,然后以某种对于任意子表在任意时刻只占用一个内存块的方式,对排序好的子表进行排序。</p>
+</li>
+</ul>
+<h3 id="5-1-两阶段多路归并排序"><a href="#5-1-两阶段多路归并排序" class="headerlink" title="5.1 两阶段多路归并排序"></a>5.1 两阶段多路归并排序</h3><p>  假设我们有$M$个内存缓冲区来进行排序,可以通过两趟的算法对非常大的关系进行排序,这种方法叫<strong>两阶段多路归并排序(Two-Phase, Multiway Merge-Sort, TPMMS)</strong>。<strong>TPMMS</strong>用如下的方法对关系$R$进行排序:</p>
+<ul>
+<li>阶段1: <span style="border-bottom:2px dashed RED;">不断将$R$中的元组放入$M$个缓冲区,利用主存排序算法对它们进行排序,并将排序得到的字表存到外存中。</span></li>
+<li>阶段2: <span style="border-bottom:2px dashed GREEN;">将排序好的字表进行归并。在这个阶段,至多能对$M-1$个有序的字表进行归并,这就限制了$R$的大小。我们为每个有序字表分配一个输入的缓冲块,并使用一个缓冲块用于输出。下图给出了对缓冲区的使用方法。指向每个输入块的指针表示排好序但尚未被移到输出块的第一个元素。我们将有序的字表用如下的方式归并为一个包含所有记录的列表</span>。<ul>
+<li>1). 找到所有子表中的第一个元素的最小值。因为比较是在内存中完成的,因此线性的搜索就足够了,搜索执行的机器指令的数量与子表的数量成正比。但是如果我们需要的话,可以利用基于<strong>优先队列</strong>的方法,使找到字表第一个元素的最小时间与子表数量的对比成正比。</li>
+<li>2). 将最小的元素移至输出块的第一个可用的位置。</li>
+<li>3). 如果输出块已满,则将它写入硬盘,并对内存中该缓冲块进行重新初始化,以便存放下一个输出块。</li>
+<li>4). 如果刚被取出最小元素的缓冲块的元素已耗尽,将同一个有序子表的下一个块读入到元素耗尽的缓冲块。如果子表中没有块了,则使它的缓冲区保持空,并在以后选择最小的列表的第一个元素的操作中不对它进行考虑。  </li>
+</ul>
+</li>
+</ul>
+<p><img src="images/db_impl_03_TPMMS_memory_organ.png" alt="main-memory organization for multiway merging"></p>
+<p>  为了使<strong>TPMMS</strong>能正常工作,子表不能超过$M-1$个。假设$R$占用$B$个块。因为每个子表包含$M$个块,于是子表的数目为$B/M$。因此我们要求$B/M \leq M -1$,或者$B \leq M (M - 1)$(或者近似表达为$B \leq M^{2}$)。</p>
+<p>  算法要求我们在第一趟时读入$B$个块,此外还有$B$次磁盘$I/O$用于写回排好序的子表。每个子表在第二阶段都会被读入内存,因此总的磁盘$I/O$次数为$3B$。如果按照惯例,我们不计算将结果写回到磁盘的代价(因为此结果可能是用于流水线操作而不用写回到磁盘),那么$3B$就是排序操作符$\pi$所需的总的代价。但是,如果我们需要将结果保存到磁盘,那么总的代价就是$4B$。</p>
+<h4 id="样例-1"><a href="#样例-1" class="headerlink" title="样例"></a>样例</h4><p>  假设块的大小是$64k$字节,而我们有$1G$的内存。那么我们可以提供的$M$为$16k$。于是,要能对一个有$B$个块的关系进行排序,则要求$B$的大小不超过$(16k)^{2} = 2^{28}$。因为块的大小是$64k=2^{14}$,那么大小不超过$2^{42}$字节或$4T$字节的关系都能进行排序。<br>  这个例子告诉我们即使是使用普通的机器,<strong>2PPMS</strong>可以利用两趟对相当大的关系进行排序。但是,如果你有更大的关系,相同的思想可以递归式地使用。将关系分为$M(M-1)$个片段,使用<strong>2PPMS</strong>对其中的每一个片段进行排序,并将排序结果作为第三趟需要用到的字表。这个思想可以被扩展到更多的趟数。</p>
+<h3 id="利用排序去除重复"><a href="#利用排序去除重复" class="headerlink" title="利用排序去除重复"></a>利用排序去除重复</h3><p>  为了用两趟$\delta(R)$操作,我们像在<strong>2PPMS</strong>中一样在字表中将$R$的元组排序。在第二趟中,我们将采取与<strong>2PPMS</strong>相同的方法,在可用内存中为每个有序子表分配一个缓冲块,并保持一个输出缓冲块。但是,我们将在第二趟时不断重复地复制每一块的第一个未考虑的元组$t$到输出缓冲块中并忽略与它相同的所有元组,而不是进行排序。我们将$t$拷贝到输出块,并将输出块中所有的$t$删除。因此,输出块对$R$中的任何一个元组都只有一个实例;而它们是按序产生的。如果缓冲块已满或这输入块已空,我们用<strong>2PPMS</strong>中相同的方法进行处理。<br>  和平常一样忽略对输出的处理,执行这个算法的磁盘$I/O$数和排序一样,也是$3B(R)$。这个数字可以与之前的一趟算法的$B(R)$进行比较。另一方面,我们可以用两趟算法处理比一趟算法所能处理的文件大得多的文件。对<strong>2PPMS</strong>来说,与一趟算法$B \leq M$相比,要使两趟算法可行,需要使$B \leq M^{2}$。换而言之,用两趟算法计算$\delta(R)$仅需要$\sqrt{B(R)}$个内存块,而不是$B(R)$个内存块。</p>
+<h3 id="利用排序进行分组和聚集"><a href="#利用排序进行分组和聚集" class="headerlink" title="利用排序进行分组和聚集"></a>利用排序进行分组和聚集</h3><p>  $\gamma_{L}(R)$的两趟算法与$\delta(R)$或是<strong>2PPMS</strong>的算法非常相似。我们将它概括如下:</p>
+<ul>
+<li><ol>
+<li>将$R$的元组每次读取$M$块到内存中。用$L$的分组属性作为排序关键字,对每$M$块排序。将每一个排好序的字表写入磁盘中。</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>为每一个字表使用一个主存缓冲区,并且首先将每一个字表的第一个块装入其缓冲区。</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>在缓冲区可以获得的第一个元组中反复查找排序关键字(分组属性)的最小值。这个最小值$v$称为下一分组,我们为它:<ul>
+<li>1). 准备在这个分组的列表$L$上计算所有的聚集。就像在一趟算法中那样,使用计数和求和来代替求平均。</li>
+<li>2). 检查每个排序关键字为$v$的元组,并且累计所需聚集。</li>
+<li>3). 如果一个块的缓冲区空了,则用同一子表中的下一块替换它。  </li>
+</ul>
+</li>
+</ol>
+<p>当不再有排序关键字为$v$的元组时,输出一个由$L$的分组属性和对应的我们已经为这个组计算出的聚集值构成的元组。<br>正如$\delta$算法那样,$\gamma$的这种两趟算法使用$3B(R)$次磁盘$I/O$,而且只要$B(R) \leq M^{2}$就可以正常工作。</p>
+</li>
+</ul>
+<h3 id="基于排序的并算法"><a href="#基于排序的并算法" class="headerlink" title="基于排序的并算法"></a>基于排序的并算法</h3><h2 style="text-align: center;">TODO…</h2>
+
+
+  </article>
+</div>
+
+
+    
+<div class="container disqus-container">
+  <div id="disqus_thread"></div>
+</div>
+
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://oatiz.me/2019/09/20/db-impl-3-query-execution/";
+    this.page.identifier = 1568971800;
+  };
+
+  (function() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://zeshawne.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
+</script>
+
+
+
+
+
+</div>
+
+<div class="footer-wrapper container">
+  <footer class="footer clearfix">
+    <div class="clearfix">
+    <a href="https://oatiz.me" class="footer-logo">
+      <i class="fa fa-github"></i>
+    </a>
+    <ul class="footer-social-link">
+      <li>© 2018 oatiz</li>
+      <li><a href="https://oatiz.me">Home</a></li>
+      
+      <li><a href="https://github.com/oatiz">Github</a></li>
+      
+      <li><a href="None">Weibo</a></li>
+      
+    </ul>
+    <div class="footer-theme-info">
+      Theme <a href="//github.com/sabrinaluo/hexo-theme-replica">Replica</a>
+      by <a href="//github.com/sabrinaluo">Hiitea</a> ❤ Powered by Hexo
+    </div>
+    </div>
+    
+    <div class="footer-pageview">
+        <a href="https://info.flagcounter.com/mx4Y">
+          <img src="//s11.flagcounter.com/count2/VDLa/bg_FFFFFF/txt_000000/border_CCCCCC/columns_2/maxflags_10/viewers_0/labels_0/pageviews_0/flags_0/percent_0/">
+        </a>
+    </div>
+    
+  </footer>
+</div>
+
+
+
+
+<script src="/js/main.js"></script>
+
+</body>
+</html>
