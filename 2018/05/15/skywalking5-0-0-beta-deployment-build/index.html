@@ -186,7 +186,7 @@
 <li>执行bin/startup.sh</li>
 </ul>
 <p>需要注意的是,skywalking数据采用elasticsearch 存储.需要部署es,并且修改es的配置文件 elasticsearch.yml,将对应配置改为以下配置:</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">network.host:</span> <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span></span><br><span class="line"><span class="string">thread_pool.bulk.queue_size:</span> <span class="number">1000</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">network.host:</span> <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span></span><br><span class="line"><span class="attr">thread_pool.bulk.queue_size:</span> <span class="number">1000</span></span><br></pre></td></tr></table></figure>
 <h3 id="agent部署"><a href="#agent部署" class="headerlink" title="agent部署"></a>agent部署</h3><ul>
 <li>复制skywalking-agent到任意目录</li>
 <li>配置agent/config/agent.config文件<ul>
