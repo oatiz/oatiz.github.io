@@ -1,0 +1,278 @@
++++
+title = "莫枢的JVM分享笔记"
+date = 2017-07-28
+category = "JVM"
+
+[taxonomies]
+tags = ["JVM", "JAVA"]
++++
+
+## 前言
+这篇文章是2010年R大做的一次jvm分享
+
+## 语言处理器的基本结构
+
+### 语言处理器的种类
+
+- 编译器
+    - [gcc](http://gcc.gnu.org/), [javac](http://openjdk.java.net/groups/compiler/)
+- 解释器
+    - Ruby,Pythond等一些实现
+- IDE
+    - Eclipse,NetBeans等
+- 代码分析器
+    - [FindBugs](http://findbugs.sourceforge.net/)等
+- 反编译器
+    - [JD](http://jd.benow.ca/),[Jad](https://varaneckas.com/jad/), [Reflector.NET](https://www.red-gate.com/products/dotnet-development/reflector/)等
+
+#### 编译器
+
+```mermaid
+graph LR
+    source[源代码] --> lexicalAnalyzer[词法分析器]
+    lexicalAnalyzer --> tokens[TOKEN流]
+    tokens1[TOKEN流] --> parser[语法分析器]
+    parser --> ast[语法树/抽象语法树]
+    ast1[语法树/抽象语法树] --> semanticAnalyzer[语义分析器]
+    semanticAnalyzer --> annotationAst[注解抽象语法树]
+    annotationAst1[注解抽象语法树] --> intermediateCodeGen[中间代码生成器]
+    intermediateCodeGen --> intermediateCode[中间代码]
+    intermediateCode1[中间代码] --> independentOptimizingMachines[机器无关优化]
+    independentOptimizingMachines --> intermediateCode2[中间代码]
+    intermediateCode3[中间代码] --> machineRelatedOptimization[机器相关优化]
+    machineRelatedOptimization --> intermediateCode4[中间代码]
+    intermediateCode5[中间代码] --> registerAllocator[寄存器分配器]
+    registerAllocator --> intermediateCode6[中间代码]
+    intermediateCode7[中间代码] --> targetCodeGen[目标代码生成器]
+    targetCodeGen --> target[目标代码]
+
+style source fill:#EDB784
+style tokens fill:#EDB784
+style tokens1 fill:#EDB784
+style ast fill:#EDB784
+style ast1 fill:#EDB784
+style annotationAst fill:#EDB784
+style annotationAst1 fill:#EDB784
+style intermediateCode fill:#EDB784
+style intermediateCode1 fill:#EDB784
+style intermediateCode2 fill:#EDB784
+style intermediateCode2 fill:#EDB784
+style intermediateCode3 fill:#EDB784
+style intermediateCode4 fill:#EDB784
+style intermediateCode5 fill:#EDB784
+style intermediateCode6 fill:#EDB784
+style intermediateCode7 fill:#EDB784
+style target fill:#EDB784
+
+style lexicalAnalyzer fill:#DAF7A6
+style parser fill:#DAF7A6
+style semanticAnalyzer fill:#DAF7A6
+style intermediateCodeGen fill:#DAF7A6
+style independentOptimizingMachines fill:#DAF7A6
+style machineRelatedOptimization fill:#DAF7A6
+style registerAllocator fill:#DAF7A6
+style targetCodeGen fill:#DAF7A6
+```
+
+## Java语言与平台
+
+### [Java Conceptual Diagram](https://docs.oracle.com/javase/8/docs/technotes/guides/desc_jdk_structure.html)
+
+<table summary="" cellspacing="0" cellpadding="0">
+<!-- Row 1 of 9 -->
+<tr valign="top">
+<td rowspan="9">JDK</td>
+<td rowspan="2">&nbsp;</td>
+<td title="Java programming language"><b>JavaLanguage</b></td>
+<!-- Java Language -->
+<td>
+<table class="tablerows" summary="">
+<tr>
+<td bgcolor="#BDBEC0">JavaLanguage</td>
+</tr>
+</table>
+</td>
+<td rowspan="5">&nbsp;</td>
+<td rowspan="4">&nbsp;</td>
+</tr>
+<!-- Row 2 of 9 -->
+<tr valign="top">
+<td title="Tools and Tool APIs"><b>Tools &amp;<br/>Tool APIs</b></td>
+<td>
+<table class="tablerows" summary="">
+<tr>
+<td bgcolor="#A3B8CB" title="Java runtime launcher">java</td>
+<td bgcolor="#A3B8CB" title="Java compiler">javac</td>
+<td bgcolor="#A3B8CB" title="Java documentation generator">javadoc</td>
+<td bgcolor="#A3B8CB" title="Java archive tool">jar</td>
+<td bgcolor="#A3B8CB" title="Java class file disassembler">javap</td>
+<td bgcolor="#A3B8CB" title="Java class dependency analyzer">jdeps</td>
+<td bgcolor="#A3B8CB" title="Scripting tools">Scripting</td>
+</tr>
+<tr>
+<td bgcolor="#A3B8CB" title="Security tools">Security</td>
+<td bgcolor="#A3B8CB" title="Monitoring and Management tools">Monitoring</td>
+<td bgcolor="#A3B8CB" title="jconsole">JConsole</td>
+<td bgcolor="#A3B8CB" title="Java VisualVM">VisualVM</td>
+<td bgcolor="#A3B8CB" title="Java Mission Control">JMC</td>
+<td bgcolor="#A3B8CB" title="Java Flight Recorder" colspan="2">JFR</td>
+</tr>
+<tr>
+<td bgcolor="#A3B8CB" title="Java Platform Debugger Architecture">JPDA</td>
+<td bgcolor="#A3B8CB" title="Java Virtual Machine Tool Interface">JVM TI</td>
+<td bgcolor="#A3B8CB" title="Interface Definition Language and RMI-IIOP tools">IDL</td>
+<td bgcolor="#A3B8CB" title="Remote Method Invocation tools">RMI</td>
+<td bgcolor="#A3B8CB" title="Java DB">JavaDB</td>
+<td bgcolor="#A3B8CB" title="Deployment, Plug-in and Web Start tools" colspan="2">Deployment</td>
+</tr>
+<tr>
+<td colspan="2" bgcolor="#A3B8CB" title="Internationalization tools">Internationalization</td>
+<td colspan="2" bgcolor="#A3B8CB" title="Java Web Services Tools">WebServices</td>
+<td colspan="3" bgcolor="#A3B8CB" title="Troubleshooting tools">Troubleshooting</td>
+</tr>
+</table>
+</td>
+</tr>
+<!-- Row 3 of 9 -->
+<tr valign="top">
+<td rowspan="7" class="tdleftside" title="Java Runtime Environment">JRE</td>
+<td class="tdhead" title="Deployment Technologies"><b>Deployment</b></td>
+<td>
+<table class="tablerows" summary="">
+<tr>
+<td bgcolor="#ED9B4F" title="Java Web Start">Java WebStart</td>
+<td bgcolor="#ED9B4F" title="Java Plug-In for browsers">Applet / Java Plug-in</td>
+</tr>
+</table>
+</td>
+</tr>
+<!-- Row 4 of 9 -->
+<tr valign="top">
+<td class="tdhead" rowspan="2" title="User Interface programming"><b>User Interface<br/>Toolkits</b></td>
+<td>
+<table class="tablerows" summary="">
+<tr>
+<td bgcolor="#E76F00" title="JavaFX">JavaFX</td>
+</tr>
+</table>
+</td>
+</tr>
+<!-- Row 5 of 9 -->
+<tr valign="top">
+<td>
+<table class="tablerows" summary="">
+<tr>
+<td bgcolor="#E76F00" title="Graphical user interface components">Swing</td>
+<td bgcolor="#E76F00" title="2D graphics, text and images">Java 2D</td>
+<td bgcolor="#E76F00" title="Abstract Window Toolkit">AWT</td>
+<td colspan="2" bgcolor="#E76F00" title="Assistive technologies for user interfaces">Accessibility</td>
+</tr>
+<tr>
+<td bgcolor="#E76F00" title="Drag and drop data transfer">Drag andDrop</td>
+<td bgcolor="#E76F00" title="Input Method Framework">Input Methods</td>
+<td bgcolor="#E76F00" title="Image input/output API">ImageI/O</td>
+<td bgcolor="#E76F00" title="Print service API">PrintService</td>
+<td bgcolor="#E76F00" title="MIDI API">Sound</td>
+</tr>
+</table>
+</td>
+<td class="tdrightside" rowspan="4" title="Java SE API. See API Documentation section for more links.">Java SE<br/>API</td>
+</tr>
+<!-- Row 6 of 9 -->
+<tr valign="top">
+<td class="tdhead" title="Integration libraries"><b>Integration<br/>Libraries</b></td>
+<td>
+<table class="tablerows" summary="">
+<tr>
+<td bgcolor="#B2BC00" title="CORBA Interface Definition Language API">IDL</td>
+<td bgcolor="#B2BC00" title="Java Database Connectivity API">JDBC</td>
+<td bgcolor="#B2BC00" title="Java Naming and Directory Interface API">JNDI</td>
+<td bgcolor="#B2BC00" title="Remote Method Invocation API">RMI</td>
+<td bgcolor="#B2BC00" title="RMI interfaces over IIOP">RMI-IIOP</td>
+<td bgcolor="#B2BC00" title="Scripting for the Java Platform">Scripting</td>
+</tr>
+</table>
+</td>
+<td class="tdrightside" rowspan="3" title="Compact Profiles">Compact<br/> Profiles</td>
+</tr>
+<!-- Row 7 of 9 -->
+<tr valign="top">
+<td class="tdhead" title="Base libraries other than java.lang and java.util"><b>OtherBase<br/>Libraries</b></td>
+<td>
+<table class="tablerows" summary="">
+<tr>
+<td bgcolor="#C69200" title="Java Beans component API">Beans</td>
+<td bgcolor="#C69200" title="Security API">Security</td>
+<td bgcolor="#C69200" title="Object Serialization">Serialization</td>
+<td bgcolor="#C69200" title="Package extension mechanism">Extension Mechanism</td>
+</tr>
+<tr>
+<td bgcolor="#C69200" title="Java Management Extensions">JMX</td>
+<td bgcolor="#C69200" nowrap="nowrap" title="Java API for XML Processing">XML JAXP</td>
+<td bgcolor="#C69200" title="Networking API">Networking</td>
+<td bgcolor="#C69200" title="Endorsed Standards Override Mechanism">Override Mechanism</td>
+</tr>
+<tr>
+<td bgcolor="#C69200" title="Java Native Interface">JNI</td>
+<td bgcolor="#C69200" title="Date and Time">Date and Time</td>
+<td bgcolor="#C69200" title="Input/Output API">Input/Output</td>
+<td bgcolor="#C69200" title="Internationalization of applications">Internationalization</td>
+</tr>
+</table>
+</td>
+</tr>
+<!-- Row 8 of 9 -->
+<tr valign="top">
+<td class="tdhead" title="java.lang and java.util libraries"><b>lang and util<br/>Base Libraries</b>
+</td>
+<td>
+<table class="tablerows" summary="">
+<tr>
+<td colspan="5" bgcolor="#FFC726" title="java.lang and java.util packages">lang and util
+</td>
+</tr>
+<tr>
+<td bgcolor="#FFC726" title="Math classes">Math</td>
+<td bgcolor="#FFC726" title="Collections framework">Collections</td>
+<td bgcolor="#FFC726" title="Reference Objects API">RefObjects</td>
+<td colspan="2" bgcolor="#FFC726" title="Regular expressions">Regular Expressions</td>
+</tr>
+<tr>
+<td bgcolor="#FFC726" title="Logging API">Logging</td>
+<td bgcolor="#FFC726" title="JVM Monitoring and Management">Management</td>
+<td bgcolor="#FFC726" title="Instrumentation">Instrumentation</td>
+<td colspan="2" bgcolor="#FFC726" title="Concurrency utilities">Concurrency Utilities</td>
+</tr>
+<tr>
+<td bgcolor="#FFC726" title="Reflection API">Reflection</td>
+<td bgcolor="#FFC726" title="Package version identification">Versioning</td>
+<td bgcolor="#FFC726" title="Preferences API">Preferences API</td>
+<td bgcolor="#FFC726" title="Java archive file format">JAR</td>
+<td bgcolor="#FFC726" title="Zip and gzip file formats">Zip</td>
+</tr>
+</table>
+</td>
+</tr>
+<!-- Row 9 of 9 -->
+<tr valign="top">
+<td class="tdhead" title="Java Virtual Machine"><b>Java VirtualMachine</b></td>
+<td>
+<table class="tablerows" summary="">
+<tr>
+<td bgcolor="#C5D5A9">Java HotSpot Clientand Server VM</td>
+</tr>
+</table>
+</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</table>
+
+## Java源码级编译器(javac)
+## Class文件
+## 虚拟机与JVM
+## HotSpot VM
+## HotSpot VM的运行时支持
+## HotSpot与解释器
+## HotSpot与JIT编译器
+## HotSpot VM与JSR 292
