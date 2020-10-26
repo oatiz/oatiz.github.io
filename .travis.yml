@@ -1,12 +1,11 @@
 language: minimal
 
-dist: bionic
+#dist: bionic
 
 before_script:
   # Download and unzip the zola executable
   # Replace the version numbers in the URL by the version you want to use
   - curl -s -L https://github.com/getzola/zola/releases/download/v0.12.2/zola-v0.12.2-x86_64-unknown-linux-gnu.tar.gz | sudo tar xvzf - -C /usr/local/bin
-  - sudo apt install ghp-import
 
 script:
   - zola build
@@ -17,5 +16,6 @@ after_success: |
   #[ $TRAVIS_BRANCH = code ] &&
   #[ $TRAVIS_PULL_REQUEST = false ] &&
   zola build &&
+  sudo pip install ghp-import &&
   ghp-import -n public -b master &&
   git push -fq https://${GH_TOKEN}@github.com/oatiz.github.io.git master
