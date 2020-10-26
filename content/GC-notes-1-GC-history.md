@@ -1,16 +1,18 @@
 +++
 title = "GC学习笔记:GC定义及历史(一)"
 date = 2017-11-25
-category = "Garbage Collection"
 
 [taxonomies]
 tags = ["JVM", "GC"]
+categories = ["Garbage Collection"]
 +++
 
 ## 前言
   现实开发中,业务开发人员其实很少接触到GC相关的工作,本人接触GC纯粹是因为好奇和R大的早期博文与一些论坛的回答。断断续续的接触一些碎片化的知识,借此将其写下来作为自己学习的一个论证吧。
 
 此系列是阅读中村成洋与相川光著的[垃圾回收的算法与实现](https://www.amazon.cn/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%9A%84%E7%AE%97%E6%B3%95%E4%B8%8E%E5%AE%9E%E7%8E%B0-%E6%97%A5-%E4%B8%AD%E6%9D%91%E6%88%90%E6%B4%8B-%E7%9B%B8%E5%B7%9D%E5%85%89/dp/B01JZS0AO8/ref=sr_1_1?s=amazon-global-store&ie=UTF8&qid=1511623644&sr=8-1&keywords=%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%9A%84%E7%AE%97%E6%B3%95%E4%B8%8E%E5%AE%9E%E7%8E%B0)的笔记。
+
+<!-- more -->
 
 ### 定义
 GC是`Garbage Collection`的缩写,也就是“垃圾回收”。

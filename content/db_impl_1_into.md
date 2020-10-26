@@ -1,13 +1,15 @@
 +++
 title = "(一) DBMS系统概述及辅助储存管理"
 date = 2019-04-17
-category = "Database System Implementation"
 
 [taxonomies]
 tags = ["database"]
+categories = ["Database System Implementation"]
 +++
 
 > TODO
+
+<!-- more -->
 
 ---
 

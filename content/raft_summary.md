@@ -1,10 +1,10 @@
 +++
 title = "Raft学习笔记"
 date = 2018-12-07
-category = "Distributed Systems"
 
 [taxonomies]
 tags = ["raft", "cap", "distributed consensus"]
+categories = ["Distributed Systems"]
 +++
 
 ## 概念
@@ -12,6 +12,8 @@ tags = ["raft", "cap", "distributed consensus"]
 >`Raft` is an algorithm for managing a replicated log.
 
 `Raft`是一种用来管理复制日志的一致性算法.
+
+<!-- more -->
 
 ## 实现
 
