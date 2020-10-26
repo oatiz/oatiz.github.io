@@ -1,15 +1,17 @@
 +++
 title = "摘录:分布式数据库学习路线"
 date = 2018-12-27
-category = "Database System"
 
 [taxonomies]
 tags = ["database", "excerpts", "distributed system"]
+categories = ["Database System"]
 +++
 
 ## 来源
 
 摘录自知乎问题:[对数据库和分布式很感兴趣，学习路线是什么？](https://www.zhihu.com/question/62464757)
+
+<!-- more -->
 
 ## [李晨曦的回答](https://www.zhihu.com/question/62464757/answer/202033688):
 

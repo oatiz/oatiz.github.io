@@ -1,39 +1,36 @@
-# The URL the site will be built for
 base_url = "https://www.oatiz.me"
-
-# Theme
-theme = "even"
-
-# Whether to automatically compile all Sass files in the sass directory
-compile_sass = true
-
-# Whether to do syntax highlighting
-# Theme can be customised by setting the `highlight_theme` variable to a theme supported by Zola
+title = "/home/oatiz"
+description = ""
+# compile_sass = true
+slugify-path = true
 highlight_code = true
-
-# Whether to build a search index to be used later on by a JavaScript library
-build_search_index = true
-
+highlight_theme = "one-dark"
 taxonomies = [
     {name = "categories", rss = true},
     {name = "tags", rss = true},
+    {name = "series", rss = true},
 ]
+
+
+
+theme = "mikoto"
+extra_syntaxes = ["syntaxes"]
+
 
 [extra]
-# Put all your custom variables here
 author = "oatiz"
-author_bio = "Nice to meet you"
-twitter = "iamoatiz"
-github = "oatiz"
-instagram = false
-enable_mathjax = true
-katex_enable = true
-katex_auto_render = true
+mikoto_title = "oatiz"
+favicon = "https://github.com/GalAster/zola-theme-mikoto"
+github_link = "https://github.com/GalAster/zola-theme-mikoto"
 
-# This is the default menu
-even_menu = [
-    {url = "$BASE_URL", name = "Home"},
-    {url = "$BASE_URL/categories", name = "Categories"},
-    {url = "$BASE_URL/tags", name = "Tags"},
-    {url = "$BASE_URL/about", name = "About"},
-]
+# comment `enable` to close the plugin
+
+aplayer_enable = false
+aplayer_background = false
+aplayer_background_autolink = "http://music.163.com/playlist?id=4892065805"
+aplayer_background_autoplay = false
+
+live2d_enable = false
+
+mathjax_enable = true
+katex_enalbe = true

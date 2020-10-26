@@ -1,10 +1,10 @@
 +++
 title = "建站前言"
 date = 2017-07-28
-category = "Note"
 
 [taxonomies]
 tags = ["随笔"]
+categories = ["Note"]
 +++
 
 #### 组件

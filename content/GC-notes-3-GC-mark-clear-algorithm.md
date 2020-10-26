@@ -1,14 +1,16 @@
 +++
 title = "GC学习笔记:GC标记-清除算法(三)"
 date = 2017-11-27
-category = "Garbage Collection"
 
 [taxonomies]
 tags = ["JVM", "GC", "DASS"]
+categories = ["Garbage Collection"]
 +++
 
 ### GC标记-清除算法
 #### 标记阶段
+<!-- more -->
+
 #### 清除阶段
 #### 分配
 #### 合并

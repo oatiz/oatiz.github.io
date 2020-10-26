@@ -1,16 +1,18 @@
 +++
 title = "MapReduce论文总结"
 date = 2019-02-05
-category = "6.824"
 
 [taxonomies]
 tags = ["map reduce", "distributed system", "mit6.824"]
+categories = ["6.824"]
 +++
 
 原论文地址:[MapReduce](https://static.googleusercontent.com/media/research.google.com/zh-CN//archive/mapreduce-osdi04.pdf)
 
 ## Introduction
 MapReduce is a programming model and an associated implementation for processing and generating large data sets. Users specify a map function that processes a key/value pair to generate a set of intermediate key/value pairs, and a reduce function that merges all intermediate values associated with the same intermediate key. Many real world tasks are expressible in this model, as shown in the paper.
+
+<!-- more -->
 
 Programs written in this functional style are automatically parallelized and executed on a large cluster of commodity machines. The run-time system takes care of the details of partitioning the input data, scheduling the program’s execution across a set of machines, handling machine failures, and managing the required inter-machine communication. This allows programmers without any experience with parallel and distributed systems to easily utilize the resources of a large distributed system.
 

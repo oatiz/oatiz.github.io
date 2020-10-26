@@ -1,10 +1,10 @@
 +++
 title = "hexo mermaid"
 date = 2017-12-04
-category = "Mermaid"
 
 [taxonomies]
 tags = ["mermaid"]
+categories = ["Mermaid"]
 +++
 
 ### mermaid
@@ -18,6 +18,8 @@ graph TD
     B-->D;
     C-->D;
 ```
+
+<!-- more -->
 
 #### sequence
 

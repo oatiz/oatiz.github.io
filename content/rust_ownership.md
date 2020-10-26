@@ -1,10 +1,10 @@
 +++
 title = "Rust中所有权,引用,生命周期小记"
 date = 2018-11-29
-category = "Rust"
 
 [taxonomies]
 tags = ["rust", "ownership", "lifetime", "RAII"]
+categories = ["Rust"]
 +++
 
 ## rust 所有权,引用,生命周期
@@ -16,6 +16,8 @@ tags = ["rust", "ownership", "lifetime", "RAII"]
 - 跟踪代码正在堆上使用的数据
 - 最大限度减少堆上的重复数据
 - 清理堆上不再使用的数据
+
+<!-- more -->
 
 ### rules
 - Each value in Rust has a variable that’s called its owner.

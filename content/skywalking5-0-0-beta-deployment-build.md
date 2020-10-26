@@ -1,16 +1,18 @@
 +++
 title = "skywalking5.0部署搭建"
 date = 2018-05-15
-category = "Skywalking"
 
 [taxonomies]
 tags = ["apm", "skywalking"]
+categories = ["Skywalking"]
 +++
 
 ## 介绍
 [skywalking官网](http://skywalking.io/)
 
 [skywalking-github](https://github.com/apache/incubator-skywalking)
+
+<!-- more -->
 
 ## 背景
 

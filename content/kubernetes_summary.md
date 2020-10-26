@@ -1,15 +1,17 @@
 +++
 title = "k8s部署笔记"
 date = 2018-12-10
-category = "Kubernetes"
 
 [taxonomies]
 tags = ["excerpts", "kubernetes"]
+categories = ["Kubernetes"]
 +++
 
 ## centOS
 
 1. 确认centos 7 内核为3.10以上
+
+<!-- more -->
 
 2. 关闭swap (使用命令 swapoff -a 进行暂时关闭，如果永久关闭，自己查方法吧)
 

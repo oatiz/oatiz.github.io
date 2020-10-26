@@ -1,10 +1,10 @@
 +++
 title = "GC学习笔记:GC相关知识(二)"
 date = 2017-11-26
-category = "Garbage Collection"
 
 [taxonomies]
 tags = ["JVM", "GC", "DASS"]
+categories = ["Garbage Collection"]
 +++
 
 ## GC中基本概念
@@ -16,6 +16,8 @@ tags = ["JVM", "GC", "DASS"]
 在GC里,对象表示"通过应用程序利用的数据的集合"。对象配置在内存空间中,GC会根据情况将配置好的对象进行移动或销毁操作。因此,对象是GC的基本单位。
 
 对象由“头(header)”与“域(field)”组成
+
+<!-- more -->
 
 #### 头
 
