@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!--meta http-equiv="content-type" content="text/html; charset=utf-8"-->
+
+    <!-- Enable responsiveness on mobile devices-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    
+<title>&#x2F;home&#x2F;oatiz - MapReduce论文总结</title>
+
+
+    
+    <link rel="icon" href=https:&#x2F;&#x2F;github.com&#x2F;GalAster&#x2F;zola-theme-mikoto>
+    
+
+    
+
+    
+    <script src=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;basic.js></script>
+    <script src=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;lib&#x2F;pjax.js></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slideout/1.0.1/slideout.min.js"></script>
+    
+
+<script src=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;lib&#x2F;mathjax.js></script>
+<script id="MathJax-script" async src=https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;npm&#x2F;mathjax@3&#x2F;es5&#x2F;tex-chtml.js></script>
+
+
+    
+
+<link rel="stylesheet" href="https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;npm&#x2F;katex@latest/dist/katex.min.css" crossorigin="anonymous">
+<script type="module">
+import renderMathInElement from "https://cdn.jsdelivr.net/npm/katex@latest/dist/contrib/auto-render.mjs";
+const katex_config = {
+    delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+    ],
+    macros: {
+        // Functions
+        arccot: '\\operatorname{arccot}',
+        arcsec: '\\operatorname{arcsec}',
+        arccsc: '\\operatorname{arccsc}',
+    }
+}
+renderMathInElement(document.body, katex_config);
+</script>
+
+
+
+    
+
+    
+
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;site.css>
+    
+
+    
+    
+</head>
+
+<body>
+<div class="loading-bar">
+    <div class="progress"></div>
+</div>
+<div class="container">
+    
+<a href=https:&#x2F;&#x2F;github.com&#x2F;GalAster&#x2F;zola-theme-mikoto class="github-corner" aria-label="View on GitHub">
+    <svg width="80"
+         height="80"
+         viewBox="0 0 250 250"
+         style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;"
+         aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor"
+              style="transform-origin: 130px 106px;"
+              class="octo-arm">
+        </path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor"
+              class="octo-body">
+        </path>
+    </svg>
+</a>
+
+    <div id="mobile-navbar" class="mobile-navbar">
+        <div class="mobile-header-logo">
+            <a href="/" class="logo">oatiz</a>
+        </div>
+        <div class="mobile-navbar-icon icon-out">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+
+    <nav id="mobile-menu" class="mobile-menu slideout-menu slideout-menu-left">
+        <ul class="mobile-menu-list">
+            
+            <li class="mobile-menu-item">
+                <a href=https:&#x2F;&#x2F;blog.oatiz.me> Home </a>
+            </li>
+            
+            <li class="mobile-menu-item">
+                <a href=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;categories> Categories </a>
+            </li>
+            
+            <li class="mobile-menu-item">
+                <a href=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;tags> Tags </a>
+            </li>
+            
+            <li class="mobile-menu-item">
+                <a href=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;about> About </a>
+            </li>
+            
+        </ul>
+    </nav>
+
+    <header id="header">
+        <div class="logo"><a href=https:&#x2F;&#x2F;blog.oatiz.me>oatiz</a></div>
+        <nav class="menu">
+            <ul>
+                
+                <li>
+                    <a href=https:&#x2F;&#x2F;blog.oatiz.me> Home </a>
+                </li>
+                
+                <li>
+                    <a href=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;categories> Categories </a>
+                </li>
+                
+                <li>
+                    <a href=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;tags> Tags </a>
+                </li>
+                
+                <li>
+                    <a href=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;about> About </a>
+                </li>
+                
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="content" id="mobile-panel">
+            
+
+
+
+
+<article class="post">
+    
+<header class="post__header">
+    <h1 class="post__title">
+        <a href="https:&#x2F;&#x2F;blog.oatiz.me&#x2F;map-reduce-summary&#x2F;">MapReduce论文总结</a>
+    </h1>
+    <div class="post__meta">
+        <i class="fa fa-calendar-o" aria-hidden="true"></i>
+        <span> 2019-02-05&nbsp;&nbsp;</span>
+        <i class="fa fa-font" aria-hidden="true"></i>
+        <span>&nbsp;924 words&nbsp;&nbsp;</span>
+        <i class="fa fa-clock-o" aria-hidden="true"></i>
+        <span>&nbsp;5 minute read&nbsp;&nbsp;</span>
+        
+    </div>
+</header>
+
+    
+<div class="post-labels">
+    
+    
+    <a class="category" href=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;categories&#x2F;6-824&#x2F;># 6.824</a>
+    
+    
+
+    
+    
+    <a class="tag" href=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;tags&#x2F;map-reduce&#x2F;># map reduce</a>
+    
+    <a class="tag" href=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;tags&#x2F;distributed-system&#x2F;># distributed system</a>
+    
+    <a class="tag" href=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;tags&#x2F;mit6-824&#x2F;># mit6.824</a>
+    
+    
+</div>
+
+
+    <div class="post-content">
+        <p>原论文地址:<a href="https://static.googleusercontent.com/media/research.google.com/zh-CN//archive/mapreduce-osdi04.pdf">MapReduce</a></p>
+<h2 id="introduction">Introduction</h2>
+<p>MapReduce is a programming model and an associated implementation for processing and generating large data sets. Users specify a map function that processes a key/value pair to generate a set of intermediate key/value pairs, and a reduce function that merges all intermediate values associated with the same intermediate key. Many real world tasks are expressible in this model, as shown in the paper.</p>
+<span id="continue-reading"></span>
+<p>Programs written in this functional style are automatically parallelized and executed on a large cluster of commodity machines. The run-time system takes care of the details of partitioning the input data, scheduling the program’s execution across a set of machines, handling machine failures, and managing the required inter-machine communication. This allows programmers without any experience with parallel and distributed systems to easily utilize the resources of a large distributed system.</p>
+<p>Our implementation of MapReduce runs on a large cluster of commodity machines and is highly scalable: a typical MapReduce computation processes many terabytes of data on thousands of machines. Programmers find the system easy to use: hundreds of MapReduce programs have been implemented and upwards of one thousand MapReduce jobs are executed on Google’s clusters every day.</p>
+<h2 id="programming-model">Programming Model</h2>
+<p>The computation takes a set of input key/value pairs, and produces a set of output key/value pairs. The user of the MapReduce library expresses the computation as two functions: Map and Reduce.</p>
+<p>Map, written by the user, takes an input pair and produces a set of intermediate key/value pairs. The MapReduce library groups together all intermediate values associated with the same intermediate key I and passes them to the Reduce function.</p>
+<p>The Reduce function, also written by the user, accepts an intermediate key I and a set of values for that key. It merges together these values to form a possibly smaller set of values. Typically just zero or one output value is produced per Reduce invocation. The intermediate values are supplied to the user’s reduce function via an iterator. This allows us to handle lists of values that are too large to fit in memory.</p>
+<h2 id="implementation">Implementation</h2>
+<p><img src="/images/mapreduce.png" alt="图1: 执行流程" /></p>
+<p>The Map invocations are distributed across multiple machines by automatically partitioning the input data into a set of M splits. The input splits can be processed in parallel by different machines. Reduce invocations are distributed by partitioning the intermediate key space into R pieces using a partitioning function (e.g., hash(key) mod R). The number of partitions (R) and the partitioning function are specified by the user.</p>
+<p>Figure 1 shows the overall flow of a MapReduce operation in our implementation. When the user program calls the MapReduce function, the following sequence of actions occurs (the numbered labels in Figure 1 correspond to the numbers in the list below):</p>
+<ol>
+<li>
+<p>The MapReduce library in the user program first splits the input files into M pieces of typically 16 megabytes to 64 megabytes (MB) per piece (controllable by the user via an optional parameter). It then starts up many copies of the program on a cluster of machines.</p>
+</li>
+<li>
+<p>One of the copies of the program is special – the master. The rest are workers that are assigned work by the master. There are M map tasks and R reduce tasks to assign. The master picks idle workers and assigns each one a map task or a reduce task.</p>
+</li>
+<li>
+<p>A worker who is assigned a map task reads the contents of the corresponding input split. It parses key/value pairs out of the input data and passes each pair to the user-defined Map function. The intermediate key/value pairs produced by the Map function are buffered in memory.</p>
+</li>
+<li>
+<p>Periodically, the buffered pairs are written to local disk, partitioned into R regions by the partitioning function. The locations of these buffered pairs on the local disk are passed back to the master, who is responsible for forwarding these locations to the reduce workers.</p>
+</li>
+<li>
+<p>When a reduce worker is notified by the master about these locations, it uses remote procedure calls to read the buffered data from the local disks of the map workers. When a reduce worker has read all intermediate data, it sorts it by the intermediate keys so that all occurrences of the same key are grouped together. The sorting is needed because typically many different keys map to the same reduce task. If the amount of intermediate data is too large to fit in memory, an external sort is used.</p>
+</li>
+<li>
+<p>The reduce worker iterates over the sorted intermediate data and for each unique intermediate key encountered, it passes the key and the corresponding set of intermediate values to the user’s Reduce function. The output of the Reduce function is appended to a final output file for this reduce partition.</p>
+</li>
+<li>
+<p>When all map tasks and reduce tasks have been completed, the master wakes up the user program. At this point, the MapReduce call in the user program returns back to the user code.</p>
+</li>
+</ol>
+<p>After successful completion, the output of the mapreduce execution is available in the R output files (one per reduce task, with file names as specified by the user). Typically, users do not need to combine these R output files into one file – they often pass these files as input to another MapReduce call, or use them from another distributed application that is able to deal with input that is partitioned into multiple files.</p>
+<h2 id="refinements">Reﬁnements</h2>
+<h2 id="performance">Performance</h2>
+
+    </div>
+
+    
+
+    
+
+    <div class="post-footer">
+        
+        
+
+        <div class="footer-buttons">
+            <button type="button" class="footer"><span class="text"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i>&nbsp;&nbsp;赞赏</span></button>
+            <button type="button" class="footer footer-weak"><span class="text"><i class="fa fa-share-square-o" aria-hidden="true"></i>&nbsp;&nbsp;分享</span></button>
+        </div>
+
+
+        
+        <div class="post-nav">
+            
+            <a class="next" href=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;distributed-db-roadmap&#x2F;>摘录:分布式数据库学习路线 ›</a>
+            
+            
+            <a class="previous" href=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;db-impl-1-into&#x2F;>‹ (一) DBMS系统概述及辅助储存管理</a>
+            
+            
+            
+        </div>
+        
+
+        
+
+    </div>
+
+    
+    
+</article>
+
+
+
+        </div>
+    </main>
+
+    <footer id="footer">
+
+    </footer>
+</div>
+<footer id="footer">
+    
+    
+    <div class="container">
+        <div class="bottom-bar">
+            Made 
+            by
+            <a href="https://github.com/GalAster/zola-theme-mikoto" target="_blank" rel="noopener noreferrer">Aster</a>
+        </div>
+    </div>
+    
+</footer>
+
+<script type="text/javascript" src=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;lib&#x2F;init.js></script>
+
+</body>
+</html>

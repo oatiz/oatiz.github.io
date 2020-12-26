@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!--meta http-equiv="content-type" content="text/html; charset=utf-8"-->
+
+    <!-- Enable responsiveness on mobile devices-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    
+<title>&#x2F;home&#x2F;oatiz - (二) 辅助储存管理</title>
+
+
+    
+    <link rel="icon" href=https:&#x2F;&#x2F;github.com&#x2F;GalAster&#x2F;zola-theme-mikoto>
+    
+
+    
+
+    
+    <script src=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;basic.js></script>
+    <script src=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;lib&#x2F;pjax.js></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slideout/1.0.1/slideout.min.js"></script>
+    
+
+<script src=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;lib&#x2F;mathjax.js></script>
+<script id="MathJax-script" async src=https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;npm&#x2F;mathjax@3&#x2F;es5&#x2F;tex-chtml.js></script>
+
+
+    
+
+<link rel="stylesheet" href="https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;npm&#x2F;katex@latest/dist/katex.min.css" crossorigin="anonymous">
+<script type="module">
+import renderMathInElement from "https://cdn.jsdelivr.net/npm/katex@latest/dist/contrib/auto-render.mjs";
+const katex_config = {
+    delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+    ],
+    macros: {
+        // Functions
+        arccot: '\\operatorname{arccot}',
+        arcsec: '\\operatorname{arcsec}',
+        arccsc: '\\operatorname{arccsc}',
+    }
+}
+renderMathInElement(document.body, katex_config);
+</script>
+
+
+
+    
+
+    
+
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;site.css>
+    
+
+    
+    
+</head>
+
+<body>
+<div class="loading-bar">
+    <div class="progress"></div>
+</div>
+<div class="container">
+    
+<a href=https:&#x2F;&#x2F;github.com&#x2F;GalAster&#x2F;zola-theme-mikoto class="github-corner" aria-label="View on GitHub">
+    <svg width="80"
+         height="80"
+         viewBox="0 0 250 250"
+         style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;"
+         aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor"
+              style="transform-origin: 130px 106px;"
+              class="octo-arm">
+        </path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor"
+              class="octo-body">
+        </path>
+    </svg>
+</a>
+
+    <div id="mobile-navbar" class="mobile-navbar">
+        <div class="mobile-header-logo">
+            <a href="/" class="logo">oatiz</a>
+        </div>
+        <div class="mobile-navbar-icon icon-out">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+
+    <nav id="mobile-menu" class="mobile-menu slideout-menu slideout-menu-left">
+        <ul class="mobile-menu-list">
+            
+            <li class="mobile-menu-item">
+                <a href=https:&#x2F;&#x2F;blog.oatiz.me> Home </a>
+            </li>
+            
+            <li class="mobile-menu-item">
+                <a href=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;categories> Categories </a>
+            </li>
+            
+            <li class="mobile-menu-item">
+                <a href=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;tags> Tags </a>
+            </li>
+            
+            <li class="mobile-menu-item">
+                <a href=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;about> About </a>
+            </li>
+            
+        </ul>
+    </nav>
+
+    <header id="header">
+        <div class="logo"><a href=https:&#x2F;&#x2F;blog.oatiz.me>oatiz</a></div>
+        <nav class="menu">
+            <ul>
+                
+                <li>
+                    <a href=https:&#x2F;&#x2F;blog.oatiz.me> Home </a>
+                </li>
+                
+                <li>
+                    <a href=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;categories> Categories </a>
+                </li>
+                
+                <li>
+                    <a href=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;tags> Tags </a>
+                </li>
+                
+                <li>
+                    <a href=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;about> About </a>
+                </li>
+                
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="content" id="mobile-panel">
+            
+
+
+
+
+<article class="post">
+    
+<header class="post__header">
+    <h1 class="post__title">
+        <a href="https:&#x2F;&#x2F;blog.oatiz.me&#x2F;db-impl-2-secondary-storage&#x2F;">(二) 辅助储存管理</a>
+    </h1>
+    <div class="post__meta">
+        <i class="fa fa-calendar-o" aria-hidden="true"></i>
+        <span> 2019-09-16&nbsp;&nbsp;</span>
+        <i class="fa fa-font" aria-hidden="true"></i>
+        <span>&nbsp;2513 words&nbsp;&nbsp;</span>
+        <i class="fa fa-clock-o" aria-hidden="true"></i>
+        <span>&nbsp;13 minute read&nbsp;&nbsp;</span>
+        
+    </div>
+</header>
+
+    
+<div class="post-labels">
+    
+    
+    <a class="category" href=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;categories&#x2F;database-system-implementation&#x2F;># Database System Implementation</a>
+    
+    
+
+    
+    
+    <a class="tag" href=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;tags&#x2F;database&#x2F;># database</a>
+    
+    
+</div>
+
+
+    <div class="post-content">
+        <h2 id="1-qian-yan">1. 前言</h2>
+<p>数据库系统总会涉及辅助存储器(能够存储大量需要长期保存的数据设备)。所以研究辅助存储器的结构会利于我们分析SQL执行计划等数据库操作。</p>
+<span id="continue-reading"></span><h2 id="2-cun-chu-qi-ceng-ci">2. 存储器层次</h2>
+<p><img src="/images/storage_structure.png" alt="存储器结构图" /> </p>
+<ol>
+<li>
+<p>高速缓存(Cache)。是用于减少<code>CPU</code>访问内存所需平均时间的部件。<code>CPU</code>访问高速缓存的数据只需几纳秒。</p>
+</li>
+<li>
+<p>主存储器(Main Memory)。 数据从内存转移到<code>CPU</code>或<code>Cache</code>的速度在<code>10 ~ 100</code>ns范围内。</p>
+</li>
+<li>
+<p>辅助存储器(Secondary Storage)。典型的辅助存储器是<code>磁盘</code>与<code>固态硬盘</code>。<code>磁盘</code>和<code>主存</code>间传送一个字节的时间在<code>10</code>ms左右。</p>
+</li>
+<li>
+<p>第三级存储器(Tertiary Storage)。多硬盘可以使计算机存储量非常大,但是有的数据库的数据量比单台甚至多台机器的硬盘容量大得多,为了适应这样的需求,<code>第三级存储器</code>被开发出来,用于保存海量的数据。它的特点在于与<code>辅助存储器</code>相比,其读/写时间要长得多,但是容量比硬盘大得多。读取数据需要花费几秒至几分钟,但是可以达到<code>PB</code>级别的容量。(业务中不常见, 譬如<code>光盘(DVD)</code>, <code>磁带</code>)</p>
+</li>
+</ol>
+<table><thead><tr><th>存储器</th><th>级别</th><th>速度</th></tr></thead><tbody>
+<tr><td>高速缓存</td><td>纳秒级</td><td>10ns内</td></tr>
+<tr><td>主存储器</td><td>纳秒级</td><td>10~100ns</td></tr>
+<tr><td>辅助存储器(磁盘)</td><td>毫秒级</td><td>10ms内</td></tr>
+<tr><td>第三级存储器</td><td>秒/分钟级</td><td>几秒/几分钟</td></tr>
+</tbody></table>
+<h3 id="2-1-cun-chu-qi-ceng-ci-jian-chuan-di-shu-ju">2.1 存储器层次间传递数据</h3>
+<p>正常情况下,数据会在相邻层间进行传输。在<code>主存</code>与<code>辅助存储器</code>之间,由于访问指定数据或查找指定位置以存储数据均会消耗大量时间。所以当需要数据时,每一层的访问都会被组织起来以便于和其下层传送大量数据。</p>
+<p>对于理解<code>数据库</code>特别重要的是<code>磁盘</code>被分为了<code>磁盘块</code>。每块大小是<code>4~64</code>kb,整个块被从一个<code>缓冲区</code>(例如MySQL中的buffer pool)的区域中移进移出。因此,加速数据库的一个关键技术就是<code>组织数据</code>,使得当某一个磁盘块中有数据被访问时,大概率该块上的其他数据也需要被访问。</p>
+<h2 id="3-ci-pan">3. 磁盘</h2>
+<p>辅助存储器的使用是数据库系统的特性之一,而辅助管理器是几乎基于磁盘/固态硬盘的。早期的数据库大部分是几乎磁盘来设计的。所以研读磁盘操作是理解数据库的有效途径之一。</p>
+<h3 id="3-1-ci-pan-jie-gou">3.1 磁盘结构</h3>
+<p>磁盘驱动器大致分为两个重要的移动部件:</p>
+<ul>
+<li>磁盘组合(disk assembly)
+<ul>
+<li>磁盘组合由一个或多个盘片(platter)组成,它们围绕着一根中心主轴旋转。盘片的上下表面均被涂抹了一薄层磁性材料,二进制位被存储在这些磁性材料上。</li>
+</ul>
+</li>
+<li>磁头组合(head assembly)
+<ul>
+<li>磁头组合承载着磁头。每个盘面都有一个磁头,它极其贴近地悬浮在盘面上,但是绝对不与盘面接触(接触就会发生<code>磁头损毁</code>,盘面也被破坏)。磁头能读出经过它下面的盘面的磁方向,也能改变其磁方向,以便在磁盘上写信息。每个磁头被固定在一个磁头臂上,所有盘面的磁头随着磁头臂一同移进移出。</li>
+</ul>
+</li>
+</ul>
+<pre style="background-color:#2b303b;">
+<code><span style="color:#abb2bf;">graph LR;
+platter[盘面] --&gt; track1[磁道]
+platter[盘面] --&gt; track2[磁道]
+track1 --&gt; sector1[扇区]
+track1 --&gt; sector2[扇区]
+track2 --&gt; sector3[扇区]
+track2 --&gt; sector4[扇区]
+</span></code></pre><table><thead><tr><th>结构</th><th>释义</th></tr></thead><tbody>
+<tr><td>磁道</td><td>单个盘面上面的同心圆</td></tr>
+<tr><td>扇区</td><td>磁道上被间隙分隔的片段。扇区是不可分割的单位,倘若一部分磁化层被损坏,那么包含这部分的整个扇区也不能再被使用</td></tr>
+<tr><td>柱面</td><td>由盘面上半径相同的磁道组成</td></tr>
+<tr><td>间隙</td><td>扇区见的间隔,大约占整个磁道的10%,用于帮助标识扇区的起点儿</td></tr>
+<tr><td>块</td><td>磁盘和主存间的传输数据的逻辑单元,由一个或多个扇区组成</td></tr>
+</tbody></table>
+<p><img src="/images/hdd_structure.png" alt="典型磁盘结构" /></p>
+<p><img src="/images/platter_structure.png" alt="盘面顶视图" /></p>
+<p>PS: 此图有错误,每个磁道的扇区数通常是不同的,靠外圈磁道的扇区数比靠内圈的扇区数多。(越外圈的周长越大,此处涉及一个很久之前的(玄学)调优技巧,装系统分盘时根据不同软件的使用频率分盘,譬如文档分到E,F盘之类的)</p>
+<p><img src="/images/Cylinder_Head_Sector.png" alt="磁盘结构" /></p>
+<table><thead><tr><th>原文</th><th>译文</th></tr></thead><tbody>
+<tr><td>Track</td><td>磁道</td></tr>
+<tr><td>Cylinder</td><td>柱面</td></tr>
+<tr><td>Sector</td><td>扇区</td></tr>
+<tr><td>Headers</td><td>磁头</td></tr>
+<tr><td>Platters</td><td>盘片</td></tr>
+</tbody></table>
+<blockquote>
+<p>每个盘片对应两个盘面,相对应也有2个磁头</p>
+</blockquote>
+<h4 id="yang-li">样例</h4>
+<p>假设现有一块磁盘,它具有以下特效:</p>
+<ul>
+<li>8个圆盘,16个盘面</li>
+<li>每个盘面有$2^{16}=65536$个磁道</li>
+<li>每个磁道(平均)有$2^{8}=256$个扇区</li>
+<li>每个扇区有$2^{12}=4096$个字节</li>
+</ul>
+<p>整个磁盘的容量是:</p>
+<p>$16 \times 65536 \times 256 \times 4096 = 2^{4} \times 2^{16} \times 2^{8} \times 2^{12} = 2^{40}Bytes = 1TB$</p>
+<p>一个磁道的(平均)容量是:</p>
+<p>$2^{8} \times 2^{12} = 2^{20}Bytes = 1048576Bytes = 1MB$</p>
+<p>一个柱面的(平均)容量是$16MB$</p>
+<p>假设一个块的容量是$2^{14}=16KB$,那么一个块使用$2^{14} \div 2^{12} = 4$个连续扇区,一个磁道上(平均)有$256 \div 4 = 64$个块,一个柱面上(平均)有$16 \times 256 \div 4 = 1024$个块。</p>
+<h3 id="3-2-ci-pan-kong-zhi-qi">3.2 磁盘控制器</h3>
+<p>一个或多个磁盘驱动器被一个<code>磁盘控制器</code>所控制,<code>磁盘控制器</code>是一个小处理器,可以完成以下功能</p>
+<ul>
+<li>控制移动磁头组合的机械马达,将磁头定位到一个特定的半径位置,使得某一柱面任何磁道都可以被读写。</li>
+<li>从磁头所在的柱面的扇区中选择一个扇区。控制器也负责识别何时旋转主轴已经到达了所要求的扇区(该扇区的起点移动到了磁头下面)。</li>
+<li>将从所要求的扇区读取的二进制位传送到计算机的主存储器。</li>
+<li>可能的话,将一整条或更多磁道缓存与磁盘控制器的内存中,期待该磁道的许多扇区能够被很快读取,从而避免对磁盘的额外访问。</li>
+</ul>
+<p><img src="/images/simple_os.png" alt="简单计算机系统示意" /></p>
+<p>处理器经由数据总线与主存储器和磁盘驱动器通信。一个磁盘控制器可以控制多个磁盘。</p>
+<h3 id="3-3-ci-pan-cun-qu-te-xing">3.3 磁盘存取特性</h3>
+<p>存取(读或写)一个磁盘需要3步,每一步都有相关的延迟。</p>
+<ol>
+<li>磁盘控制器将磁头组合定位在磁盘块所在磁道的柱面上。此步骤所消耗时间为<code>寻道时间(seek time)</code></li>
+<li>磁盘控制器等待访问块的第一个扇区旋转到磁头下。此步骤所消耗时间为<code>旋转延迟(rotational latency)</code></li>
+<li>当磁盘控制器读取或写数据时,数据所在扇区和扇区间的空隙会经过磁头。此步骤所消耗时间为<code>传输时间(transfer time)</code></li>
+</ol>
+<blockquote>
+<p>寻道时间、旋转延迟和传输时间总和称为<code>磁盘的延迟(latency)</code></p>
+</blockquote>
+<table><thead><tr><th>延迟类型(根据不同类型的磁盘不同速度)</th><th>最大</th><th>最小</th><th>备注</th></tr></thead><tbody>
+<tr><td>寻道时间</td><td>约11ms</td><td>约1ms</td><td><code>寻道时间</code>取决于磁头到它要访问位置的距离,如果磁头已经位于所需柱面上,则寻道时间为0,但是需要<code>1ms</code>的时间来启动磁头,约<code>10ms</code>的时间移过所有磁道</td></tr>
+<tr><td>旋转延迟</td><td>约10ms</td><td>0ms</td><td>磁盘旋转一次大约需要<code>10ms</code></td></tr>
+<tr><td>传输时间</td><td>毫秒级下</td><td>毫秒级下</td><td>磁道上通常有许多块,所以传输速度在毫秒级下</td></tr>
+</tbody></table>
+<p>平均延迟: $平均寻道时间(5.5ms) + 平均旋转延迟(5ms) + 平均传输时间(0.5ms) = 11ms$</p>
+<p>最大延迟: $最大寻道时间(11ms) + 最大旋转延迟(10ms) + 最大传输时间(1ms) = 22ms$</p>
+<h4 id="yang-li-7200zhuan-de-ci-pan">样例(7200转的磁盘)</h4>
+<p>接上个例子中的磁盘,该磁盘的一些计时特效:</p>
+<ul>
+<li>磁盘以<code>7200转/min</code>的速度旋转,即<code>8.33ms</code>内旋转一周。</li>
+<li>在柱面之间移动磁头组合从启动到停止花费<code>1ms</code>,每移动<code>4000</code>个柱面另加<code>1ms</code>。这样,磁头在<code>1.00025ms</code>内移动一个磁道,从最内圈移动到最外圈,移动<code>65536</code>个磁道的距离大约用时<code>17.38ms</code>。</li>
+<li>一个磁道中扇区间的空隙大约占用<code>10%</code>的空间。间隙总占$36\degree$圆弧,扇区总占$324\degree$圆弧</li>
+</ul>
+<p>下面让我们计算读一个<code>16384</code>字节的块的最小、最大和平均时间。</p>
+<h5 id="zui-da-shi-jian">最大时间</h5>
+<p>寻道延迟: 磁头在最外圈,要读取最内圈的数据(或者相反)。上面已给出最大的寻道时间为<code>17.38ms</code></p>
+<p>旋转延迟: 最坏情况下,所需块的起点刚从磁头越过(还在这个扇区,只是起点刚刚越过)。所以我们必须从起点开始读,上面已给出最大的旋转延迟为<code>8.33ms</code></p>
+<p>传输时间: 上述已给出一个扇区最大容量为<code>4096</code>个字节,所以该块占用$16384\div4096=4$个扇区。所以占用的总弧度为$36 \times (3 \div 256) + 324 \times (4 \div 256) \approx 5.48 \degree$。所以最大传输时间为$(5.48 \div 360 ) \times 8.33 \approx 0.13ms$</p>
+<blockquote>
+<p>最大磁盘延迟 = 最大寻道延迟 + 最大旋转延迟 + 传输时间 = 17.38 + 8.33 + 0.13 = 25.84ms</p>
+</blockquote>
+<h5 id="ping-jun-shi-jian">平均时间</h5>
+<p>$平均磁盘延迟 = 平均寻道延迟 + 平均旋转延迟 + 传输时间 = 17.38 \div 2 + 8.33 \div 2 + 0.13 = 8.69 + 4.17 + 0.13 = 12.99ms$
+(这个数值还是不准确的,磁头起始位置一般在中心位置,寻道距离是远远小于$\frac{1}{2}$的,不过这个值是近似值)</p>
+
+    </div>
+
+    
+
+    
+
+    <div class="post-footer">
+        
+        
+
+        <div class="footer-buttons">
+            <button type="button" class="footer"><span class="text"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i>&nbsp;&nbsp;赞赏</span></button>
+            <button type="button" class="footer footer-weak"><span class="text"><i class="fa fa-share-square-o" aria-hidden="true"></i>&nbsp;&nbsp;分享</span></button>
+        </div>
+
+
+        
+        <div class="post-nav">
+            
+            <a class="next" href=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;db-impl-1-into&#x2F;>(一) DBMS系统概述及辅助储存管理 ›</a>
+            
+            
+            <a class="previous" href=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;db-impl-3-query-execution&#x2F;>‹ (三) 查询执行</a>
+            
+            
+            
+        </div>
+        
+
+        
+
+    </div>
+
+    
+    
+</article>
+
+
+
+        </div>
+    </main>
+
+    <footer id="footer">
+
+    </footer>
+</div>
+<footer id="footer">
+    
+    
+    <div class="container">
+        <div class="bottom-bar">
+            Made 
+            by
+            <a href="https://github.com/GalAster/zola-theme-mikoto" target="_blank" rel="noopener noreferrer">Aster</a>
+        </div>
+    </div>
+    
+</footer>
+
+<script type="text/javascript" src=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;lib&#x2F;init.js></script>
+
+</body>
+</html>

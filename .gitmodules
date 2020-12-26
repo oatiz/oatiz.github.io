@@ -1,6 +1,0 @@
-[submodule "themes/even"]
-	path = themes/even
-	url = https://github.com/getzola/even.git
-[submodule "themes/mikoto"]
-	path = themes/mikoto
-	url = https://github.com/GalAster/zola-theme-mikoto.git

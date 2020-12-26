@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!--meta http-equiv="content-type" content="text/html; charset=utf-8"-->
+
+    <!-- Enable responsiveness on mobile devices-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    
+<title>&#x2F;home&#x2F;oatiz - 摘录:分布式数据库学习路线</title>
+
+
+    
+    <link rel="icon" href=https:&#x2F;&#x2F;github.com&#x2F;GalAster&#x2F;zola-theme-mikoto>
+    
+
+    
+
+    
+    <script src=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;basic.js></script>
+    <script src=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;lib&#x2F;pjax.js></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slideout/1.0.1/slideout.min.js"></script>
+    
+
+<script src=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;lib&#x2F;mathjax.js></script>
+<script id="MathJax-script" async src=https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;npm&#x2F;mathjax@3&#x2F;es5&#x2F;tex-chtml.js></script>
+
+
+    
+
+<link rel="stylesheet" href="https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;npm&#x2F;katex@latest/dist/katex.min.css" crossorigin="anonymous">
+<script type="module">
+import renderMathInElement from "https://cdn.jsdelivr.net/npm/katex@latest/dist/contrib/auto-render.mjs";
+const katex_config = {
+    delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+    ],
+    macros: {
+        // Functions
+        arccot: '\\operatorname{arccot}',
+        arcsec: '\\operatorname{arcsec}',
+        arccsc: '\\operatorname{arccsc}',
+    }
+}
+renderMathInElement(document.body, katex_config);
+</script>
+
+
+
+    
+
+    
+
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;site.css>
+    
+
+    
+    
+</head>
+
+<body>
+<div class="loading-bar">
+    <div class="progress"></div>
+</div>
+<div class="container">
+    
+<a href=https:&#x2F;&#x2F;github.com&#x2F;GalAster&#x2F;zola-theme-mikoto class="github-corner" aria-label="View on GitHub">
+    <svg width="80"
+         height="80"
+         viewBox="0 0 250 250"
+         style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;"
+         aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor"
+              style="transform-origin: 130px 106px;"
+              class="octo-arm">
+        </path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor"
+              class="octo-body">
+        </path>
+    </svg>
+</a>
+
+    <div id="mobile-navbar" class="mobile-navbar">
+        <div class="mobile-header-logo">
+            <a href="/" class="logo">oatiz</a>
+        </div>
+        <div class="mobile-navbar-icon icon-out">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+
+    <nav id="mobile-menu" class="mobile-menu slideout-menu slideout-menu-left">
+        <ul class="mobile-menu-list">
+            
+            <li class="mobile-menu-item">
+                <a href=https:&#x2F;&#x2F;blog.oatiz.me> Home </a>
+            </li>
+            
+            <li class="mobile-menu-item">
+                <a href=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;categories> Categories </a>
+            </li>
+            
+            <li class="mobile-menu-item">
+                <a href=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;tags> Tags </a>
+            </li>
+            
+            <li class="mobile-menu-item">
+                <a href=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;about> About </a>
+            </li>
+            
+        </ul>
+    </nav>
+
+    <header id="header">
+        <div class="logo"><a href=https:&#x2F;&#x2F;blog.oatiz.me>oatiz</a></div>
+        <nav class="menu">
+            <ul>
+                
+                <li>
+                    <a href=https:&#x2F;&#x2F;blog.oatiz.me> Home </a>
+                </li>
+                
+                <li>
+                    <a href=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;categories> Categories </a>
+                </li>
+                
+                <li>
+                    <a href=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;tags> Tags </a>
+                </li>
+                
+                <li>
+                    <a href=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;about> About </a>
+                </li>
+                
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="content" id="mobile-panel">
+            
+
+
+
+
+<article class="post">
+    
+<header class="post__header">
+    <h1 class="post__title">
+        <a href="https:&#x2F;&#x2F;blog.oatiz.me&#x2F;distributed-db-roadmap&#x2F;">摘录:分布式数据库学习路线</a>
+    </h1>
+    <div class="post__meta">
+        <i class="fa fa-calendar-o" aria-hidden="true"></i>
+        <span> 2018-12-27&nbsp;&nbsp;</span>
+        <i class="fa fa-font" aria-hidden="true"></i>
+        <span>&nbsp;1280 words&nbsp;&nbsp;</span>
+        <i class="fa fa-clock-o" aria-hidden="true"></i>
+        <span>&nbsp;7 minute read&nbsp;&nbsp;</span>
+        
+    </div>
+</header>
+
+    
+<div class="post-labels">
+    
+    
+    <a class="category" href=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;categories&#x2F;database-system&#x2F;># Database System</a>
+    
+    
+
+    
+    
+    <a class="tag" href=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;tags&#x2F;database&#x2F;># database</a>
+    
+    <a class="tag" href=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;tags&#x2F;excerpts&#x2F;># excerpts</a>
+    
+    <a class="tag" href=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;tags&#x2F;distributed-system&#x2F;># distributed system</a>
+    
+    
+</div>
+
+
+    <div class="post-content">
+        <h2 id="lai-yuan">来源</h2>
+<p>摘录自知乎问题:<a href="https://www.zhihu.com/question/62464757">对数据库和分布式很感兴趣，学习路线是什么？</a></p>
+<span id="continue-reading"></span><h2 id="li-chen-xi-de-hui-da"><a href="https://www.zhihu.com/question/62464757/answer/202033688">李晨曦的回答</a>:</h2>
+<p>分布式的学习不是很了解，数据库有些经验可以按照如下步骤学习</p>
+<h3 id="1-ru-men">1. 入门</h3>
+<p>接触过数据库的基础知识和应用之后，就可以开始进行内核级的学习了，先学习传统的关系型数据库，因为它是一切数据库的基础，包括现在比较火的内存数据库，分布式数据库等。</p>
+<p>从<code>IV Database System Implementation</code>开始，把这本书吃透了，包括数据的物理存储结构，索引，查询引擎，缓冲池，SQL编译，查询优化，系统恢复，并发控制。然后实现上面这些理论知识，完成一个支持简单DML，DDL的数据库。一定要实现，只是学习理论，不动手实践是不可能深刻理解的，就像空中楼阁。</p>
+<p><a href="http://rtbs24.com/?target=https%3A%2F%2Fytthn.com%2Fclick-IQL4686A-HFDQCIIE%3Fbt%3D25%26tl%3D1__%26url%3Dhttp%3A%2F%2Fitem.jd.com%2F10059733.html">《数据库系统实现（英文版）（第2版）》</a></p>
+<p>http://dsm.fudan.edu.cn/JSPWiki/attach/Material_db/database%20system%20complete%20book_2nd.pdf2</p>
+<h3 id="2-shen-ru-li-jie">2. 深入理解</h3>
+<p>参考这个论文列表，把里面的论文都读一遍，了解关系型数据库历史，了解数据库的发展过程中走过的弯路，理解它为什么会变成现在这个样子</p>
+<p><a href="https://github.com/rxin/db-readings">rxin/db-readings</a></p>
+<p>同时也要锻炼系统级编程的能力，深刻理解操作系统的工作原理，并行编程，熟悉一些硬件的工作原理，为以后打下良好的基础。可以读一些优秀的开源数据库的源码，如Peloton的<a href="https://github.com/cmu-db/peloton">cmu-db/peloton</a>，只有几万行代码，PostgreSQL的，代码非常多，不过注释非常清晰</p>
+<h3 id="3-jin-jie">3. 进阶</h3>
+<p>看最近几年数据库相关的论文，各个方向的发展都全面了解一下，可以参考这两个课程提到的论文<a href="https://15721.courses.cs.cmu.edu/spring2017/schedule.html">Schedule - CMU 15-721 :: Advanced Database System (Spring 2017)</a>，<a href="https://db.in.tum.de/teaching/ws1617/imlab/?lang=en">Practical Course: Database Implementation</a>，找一些感觉兴趣的论文复现一下里面提到的方法。很多算法，数据结构都有一定的适用场景和局限性，要通过自己实现与实验来深刻体会。</p>
+<h3 id="4-po-chong-cheng-die">4. 破茧成蝶</h3>
+<p>这才是读博最重要的阶段，通过之前的学习，应该对数据库的各个方面都非常了解了，而且也打下了良好的编程能力，可以选1,2个感兴趣的方向，看看有没有什么可以改进，突破的点，想出自己的idea，实现并与现有的方法进行对比，如果可以做的很好，就非常厉害了。</p>
+<h2 id="ed-huangde-hui-da"><a href="https://www.zhihu.com/question/62464757/answer/202312500">Ed Huang的回答</a>:</h2>
+<p>深夜倒时差睡不着，上来写写</p>
+<p>对传统数据库不太了解，毕竟不是科班出身。</p>
+<p>对分布式系统学习还是有点心得，理论基础要打牢。</p>
+<ol>
+<li>
+<p>从存储系统入手，Google 的老三篇入门，最好能顺手把 6.824 做了，不难，智商正常的本科生都能做完，另外推荐一本书 Distributed systems for fun and profit</p>
+</li>
+<li>
+<p>做完 6.824 后就可以从复制协议开始入手, Paxos 的几篇，Lamport 那篇有空膜拜一下好了，真正有价值的是 Paxos made live / Paxos made simple 那几篇，然后可以深入看看 Raft, 这个在 6.824 里面会用到.</p>
+</li>
+<li>
+<p>然后开始开非 Google 系的存储系统比如 Dynamo ，Haystack 啊什么的还有一些最终一致性的系统，比如 FB 在一些系统上的设计虽然没有 Google 那么 fancy，但是看看还是不错的，至少知道在 FB 的数量级下会遇到那些问题，如何用糙快猛的办法 workaround。。。 和一些分布式计算系统和流计算系统，比如  MR 就不说了，比如 Dremel 啊，Spark 啊，MillWheel 啊，Sawzall 啊</p>
+</li>
+<li>
+<p>把 SQL 优化器的一些基础知识学会咯，然后尽量用分布式系统的思想去思考。然后有点感觉了以后，可以看 F1 和 2017 的 Spanner 那两篇论文找找感觉，毕竟比较简单。然后就可以去找一些 OLAP 系统的论文看看了，HyPer 有一堆论文，Impala / Presto / Kudu 啊， AsterixDB 啊什么的，这个领域就多了去了。</p>
+</li>
+<li>
+<p>这时候就可以开始实践了，自己动手撸没啥意思，而且工程量巨大无比，我建议还是要和靠谱的团队一起工作，进步很快，比如暑假没事或者实验室老师不管的话可以来我们这边实实习啊，毕竟鄙司是分布式系统和数据库技术融合得很不错的公司，离你们学校又近，打个车 20 分钟就到了，我的邮箱是 huang at http://pingcap.com，不过建议还是你把邮件发给 shenli，毕竟我推荐没有 iPhone 拿，他是有的...有机会未来见。</p>
+</li>
+</ol>
+
+    </div>
+
+    
+
+    
+
+    <div class="post-footer">
+        
+        
+
+        <div class="footer-buttons">
+            <button type="button" class="footer"><span class="text"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i>&nbsp;&nbsp;赞赏</span></button>
+            <button type="button" class="footer footer-weak"><span class="text"><i class="fa fa-share-square-o" aria-hidden="true"></i>&nbsp;&nbsp;分享</span></button>
+        </div>
+
+
+        
+        <div class="post-nav">
+            
+            <a class="next" href=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;kubernetes-summary&#x2F;>k8s部署笔记 ›</a>
+            
+            
+            <a class="previous" href=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;map-reduce-summary&#x2F;>‹ MapReduce论文总结</a>
+            
+            
+            
+        </div>
+        
+
+        
+
+    </div>
+
+    
+    
+</article>
+
+
+
+        </div>
+    </main>
+
+    <footer id="footer">
+
+    </footer>
+</div>
+<footer id="footer">
+    
+    
+    <div class="container">
+        <div class="bottom-bar">
+            Made 
+            by
+            <a href="https://github.com/GalAster/zola-theme-mikoto" target="_blank" rel="noopener noreferrer">Aster</a>
+        </div>
+    </div>
+    
+</footer>
+
+<script type="text/javascript" src=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;lib&#x2F;init.js></script>
+
+</body>
+</html>

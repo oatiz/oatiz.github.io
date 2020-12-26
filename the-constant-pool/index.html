@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!--meta http-equiv="content-type" content="text/html; charset=utf-8"-->
+
+    <!-- Enable responsiveness on mobile devices-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    
+<title>&#x2F;home&#x2F;oatiz - JVM常量池小解</title>
+
+
+    
+    <link rel="icon" href=https:&#x2F;&#x2F;github.com&#x2F;GalAster&#x2F;zola-theme-mikoto>
+    
+
+    
+
+    
+    <script src=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;basic.js></script>
+    <script src=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;lib&#x2F;pjax.js></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slideout/1.0.1/slideout.min.js"></script>
+    
+
+<script src=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;lib&#x2F;mathjax.js></script>
+<script id="MathJax-script" async src=https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;npm&#x2F;mathjax@3&#x2F;es5&#x2F;tex-chtml.js></script>
+
+
+    
+
+<link rel="stylesheet" href="https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;npm&#x2F;katex@latest/dist/katex.min.css" crossorigin="anonymous">
+<script type="module">
+import renderMathInElement from "https://cdn.jsdelivr.net/npm/katex@latest/dist/contrib/auto-render.mjs";
+const katex_config = {
+    delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+    ],
+    macros: {
+        // Functions
+        arccot: '\\operatorname{arccot}',
+        arcsec: '\\operatorname{arcsec}',
+        arccsc: '\\operatorname{arccsc}',
+    }
+}
+renderMathInElement(document.body, katex_config);
+</script>
+
+
+
+    
+
+    
+
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;site.css>
+    
+
+    
+    
+</head>
+
+<body>
+<div class="loading-bar">
+    <div class="progress"></div>
+</div>
+<div class="container">
+    
+<a href=https:&#x2F;&#x2F;github.com&#x2F;GalAster&#x2F;zola-theme-mikoto class="github-corner" aria-label="View on GitHub">
+    <svg width="80"
+         height="80"
+         viewBox="0 0 250 250"
+         style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;"
+         aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor"
+              style="transform-origin: 130px 106px;"
+              class="octo-arm">
+        </path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor"
+              class="octo-body">
+        </path>
+    </svg>
+</a>
+
+    <div id="mobile-navbar" class="mobile-navbar">
+        <div class="mobile-header-logo">
+            <a href="/" class="logo">oatiz</a>
+        </div>
+        <div class="mobile-navbar-icon icon-out">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+
+    <nav id="mobile-menu" class="mobile-menu slideout-menu slideout-menu-left">
+        <ul class="mobile-menu-list">
+            
+            <li class="mobile-menu-item">
+                <a href=https:&#x2F;&#x2F;blog.oatiz.me> Home </a>
+            </li>
+            
+            <li class="mobile-menu-item">
+                <a href=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;categories> Categories </a>
+            </li>
+            
+            <li class="mobile-menu-item">
+                <a href=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;tags> Tags </a>
+            </li>
+            
+            <li class="mobile-menu-item">
+                <a href=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;about> About </a>
+            </li>
+            
+        </ul>
+    </nav>
+
+    <header id="header">
+        <div class="logo"><a href=https:&#x2F;&#x2F;blog.oatiz.me>oatiz</a></div>
+        <nav class="menu">
+            <ul>
+                
+                <li>
+                    <a href=https:&#x2F;&#x2F;blog.oatiz.me> Home </a>
+                </li>
+                
+                <li>
+                    <a href=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;categories> Categories </a>
+                </li>
+                
+                <li>
+                    <a href=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;tags> Tags </a>
+                </li>
+                
+                <li>
+                    <a href=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;about> About </a>
+                </li>
+                
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="content" id="mobile-panel">
+            
+
+
+
+
+<article class="post">
+    
+<header class="post__header">
+    <h1 class="post__title">
+        <a href="https:&#x2F;&#x2F;blog.oatiz.me&#x2F;the-constant-pool&#x2F;">JVM常量池小解</a>
+    </h1>
+    <div class="post__meta">
+        <i class="fa fa-calendar-o" aria-hidden="true"></i>
+        <span> 2018-10-16&nbsp;&nbsp;</span>
+        <i class="fa fa-font" aria-hidden="true"></i>
+        <span>&nbsp;2079 words&nbsp;&nbsp;</span>
+        <i class="fa fa-clock-o" aria-hidden="true"></i>
+        <span>&nbsp;11 minute read&nbsp;&nbsp;</span>
+        
+    </div>
+</header>
+
+    
+<div class="post-labels">
+    
+    
+    <a class="category" href=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;categories&#x2F;jvm&#x2F;># JVM</a>
+    
+    
+
+    
+    
+    <a class="tag" href=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;tags&#x2F;jvm&#x2F;># JVM</a>
+    
+    <a class="tag" href=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;tags&#x2F;java&#x2F;># JAVA</a>
+    
+    
+</div>
+
+
+    <div class="post-content">
+        <h2 id="qian-yan">前言</h2>
+<p>今日,同事问我一个问题,以下java代码输出什么:</p>
+<pre style="background-color:#2b303b;">
+<code><span style="color:#f0c678;">String</span><span style="color:#abb2bf;"> s1 </span><span style="color:#adb7c9;">= </span><span style="color:#9acc76;">&quot;hello world&quot;</span><span style="color:#abb2bf;">;
+</span><span style="color:#f0c678;">String</span><span style="color:#abb2bf;"> s2 </span><span style="color:#adb7c9;">= </span><span style="color:#9acc76;">&quot;hello&quot; </span><span style="color:#adb7c9;">+ </span><span style="color:#9acc76;">&quot; &quot; </span><span style="color:#adb7c9;">+ </span><span style="color:#9acc76;">&quot;world&quot;</span><span style="color:#abb2bf;">;
+</span><span style="color:#f0c678;">System</span><span style="color:#abb2bf;">.out.</span><span style="color:#eb6772;">println</span><span style="color:#abb2bf;">(s1 </span><span style="color:#adb7c9;">==</span><span style="color:#abb2bf;"> s2); </span><span style="font-style:italic;color:#5f697a;">//true
+</span></code></pre>
+<p>沉思了一下,依我的编码经验给出了结果为true,辣么他接着问这是为什么,于是乎我就说常量是在编译期间存放在常量池中的,他接着问什么是常量池,都有什么东西存放在里面?</p>
+<span id="continue-reading"></span>
+<p><em>综上所述</em>,引出了今天我们的问题<strong>什么是常量池</strong>?</p>
+<h2 id="ding-yi">定义</h2>
+<h3 id="run-time-constant-pool"><a href="https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-2.html#jvms-2.5.5">Run-Time Constant Pool</a></h3>
+<blockquote>
+<p>A run-time constant pool is a per-class or per-interface run-time representation of the constant_pool table in a class file. It contains several kinds of constants, ranging from numeric literals known at compile-time to method and field references that must be resolved at run-time. The run-time constant pool serves a function similar to that of a symbol table for a conventional programming language, although it contains a wider range of data than a typical symbol table.</p>
+</blockquote>
+<p><strong>运行时常量池(Runtime Constant Pool)是每一个类或接口的常量池(Constant_Pool)的运行时表示形式,它包括了若干种不同的常量:从编译期可知的数值字面量到必须运行 期解析后才能获得的方法或字段引用。运行时常量池扮演了类似传统语言中符号表(Symbol Table)的角色，不过它存储数据范围比通常意义上的符号表要更为广泛。</strong></p>
+<h3 id="the-constant-pool"><a href="https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.4">The Constant Pool</a></h3>
+<blockquote>
+<p>Java Virtual Machine instructions do not rely on the run-time layout of classes, interfaces, class instances, or arrays. Instead, instructions refer to symbolic information in the constant_pool table.</p>
+</blockquote>
+<p><strong>Java 虚拟机指令执行时不依赖与类、接口,实例或数组的运行时布局,而是依赖常量池(constant_pool)表中的符号信息</strong></p>
+<p>以上是jvm规范中定义的,简单点来说:
+在程序运行期间有块区域叫运行时常量池,运行时常量池里面存储着一些常量池结构的数据(每个结构里面都是class文件中的某种类型的字面量)</p>
+<h2 id="jie-gou">结构</h2>
+<pre style="background-color:#2b303b;">
+<code><span style="color:#abb2bf;">cp_info {
+    u1 tag;
+    u1 info[];
+}
+</span></code></pre>
+<p>jvm规定了不同的tag值和不同类型的字面量对应关系,如下图所示:</p>
+<table><thead><tr><th align="center">Constant Type</th><th align="center">Value</th></tr></thead><tbody>
+<tr><td align="center">CONSTANT_Class</td><td align="center">7</td></tr>
+<tr><td align="center">CONSTANT_Fieldref</td><td align="center">9</td></tr>
+<tr><td align="center">CONSTANT_Methodref</td><td align="center">10</td></tr>
+<tr><td align="center">CONSTANT_InterfaceMethodref</td><td align="center">11</td></tr>
+<tr><td align="center">CONSTANT_String</td><td align="center">8</td></tr>
+<tr><td align="center">CONSTANT_Integer</td><td align="center">3</td></tr>
+<tr><td align="center">CONSTANT_Float</td><td align="center">4</td></tr>
+<tr><td align="center">CONSTANT_Long</td><td align="center">5</td></tr>
+<tr><td align="center">CONSTANT_Double</td><td align="center">6</td></tr>
+<tr><td align="center">CONSTANT_NameAndType</td><td align="center">12</td></tr>
+<tr><td align="center">CONSTANT_Utf8</td><td align="center">1</td></tr>
+<tr><td align="center">CONSTANT_MethodHandle</td><td align="center">15</td></tr>
+<tr><td align="center">CONSTANT_MethodType</td><td align="center">16</td></tr>
+<tr><td align="center">CONSTANT_InvokeDynamic</td><td align="center">18</td></tr>
+</tbody></table>
+<p>此次只分析基本类型与String:</p>
+<h3 id="constant-string-info">CONSTANT_String_info</h3>
+<pre style="background-color:#2b303b;">
+<code><span style="color:#abb2bf;">CONSTANT_String_info {
+    u1 tag;
+    u2 string_index;
+}
+</span></code></pre>
+<p>u1表示1个无符号字节,u2表示2个无符号字节
+tag: 8
+string_index: 指向CONSTANT_Utf8_info结构体</p>
+<h3 id="constant-utf8-info">CONSTANT_Utf8_info</h3>
+<pre style="background-color:#2b303b;">
+<code><span style="color:#abb2bf;">CONSTANT_Utf8_info {
+    u1 tag;
+    u2 length;
+    u1 bytes[length];
+}
+</span></code></pre>
+<p>u1表示1个无符号字节,u2表示2个无符号字节
+tag: 1
+length: utf-8编码的字节数组的长度
+bytes[lenth]: utf-8编码的字节数组</p>
+<h3 id="constant-integer-info">CONSTANT_Integer_info</h3>
+<pre style="background-color:#2b303b;">
+<code><span style="color:#abb2bf;">CONSTANT_Integer_info {
+    u1 tag;
+    u4 bytes;
+}
+</span></code></pre>
+<p>u1表示1个无符号字节,u4表示4个无符号字节
+tag: 3
+bytes: int常量的值</p>
+<h3 id="constant-float-info">CONSTANT_Float_info</h3>
+<pre style="background-color:#2b303b;">
+<code><span style="color:#abb2bf;">CONSTANT_Float_info {
+    u1 tag;
+    u4 bytes;
+}
+</span></code></pre>
+<p>u1表示1个无符号字节,u4表示4个无符号字节
+tag: 4
+bytes: float常量的值</p>
+<h3 id="constant-long-info">CONSTANT_Long_info</h3>
+<pre style="background-color:#2b303b;">
+<code><span style="color:#abb2bf;">CONSTANT_Long_info {
+    u1 tag;
+    u4 high_bytes;
+    u4 low_bytes;
+}
+</span></code></pre>
+<p>u1表示1个无符号字节,u4表示4个无符号字节
+tag: 5</p>
+<h3 id="constant-double-info">CONSTANT_Double_info</h3>
+<pre style="background-color:#2b303b;">
+<code><span style="color:#abb2bf;">CONSTANT_Double_info {
+    u1 tag;
+    u4 high_bytes;
+    u4 low_bytes;
+}
+</span></code></pre>
+<p>u1表示1个无符号字节,u4表示4个无符号字节
+tag: 6</p>
+<h3 id="bytecode-op">bytecode op</h3>
+<p>有人可能就奇怪了,怎么少了byte/short/char/boolean这几个基本类型的呢?
+jvm在此处有对应的指令支持:</p>
+<table><thead><tr><th align="center"> 类型</th><th align="center">范围</th><th align="center">指令</th></tr></thead><tbody>
+<tr><td align="center">boolean</td><td align="center">[0, 1]</td><td align="center">iconst_n</td></tr>
+<tr><td align="center">byte</td><td align="center">[-128, 127]</td><td align="center">iconst_m1, iconst_n, bipush</td></tr>
+<tr><td align="center">short</td><td align="center">[-32768, 32767]</td><td align="center">iconst_m1, iconst_n, bipush, sipush</td></tr>
+<tr><td align="center">char</td><td align="center">[0, 65535]</td><td align="center">iconst_m1,iconst_n, bipush, sipush, ldc</td></tr>
+<tr><td align="center">int</td><td align="center">[-2147483648, 2147483647]</td><td align="center">iconst_m1, iconst_n, bipush, sipush, ldc</td></tr>
+</tbody></table>
+<blockquote>
+<p>byte,short,char其实都是int与boolean类似.也是在编译时就已经变成了int,然后执行int的一些操作符。</p>
+</blockquote>
+<h2 id="ce-shi">测试</h2>
+<pre style="background-color:#2b303b;">
+<code><span style="color:#cd74e8;">public static</span><span style="color:#abb2bf;"> void </span><span style="color:#eb6772;">main</span><span style="color:#abb2bf;">(</span><span style="color:#f0c678;">String</span><span style="color:#cd74e8;">[]</span><span style="color:#abb2bf;"> args) {
+    </span><span style="font-style:italic;color:#5f697a;">// boolean
+    </span><span style="color:#cd74e8;">boolean</span><span style="color:#abb2bf;"> booltrue </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">true</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">boolean</span><span style="color:#abb2bf;"> boolfalse </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">false</span><span style="color:#abb2bf;">;
+
+    </span><span style="font-style:italic;color:#5f697a;">// byte
+    </span><span style="color:#cd74e8;">byte</span><span style="color:#abb2bf;"> byte_2 </span><span style="color:#adb7c9;">= -</span><span style="color:#db9d63;">2</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">byte</span><span style="color:#abb2bf;"> byte_1 </span><span style="color:#adb7c9;">= -</span><span style="color:#db9d63;">1</span><span style="color:#abb2bf;">; </span><span style="font-style:italic;color:#5f697a;">// -1是 iconst_m1
+    </span><span style="color:#cd74e8;">byte</span><span style="color:#abb2bf;"> byte0 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">0</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">byte</span><span style="color:#abb2bf;"> byte1 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">1</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">byte</span><span style="color:#abb2bf;"> byte2 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">2</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">byte</span><span style="color:#abb2bf;"> byte3 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">3</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">byte</span><span style="color:#abb2bf;"> byte4 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">4</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">byte</span><span style="color:#abb2bf;"> byte5 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">5</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">byte</span><span style="color:#abb2bf;"> byte6 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">6</span><span style="color:#abb2bf;">; </span><span style="font-style:italic;color:#5f697a;">// [0, 5]是 iconst_n 的范围,超出部分用bipush
+
+    // short
+    </span><span style="color:#cd74e8;">short</span><span style="color:#abb2bf;"> short_2 </span><span style="color:#adb7c9;">= -</span><span style="color:#db9d63;">2</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">short</span><span style="color:#abb2bf;"> short_1 </span><span style="color:#adb7c9;">= -</span><span style="color:#db9d63;">1</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">short</span><span style="color:#abb2bf;"> short0 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">0</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">short</span><span style="color:#abb2bf;"> short1 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">1</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">short</span><span style="color:#abb2bf;"> short2 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">2</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">short</span><span style="color:#abb2bf;"> short3 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">3</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">short</span><span style="color:#abb2bf;"> short4 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">4</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">short</span><span style="color:#abb2bf;"> short5 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">5</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">short</span><span style="color:#abb2bf;"> short6 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">6</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">short</span><span style="color:#abb2bf;"> short12 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">12</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">short</span><span style="color:#abb2bf;"> short127 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">127</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">short</span><span style="color:#abb2bf;"> short128 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">128</span><span style="color:#abb2bf;">; </span><span style="font-style:italic;color:#5f697a;">//从 128开始,超出push的能力,换用sipush
+    </span><span style="color:#cd74e8;">short</span><span style="color:#abb2bf;"> short_32768 </span><span style="color:#adb7c9;">= -</span><span style="color:#db9d63;">32768</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">short</span><span style="color:#abb2bf;"> short32766 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">32766</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">short</span><span style="color:#abb2bf;"> short32767 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">32767</span><span style="color:#abb2bf;">; </span><span style="font-style:italic;color:#5f697a;">//sipush能表示的范围和 short 一样
+
+    // char
+    </span><span style="color:#cd74e8;">char</span><span style="color:#abb2bf;"> char0 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">0</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">char</span><span style="color:#abb2bf;"> char1 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">1</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">char</span><span style="color:#abb2bf;"> char2 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">2</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">char</span><span style="color:#abb2bf;"> char3 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">3</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">char</span><span style="color:#abb2bf;"> char4 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">4</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">char</span><span style="color:#abb2bf;"> char5 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">5</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">char</span><span style="color:#abb2bf;"> char6 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">6</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">char</span><span style="color:#abb2bf;"> char12 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">12</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">char</span><span style="color:#abb2bf;"> char127 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">127</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">char</span><span style="color:#abb2bf;"> char128 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">128</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">char</span><span style="color:#abb2bf;"> char32766 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">32766</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">char</span><span style="color:#abb2bf;"> char32767 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">32767</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">char</span><span style="color:#abb2bf;"> char32768 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">32768</span><span style="color:#abb2bf;">; </span><span style="font-style:italic;color:#5f697a;">//超出 sipush 能表示的范围, 所以只能用ldc
+    </span><span style="color:#cd74e8;">char</span><span style="color:#abb2bf;"> char65535 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">65535</span><span style="color:#abb2bf;">;
+
+    </span><span style="font-style:italic;color:#5f697a;">// int
+    </span><span style="color:#cd74e8;">int</span><span style="color:#abb2bf;"> int_2 </span><span style="color:#adb7c9;">= -</span><span style="color:#db9d63;">2</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">int</span><span style="color:#abb2bf;"> int_1 </span><span style="color:#adb7c9;">= -</span><span style="color:#db9d63;">1</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">int</span><span style="color:#abb2bf;"> int0 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">0</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">int</span><span style="color:#abb2bf;"> int1 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">1</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">int</span><span style="color:#abb2bf;"> int2 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">2</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">int</span><span style="color:#abb2bf;"> int3 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">3</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">int</span><span style="color:#abb2bf;"> int4 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">4</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">int</span><span style="color:#abb2bf;"> int5 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">5</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">int</span><span style="color:#abb2bf;"> int6 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">6</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">int</span><span style="color:#abb2bf;"> int_129 </span><span style="color:#adb7c9;">= -</span><span style="color:#db9d63;">129</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">int</span><span style="color:#abb2bf;"> int_128 </span><span style="color:#adb7c9;">= -</span><span style="color:#db9d63;">128</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">int</span><span style="color:#abb2bf;"> int_127 </span><span style="color:#adb7c9;">= -</span><span style="color:#db9d63;">127</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">int</span><span style="color:#abb2bf;"> int127 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">127</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">int</span><span style="color:#abb2bf;"> int128 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">128</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">int</span><span style="color:#abb2bf;"> int255 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">255</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">int</span><span style="color:#abb2bf;"> int256 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">256</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">int</span><span style="color:#abb2bf;"> int257 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">257</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">int</span><span style="color:#abb2bf;"> int_32769 </span><span style="color:#adb7c9;">= -</span><span style="color:#db9d63;">32769</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">int</span><span style="color:#abb2bf;"> int_32768 </span><span style="color:#adb7c9;">= -</span><span style="color:#db9d63;">32768</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">int</span><span style="color:#abb2bf;"> int32766 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">32766</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">int</span><span style="color:#abb2bf;"> int32767 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">32767</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">int</span><span style="color:#abb2bf;"> int32768 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">32768</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">int</span><span style="color:#abb2bf;"> int65534 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">65534</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">int</span><span style="color:#abb2bf;"> int65535 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">65535</span><span style="color:#abb2bf;">;
+
+    </span><span style="font-style:italic;color:#5f697a;">// long (除了0,1 均是ldc(ldc2_w))
+    </span><span style="color:#cd74e8;">long</span><span style="color:#abb2bf;"> long_2 </span><span style="color:#adb7c9;">= -</span><span style="color:#db9d63;">2</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">long</span><span style="color:#abb2bf;"> long_1 </span><span style="color:#adb7c9;">= -</span><span style="color:#db9d63;">1</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">long</span><span style="color:#abb2bf;"> long0 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">0</span><span style="color:#abb2bf;">; </span><span style="font-style:italic;color:#5f697a;">// lconst_0
+    </span><span style="color:#cd74e8;">long</span><span style="color:#abb2bf;"> long1 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">1</span><span style="color:#abb2bf;">; </span><span style="font-style:italic;color:#5f697a;">// lconst_1
+    </span><span style="color:#cd74e8;">long</span><span style="color:#abb2bf;"> long2 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">2</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">long</span><span style="color:#abb2bf;"> long3 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">3</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">long</span><span style="color:#abb2bf;"> long4 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">4</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">long</span><span style="color:#abb2bf;"> long5 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">5</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">long</span><span style="color:#abb2bf;"> long6 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">6</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">long</span><span style="color:#abb2bf;"> long_129 </span><span style="color:#adb7c9;">= -</span><span style="color:#db9d63;">129</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">long</span><span style="color:#abb2bf;"> long_128 </span><span style="color:#adb7c9;">= -</span><span style="color:#db9d63;">128</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">long</span><span style="color:#abb2bf;"> long_127 </span><span style="color:#adb7c9;">= -</span><span style="color:#db9d63;">127</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">long</span><span style="color:#abb2bf;"> long127 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">127</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">long</span><span style="color:#abb2bf;"> long128 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">128</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">long</span><span style="color:#abb2bf;"> long255 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">255</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">long</span><span style="color:#abb2bf;"> long256 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">256</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">long</span><span style="color:#abb2bf;"> long257 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">257</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">long</span><span style="color:#abb2bf;"> long_32769 </span><span style="color:#adb7c9;">= -</span><span style="color:#db9d63;">32769</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">long</span><span style="color:#abb2bf;"> long_32768 </span><span style="color:#adb7c9;">= -</span><span style="color:#db9d63;">32768</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">long</span><span style="color:#abb2bf;"> long32766 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">32766</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">long</span><span style="color:#abb2bf;"> long32767 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">32767</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">long</span><span style="color:#abb2bf;"> long32768 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">32768</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">long</span><span style="color:#abb2bf;"> long65534 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">65534</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">long</span><span style="color:#abb2bf;"> long65535 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">65535</span><span style="color:#abb2bf;">;
+    </span><span style="color:#cd74e8;">long</span><span style="color:#abb2bf;"> long165536 </span><span style="color:#adb7c9;">= </span><span style="color:#db9d63;">165536</span><span style="color:#abb2bf;">;
+  }
+</span></code></pre>
+<p>javap结果</p>
+<pre style="background-color:#2b303b;">
+<code><span style="color:#abb2bf;">Classfile </span><span style="color:#adb7c9;">/</span><span style="color:#abb2bf;">Users</span><span style="color:#adb7c9;">/</span><span style="color:#abb2bf;">oatiz</span><span style="color:#adb7c9;">/</span><span style="color:#abb2bf;">IdeaProjects</span><span style="color:#adb7c9;">/</span><span style="color:#abb2bf;">xxx</span><span style="color:#adb7c9;">-</span><span style="color:#abb2bf;">daas</span><span style="color:#adb7c9;">/</span><span style="color:#abb2bf;">daas</span><span style="color:#adb7c9;">-</span><span style="color:#abb2bf;">test</span><span style="color:#adb7c9;">/</span><span style="color:#abb2bf;">src</span><span style="color:#adb7c9;">/</span><span style="color:#abb2bf;">main</span><span style="color:#adb7c9;">/</span><span style="color:#abb2bf;">java</span><span style="color:#adb7c9;">/</span><span style="color:#abb2bf;">com</span><span style="color:#adb7c9;">/</span><span style="color:#abb2bf;">xxx</span><span style="color:#adb7c9;">/</span><span style="color:#abb2bf;">daas</span><span style="color:#adb7c9;">/</span><span style="color:#abb2bf;">test</span><span style="color:#adb7c9;">/</span><span style="color:#abb2bf;">StringTest.</span><span style="color:#eb6772;">class
+</span><span style="color:#abb2bf;">  Last modified </span><span style="color:#db9d63;">2018</span><span style="color:#adb7c9;">-</span><span style="color:#db9d63;">10</span><span style="color:#adb7c9;">-</span><span style="color:#db9d63;">16</span><span style="color:#abb2bf;">; size </span><span style="color:#db9d63;">1230</span><span style="color:#abb2bf;"> bytes
+  MD5 checksum </span><span style="color:#db9d63;">99</span><span style="color:#cd74e8;">b3a33d2192b639186f350eacc0aac2
+</span><span style="color:#abb2bf;">  Compiled from </span><span style="color:#9acc76;">&quot;StringTest.java&quot;
+</span><span style="color:#abb2bf;">public </span><span style="color:#cd74e8;">class</span><span style="color:#abb2bf;"> com.</span><span style="color:#eb6772;">xxx</span><span style="color:#abb2bf;">.</span><span style="color:#eb6772;">daas</span><span style="color:#abb2bf;">.</span><span style="color:#eb6772;">test</span><span style="color:#abb2bf;">.</span><span style="color:#eb6772;">StringTest
+</span><span style="color:#abb2bf;">  minor version</span><span style="color:#adb7c9;">: </span><span style="color:#db9d63;">0
+</span><span style="color:#abb2bf;">  major version</span><span style="color:#adb7c9;">: </span><span style="color:#db9d63;">52
+</span><span style="color:#abb2bf;">  flags</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> ACC_PUBLIC, ACC_SUPER
+Constant pool</span><span style="color:#adb7c9;">:
+</span><span style="color:#abb2bf;">   #</span><span style="color:#db9d63;">1 </span><span style="color:#adb7c9;">=</span><span style="color:#abb2bf;"> Methodref          #</span><span style="color:#db9d63;">53.</span><span style="color:#abb2bf;">#</span><span style="color:#db9d63;">62        </span><span style="font-style:italic;color:#5f697a;">// java/lang/Object.&quot;&lt;init&gt;&quot;:()V
+</span><span style="color:#abb2bf;">   #</span><span style="color:#db9d63;">2 </span><span style="color:#adb7c9;">=</span><span style="color:#abb2bf;"> Integer            </span><span style="color:#db9d63;">32768
+</span><span style="color:#abb2bf;">   #</span><span style="color:#db9d63;">3 </span><span style="color:#adb7c9;">=</span><span style="color:#abb2bf;"> Integer            </span><span style="color:#db9d63;">65535
+</span><span style="color:#abb2bf;">   #</span><span style="color:#db9d63;">4 </span><span style="color:#adb7c9;">=</span><span style="color:#abb2bf;"> Integer            </span><span style="color:#adb7c9;">-</span><span style="color:#db9d63;">32769
+</span><span style="color:#abb2bf;">   #</span><span style="color:#db9d63;">5 </span><span style="color:#adb7c9;">=</span><span style="color:#abb2bf;"> Integer            </span><span style="color:#db9d63;">65534
+</span><span style="color:#abb2bf;">   #</span><span style="color:#db9d63;">6 </span><span style="color:#adb7c9;">=</span><span style="color:#abb2bf;"> Long               </span><span style="color:#adb7c9;">-</span><span style="color:#db9d63;">2</span><span style="color:#cd74e8;">l
+</span><span style="color:#abb2bf;">   #</span><span style="color:#db9d63;">8 </span><span style="color:#adb7c9;">=</span><span style="color:#abb2bf;"> Long               </span><span style="color:#adb7c9;">-</span><span style="color:#db9d63;">1</span><span style="color:#cd74e8;">l
+</span><span style="color:#abb2bf;">  #</span><span style="color:#db9d63;">10 </span><span style="color:#adb7c9;">=</span><span style="color:#abb2bf;"> Long               </span><span style="color:#db9d63;">2</span><span style="color:#cd74e8;">l
+</span><span style="color:#abb2bf;">  #</span><span style="color:#db9d63;">12 </span><span style="color:#adb7c9;">=</span><span style="color:#abb2bf;"> Long               </span><span style="color:#db9d63;">3</span><span style="color:#cd74e8;">l
+</span><span style="color:#abb2bf;">  #</span><span style="color:#db9d63;">14 </span><span style="color:#adb7c9;">=</span><span style="color:#abb2bf;"> Long               </span><span style="color:#db9d63;">4</span><span style="color:#cd74e8;">l
+</span><span style="color:#abb2bf;">  #</span><span style="color:#db9d63;">16 </span><span style="color:#adb7c9;">=</span><span style="color:#abb2bf;"> Long               </span><span style="color:#db9d63;">5</span><span style="color:#cd74e8;">l
+</span><span style="color:#abb2bf;">  #</span><span style="color:#db9d63;">18 </span><span style="color:#adb7c9;">=</span><span style="color:#abb2bf;"> Long               </span><span style="color:#db9d63;">6</span><span style="color:#cd74e8;">l
+</span><span style="color:#abb2bf;">  #</span><span style="color:#db9d63;">20 </span><span style="color:#adb7c9;">=</span><span style="color:#abb2bf;"> Long               </span><span style="color:#adb7c9;">-</span><span style="color:#db9d63;">129</span><span style="color:#cd74e8;">l
+</span><span style="color:#abb2bf;">  #</span><span style="color:#db9d63;">22 </span><span style="color:#adb7c9;">=</span><span style="color:#abb2bf;"> Long               </span><span style="color:#adb7c9;">-</span><span style="color:#db9d63;">128</span><span style="color:#cd74e8;">l
+</span><span style="color:#abb2bf;">  #</span><span style="color:#db9d63;">24 </span><span style="color:#adb7c9;">=</span><span style="color:#abb2bf;"> Long               </span><span style="color:#adb7c9;">-</span><span style="color:#db9d63;">127</span><span style="color:#cd74e8;">l
+</span><span style="color:#abb2bf;">  #</span><span style="color:#db9d63;">26 </span><span style="color:#adb7c9;">=</span><span style="color:#abb2bf;"> Long               </span><span style="color:#db9d63;">127</span><span style="color:#cd74e8;">l
+</span><span style="color:#abb2bf;">  #</span><span style="color:#db9d63;">28 </span><span style="color:#adb7c9;">=</span><span style="color:#abb2bf;"> Long               </span><span style="color:#db9d63;">128</span><span style="color:#cd74e8;">l
+</span><span style="color:#abb2bf;">  #</span><span style="color:#db9d63;">30 </span><span style="color:#adb7c9;">=</span><span style="color:#abb2bf;"> Long               </span><span style="color:#db9d63;">255</span><span style="color:#cd74e8;">l
+</span><span style="color:#abb2bf;">  #</span><span style="color:#db9d63;">32 </span><span style="color:#adb7c9;">=</span><span style="color:#abb2bf;"> Long               </span><span style="color:#db9d63;">256</span><span style="color:#cd74e8;">l
+</span><span style="color:#abb2bf;">  #</span><span style="color:#db9d63;">34 </span><span style="color:#adb7c9;">=</span><span style="color:#abb2bf;"> Long               </span><span style="color:#db9d63;">257</span><span style="color:#cd74e8;">l
+</span><span style="color:#abb2bf;">  #</span><span style="color:#db9d63;">36 </span><span style="color:#adb7c9;">=</span><span style="color:#abb2bf;"> Long               </span><span style="color:#adb7c9;">-</span><span style="color:#db9d63;">32769</span><span style="color:#cd74e8;">l
+</span><span style="color:#abb2bf;">  #</span><span style="color:#db9d63;">38 </span><span style="color:#adb7c9;">=</span><span style="color:#abb2bf;"> Long               </span><span style="color:#adb7c9;">-</span><span style="color:#db9d63;">32768</span><span style="color:#cd74e8;">l
+</span><span style="color:#abb2bf;">  #</span><span style="color:#db9d63;">40 </span><span style="color:#adb7c9;">=</span><span style="color:#abb2bf;"> Long               </span><span style="color:#db9d63;">32766</span><span style="color:#cd74e8;">l
+</span><span style="color:#abb2bf;">  #</span><span style="color:#db9d63;">42 </span><span style="color:#adb7c9;">=</span><span style="color:#abb2bf;"> Long               </span><span style="color:#db9d63;">32767</span><span style="color:#cd74e8;">l
+</span><span style="color:#abb2bf;">  #</span><span style="color:#db9d63;">44 </span><span style="color:#adb7c9;">=</span><span style="color:#abb2bf;"> Long               </span><span style="color:#db9d63;">32768</span><span style="color:#cd74e8;">l
+</span><span style="color:#abb2bf;">  #</span><span style="color:#db9d63;">46 </span><span style="color:#adb7c9;">=</span><span style="color:#abb2bf;"> Long               </span><span style="color:#db9d63;">65534</span><span style="color:#cd74e8;">l
+</span><span style="color:#abb2bf;">  #</span><span style="color:#db9d63;">48 </span><span style="color:#adb7c9;">=</span><span style="color:#abb2bf;"> Long               </span><span style="color:#db9d63;">65535</span><span style="color:#cd74e8;">l
+</span><span style="color:#abb2bf;">  #</span><span style="color:#db9d63;">50 </span><span style="color:#adb7c9;">=</span><span style="color:#abb2bf;"> Long               </span><span style="color:#db9d63;">165536</span><span style="color:#cd74e8;">l
+</span><span style="color:#abb2bf;">  #</span><span style="color:#db9d63;">52 </span><span style="color:#adb7c9;">=</span><span style="color:#abb2bf;"> Class              #</span><span style="color:#db9d63;">63            </span><span style="font-style:italic;color:#5f697a;">// com/xxx/daas/test/StringTest
+</span><span style="color:#abb2bf;">  #</span><span style="color:#db9d63;">53 </span><span style="color:#adb7c9;">=</span><span style="color:#abb2bf;"> Class              #</span><span style="color:#db9d63;">64            </span><span style="font-style:italic;color:#5f697a;">// java/lang/Object
+</span><span style="color:#abb2bf;">  #</span><span style="color:#db9d63;">54 </span><span style="color:#adb7c9;">=</span><span style="color:#abb2bf;"> Utf8               &lt;init&gt;
+  #</span><span style="color:#db9d63;">55 </span><span style="color:#adb7c9;">= </span><span style="color:#eb6772;">Utf8               </span><span style="color:#abb2bf;">()V
+  #</span><span style="color:#db9d63;">56 </span><span style="color:#adb7c9;">=</span><span style="color:#abb2bf;"> Utf8               Code
+  #</span><span style="color:#db9d63;">57 </span><span style="color:#adb7c9;">=</span><span style="color:#abb2bf;"> Utf8               LineNumberTable
+  #</span><span style="color:#db9d63;">58 </span><span style="color:#adb7c9;">=</span><span style="color:#abb2bf;"> Utf8               main
+  #</span><span style="color:#db9d63;">59 </span><span style="color:#adb7c9;">= </span><span style="color:#eb6772;">Utf8               </span><span style="color:#abb2bf;">([Ljava</span><span style="color:#adb7c9;">/</span><span style="color:#abb2bf;">lang</span><span style="color:#adb7c9;">/</span><span style="color:#abb2bf;">String;</span><span style="background-color:#e05252;color:#ffffff;">)</span><span style="color:#abb2bf;">V
+  #</span><span style="color:#db9d63;">60 </span><span style="color:#adb7c9;">=</span><span style="color:#abb2bf;"> Utf8               SourceFile
+  #</span><span style="color:#db9d63;">61 </span><span style="color:#adb7c9;">=</span><span style="color:#abb2bf;"> Utf8               StringTest.</span><span style="color:#eb6772;">java
+</span><span style="color:#abb2bf;">  #</span><span style="color:#db9d63;">62 </span><span style="color:#adb7c9;">=</span><span style="color:#abb2bf;"> NameAndType        #</span><span style="color:#db9d63;">54</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;">#</span><span style="color:#db9d63;">55        </span><span style="font-style:italic;color:#5f697a;">// &quot;&lt;init&gt;&quot;:()V
+</span><span style="color:#abb2bf;">  #</span><span style="color:#db9d63;">63 </span><span style="color:#adb7c9;">=</span><span style="color:#abb2bf;"> Utf8               com</span><span style="color:#adb7c9;">/</span><span style="color:#abb2bf;">xxx</span><span style="color:#adb7c9;">/</span><span style="color:#abb2bf;">daas</span><span style="color:#adb7c9;">/</span><span style="color:#abb2bf;">test</span><span style="color:#adb7c9;">/</span><span style="color:#abb2bf;">StringTest
+  #</span><span style="color:#db9d63;">64 </span><span style="color:#adb7c9;">=</span><span style="color:#abb2bf;"> Utf8               java</span><span style="color:#adb7c9;">/</span><span style="color:#abb2bf;">lang</span><span style="color:#adb7c9;">/</span><span style="color:#eb6772;">Object
+</span><span style="color:#abb2bf;">{
+  public com.</span><span style="color:#eb6772;">xxx</span><span style="color:#abb2bf;">.</span><span style="color:#eb6772;">daas</span><span style="color:#abb2bf;">.</span><span style="color:#eb6772;">test</span><span style="color:#abb2bf;">.</span><span style="color:#eb6772;">StringTest</span><span style="color:#abb2bf;">();
+    descriptor</span><span style="color:#adb7c9;">: </span><span style="color:#abb2bf;">()V
+    flags</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> ACC_PUBLIC
+    Code</span><span style="color:#adb7c9;">:
+</span><span style="color:#abb2bf;">      stack</span><span style="color:#adb7c9;">=</span><span style="color:#db9d63;">1</span><span style="color:#abb2bf;">, locals</span><span style="color:#adb7c9;">=</span><span style="color:#db9d63;">1</span><span style="color:#abb2bf;">, args_size</span><span style="color:#adb7c9;">=</span><span style="color:#db9d63;">1
+         0</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> aload_0
+         </span><span style="color:#db9d63;">1</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> invokespecial #</span><span style="color:#db9d63;">1                  </span><span style="font-style:italic;color:#5f697a;">// Method java/lang/Object.&quot;&lt;init&gt;&quot;:()V
+         </span><span style="color:#db9d63;">4</span><span style="color:#adb7c9;">: </span><span style="color:#cd74e8;">return
+</span><span style="color:#abb2bf;">      LineNumberTable</span><span style="color:#adb7c9;">:
+</span><span style="color:#abb2bf;">        line </span><span style="color:#db9d63;">6</span><span style="color:#adb7c9;">: </span><span style="color:#db9d63;">0
+
+</span><span style="color:#abb2bf;">  public </span><span style="color:#cd74e8;">static void </span><span style="color:#eb6772;">main</span><span style="color:#abb2bf;">(java.</span><span style="color:#eb6772;">lang</span><span style="color:#abb2bf;">.</span><span style="color:#eb6772;">String</span><span style="color:#abb2bf;">[]);
+    descriptor</span><span style="color:#adb7c9;">: </span><span style="color:#abb2bf;">([Ljava</span><span style="color:#adb7c9;">/</span><span style="color:#abb2bf;">lang</span><span style="color:#adb7c9;">/</span><span style="color:#abb2bf;">String;</span><span style="background-color:#e05252;color:#ffffff;">)</span><span style="color:#abb2bf;">V
+    flags</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> ACC_PUBLIC, ACC_STATIC
+    Code</span><span style="color:#adb7c9;">:
+</span><span style="color:#abb2bf;">      stack</span><span style="color:#adb7c9;">=</span><span style="color:#db9d63;">2</span><span style="color:#abb2bf;">, locals</span><span style="color:#adb7c9;">=</span><span style="color:#db9d63;">115</span><span style="color:#abb2bf;">, args_size</span><span style="color:#adb7c9;">=</span><span style="color:#db9d63;">1
+         0</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> iconst_1
+         </span><span style="color:#db9d63;">1</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore_1
+         </span><span style="color:#db9d63;">2</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> iconst_0
+         </span><span style="color:#db9d63;">3</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore_2
+         </span><span style="color:#db9d63;">4</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> bipush        </span><span style="color:#adb7c9;">-</span><span style="color:#db9d63;">2
+         6</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore_3
+         </span><span style="color:#db9d63;">7</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> iconst_m1
+         </span><span style="color:#db9d63;">8</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">4
+        10</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> iconst_0
+        </span><span style="color:#db9d63;">11</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">5
+        13</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> iconst_1
+        </span><span style="color:#db9d63;">14</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">6
+        16</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> iconst_2
+        </span><span style="color:#db9d63;">17</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">7
+        19</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> iconst_3
+        </span><span style="color:#db9d63;">20</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">8
+        22</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> iconst_4
+        </span><span style="color:#db9d63;">23</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">9
+        25</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> iconst_5
+        </span><span style="color:#db9d63;">26</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">10
+        28</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> bipush        </span><span style="color:#db9d63;">6
+        30</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">11
+        32</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> bipush        </span><span style="color:#adb7c9;">-</span><span style="color:#db9d63;">2
+        34</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">12
+        36</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> iconst_m1
+        </span><span style="color:#db9d63;">37</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">13
+        39</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> iconst_0
+        </span><span style="color:#db9d63;">40</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">14
+        42</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> iconst_1
+        </span><span style="color:#db9d63;">43</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">15
+        45</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> iconst_2
+        </span><span style="color:#db9d63;">46</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">16
+        48</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> iconst_3
+        </span><span style="color:#db9d63;">49</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">17
+        51</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> iconst_4
+        </span><span style="color:#db9d63;">52</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">18
+        54</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> iconst_5
+        </span><span style="color:#db9d63;">55</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">19
+        57</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> bipush        </span><span style="color:#db9d63;">6
+        59</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">20
+        61</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> bipush        </span><span style="color:#db9d63;">12
+        63</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">21
+        65</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> bipush        </span><span style="color:#db9d63;">127
+        67</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">22
+        69</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> sipush        </span><span style="color:#db9d63;">128
+        72</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">23
+        74</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> sipush        </span><span style="color:#adb7c9;">-</span><span style="color:#db9d63;">32768
+        77</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">24
+        79</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> sipush        </span><span style="color:#db9d63;">32766
+        82</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">25
+        84</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> sipush        </span><span style="color:#db9d63;">32767
+        87</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">26
+        89</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> iconst_0
+        </span><span style="color:#db9d63;">90</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">27
+        92</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> iconst_1
+        </span><span style="color:#db9d63;">93</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">28
+        95</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> iconst_2
+        </span><span style="color:#db9d63;">96</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">29
+        98</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> iconst_3
+        </span><span style="color:#db9d63;">99</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">30
+       101</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> iconst_4
+       </span><span style="color:#db9d63;">102</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">31
+       104</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> iconst_5
+       </span><span style="color:#db9d63;">105</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">32
+       107</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> bipush        </span><span style="color:#db9d63;">6
+       109</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">33
+       111</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> bipush        </span><span style="color:#db9d63;">12
+       113</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">34
+       115</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> bipush        </span><span style="color:#db9d63;">127
+       117</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">35
+       119</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> sipush        </span><span style="color:#db9d63;">128
+       122</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">36
+       124</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> sipush        </span><span style="color:#db9d63;">32766
+       127</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">37
+       129</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> sipush        </span><span style="color:#db9d63;">32767
+       132</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">38
+       134</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> ldc           #</span><span style="color:#db9d63;">2                  </span><span style="font-style:italic;color:#5f697a;">// int 32768
+       </span><span style="color:#db9d63;">136</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">39
+       138</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> ldc           #</span><span style="color:#db9d63;">3                  </span><span style="font-style:italic;color:#5f697a;">// int 65535
+       </span><span style="color:#db9d63;">140</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">40
+       142</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> bipush        </span><span style="color:#adb7c9;">-</span><span style="color:#db9d63;">2
+       144</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">41
+       146</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> iconst_m1
+       </span><span style="color:#db9d63;">147</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">42
+       149</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> iconst_0
+       </span><span style="color:#db9d63;">150</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">43
+       152</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> iconst_1
+       </span><span style="color:#db9d63;">153</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">44
+       155</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> iconst_2
+       </span><span style="color:#db9d63;">156</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">45
+       158</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> iconst_3
+       </span><span style="color:#db9d63;">159</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">46
+       161</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> iconst_4
+       </span><span style="color:#db9d63;">162</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">47
+       164</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> iconst_5
+       </span><span style="color:#db9d63;">165</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">48
+       167</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> bipush        </span><span style="color:#db9d63;">6
+       169</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">49
+       171</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> sipush        </span><span style="color:#adb7c9;">-</span><span style="color:#db9d63;">129
+       174</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">50
+       176</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> bipush        </span><span style="color:#adb7c9;">-</span><span style="color:#db9d63;">128
+       178</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">51
+       180</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> bipush        </span><span style="color:#adb7c9;">-</span><span style="color:#db9d63;">127
+       182</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">52
+       184</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> bipush        </span><span style="color:#db9d63;">127
+       186</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">53
+       188</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> sipush        </span><span style="color:#db9d63;">128
+       191</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">54
+       193</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> sipush        </span><span style="color:#db9d63;">255
+       196</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">55
+       198</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> sipush        </span><span style="color:#db9d63;">256
+       201</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">56
+       203</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> sipush        </span><span style="color:#db9d63;">257
+       206</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">57
+       208</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> ldc           #</span><span style="color:#db9d63;">4                  </span><span style="font-style:italic;color:#5f697a;">// int -32769
+       </span><span style="color:#db9d63;">210</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">58
+       212</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> sipush        </span><span style="color:#adb7c9;">-</span><span style="color:#db9d63;">32768
+       215</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">59
+       217</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> sipush        </span><span style="color:#db9d63;">32766
+       220</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">60
+       222</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> sipush        </span><span style="color:#db9d63;">32767
+       225</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">61
+       227</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> ldc           #</span><span style="color:#db9d63;">2                  </span><span style="font-style:italic;color:#5f697a;">// int 32768
+       </span><span style="color:#db9d63;">229</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">62
+       231</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> ldc           #</span><span style="color:#db9d63;">5                  </span><span style="font-style:italic;color:#5f697a;">// int 65534
+       </span><span style="color:#db9d63;">233</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">63
+       235</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> ldc           #</span><span style="color:#db9d63;">3                  </span><span style="font-style:italic;color:#5f697a;">// int 65535
+       </span><span style="color:#db9d63;">237</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> istore        </span><span style="color:#db9d63;">64
+       239</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> ldc2_w        #</span><span style="color:#db9d63;">6                  </span><span style="font-style:italic;color:#5f697a;">// long -2l
+       </span><span style="color:#db9d63;">242</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> lstore        </span><span style="color:#db9d63;">65
+       244</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> ldc2_w        #</span><span style="color:#db9d63;">8                  </span><span style="font-style:italic;color:#5f697a;">// long -1l
+       </span><span style="color:#db9d63;">247</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> lstore        </span><span style="color:#db9d63;">67
+       249</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> lconst_0
+       </span><span style="color:#db9d63;">250</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> lstore        </span><span style="color:#db9d63;">69
+       252</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> lconst_1
+       </span><span style="color:#db9d63;">253</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> lstore        </span><span style="color:#db9d63;">71
+       255</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> ldc2_w        #</span><span style="color:#db9d63;">10                 </span><span style="font-style:italic;color:#5f697a;">// long 2l
+       </span><span style="color:#db9d63;">258</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> lstore        </span><span style="color:#db9d63;">73
+       260</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> ldc2_w        #</span><span style="color:#db9d63;">12                 </span><span style="font-style:italic;color:#5f697a;">// long 3l
+       </span><span style="color:#db9d63;">263</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> lstore        </span><span style="color:#db9d63;">75
+       265</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> ldc2_w        #</span><span style="color:#db9d63;">14                 </span><span style="font-style:italic;color:#5f697a;">// long 4l
+       </span><span style="color:#db9d63;">268</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> lstore        </span><span style="color:#db9d63;">77
+       270</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> ldc2_w        #</span><span style="color:#db9d63;">16                 </span><span style="font-style:italic;color:#5f697a;">// long 5l
+       </span><span style="color:#db9d63;">273</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> lstore        </span><span style="color:#db9d63;">79
+       275</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> ldc2_w        #</span><span style="color:#db9d63;">18                 </span><span style="font-style:italic;color:#5f697a;">// long 6l
+       </span><span style="color:#db9d63;">278</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> lstore        </span><span style="color:#db9d63;">81
+       280</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> ldc2_w        #</span><span style="color:#db9d63;">20                 </span><span style="font-style:italic;color:#5f697a;">// long -129l
+       </span><span style="color:#db9d63;">283</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> lstore        </span><span style="color:#db9d63;">83
+       285</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> ldc2_w        #</span><span style="color:#db9d63;">22                 </span><span style="font-style:italic;color:#5f697a;">// long -128l
+       </span><span style="color:#db9d63;">288</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> lstore        </span><span style="color:#db9d63;">85
+       290</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> ldc2_w        #</span><span style="color:#db9d63;">24                 </span><span style="font-style:italic;color:#5f697a;">// long -127l
+       </span><span style="color:#db9d63;">293</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> lstore        </span><span style="color:#db9d63;">87
+       295</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> ldc2_w        #</span><span style="color:#db9d63;">26                 </span><span style="font-style:italic;color:#5f697a;">// long 127l
+       </span><span style="color:#db9d63;">298</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> lstore        </span><span style="color:#db9d63;">89
+       300</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> ldc2_w        #</span><span style="color:#db9d63;">28                 </span><span style="font-style:italic;color:#5f697a;">// long 128l
+       </span><span style="color:#db9d63;">303</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> lstore        </span><span style="color:#db9d63;">91
+       305</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> ldc2_w        #</span><span style="color:#db9d63;">30                 </span><span style="font-style:italic;color:#5f697a;">// long 255l
+       </span><span style="color:#db9d63;">308</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> lstore        </span><span style="color:#db9d63;">93
+       310</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> ldc2_w        #</span><span style="color:#db9d63;">32                 </span><span style="font-style:italic;color:#5f697a;">// long 256l
+       </span><span style="color:#db9d63;">313</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> lstore        </span><span style="color:#db9d63;">95
+       315</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> ldc2_w        #</span><span style="color:#db9d63;">34                 </span><span style="font-style:italic;color:#5f697a;">// long 257l
+       </span><span style="color:#db9d63;">318</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> lstore        </span><span style="color:#db9d63;">97
+       320</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> ldc2_w        #</span><span style="color:#db9d63;">36                 </span><span style="font-style:italic;color:#5f697a;">// long -32769l
+       </span><span style="color:#db9d63;">323</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> lstore        </span><span style="color:#db9d63;">99
+       325</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> ldc2_w        #</span><span style="color:#db9d63;">38                 </span><span style="font-style:italic;color:#5f697a;">// long -32768l
+       </span><span style="color:#db9d63;">328</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> lstore        </span><span style="color:#db9d63;">101
+       330</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> ldc2_w        #</span><span style="color:#db9d63;">40                 </span><span style="font-style:italic;color:#5f697a;">// long 32766l
+       </span><span style="color:#db9d63;">333</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> lstore        </span><span style="color:#db9d63;">103
+       335</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> ldc2_w        #</span><span style="color:#db9d63;">42                 </span><span style="font-style:italic;color:#5f697a;">// long 32767l
+       </span><span style="color:#db9d63;">338</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> lstore        </span><span style="color:#db9d63;">105
+       340</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> ldc2_w        #</span><span style="color:#db9d63;">44                 </span><span style="font-style:italic;color:#5f697a;">// long 32768l
+       </span><span style="color:#db9d63;">343</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> lstore        </span><span style="color:#db9d63;">107
+       345</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> ldc2_w        #</span><span style="color:#db9d63;">46                 </span><span style="font-style:italic;color:#5f697a;">// long 65534l
+       </span><span style="color:#db9d63;">348</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> lstore        </span><span style="color:#db9d63;">109
+       350</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> ldc2_w        #</span><span style="color:#db9d63;">48                 </span><span style="font-style:italic;color:#5f697a;">// long 65535l
+       </span><span style="color:#db9d63;">353</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> lstore        </span><span style="color:#db9d63;">111
+       355</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> ldc2_w        #</span><span style="color:#db9d63;">50                 </span><span style="font-style:italic;color:#5f697a;">// long 165536l
+       </span><span style="color:#db9d63;">358</span><span style="color:#adb7c9;">:</span><span style="color:#abb2bf;"> lstore        </span><span style="color:#db9d63;">113
+       360</span><span style="color:#adb7c9;">: </span><span style="color:#cd74e8;">return
+</span></code></pre>
+    </div>
+
+    
+
+    
+
+    <div class="post-footer">
+        
+        
+
+        <div class="footer-buttons">
+            <button type="button" class="footer"><span class="text"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i>&nbsp;&nbsp;赞赏</span></button>
+            <button type="button" class="footer footer-weak"><span class="text"><i class="fa fa-share-square-o" aria-hidden="true"></i>&nbsp;&nbsp;分享</span></button>
+        </div>
+
+
+        
+        <div class="post-nav">
+            
+            <a class="next" href=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;skywalking5-0-0-beta-deployment-build&#x2F;>skywalking5.0部署搭建 ›</a>
+            
+            
+            <a class="previous" href=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;rust-ownership&#x2F;>‹ Rust中所有权,引用,生命周期小记</a>
+            
+            
+            
+        </div>
+        
+
+        
+
+    </div>
+
+    
+    
+</article>
+
+
+
+        </div>
+    </main>
+
+    <footer id="footer">
+
+    </footer>
+</div>
+<footer id="footer">
+    
+    
+    <div class="container">
+        <div class="bottom-bar">
+            Made 
+            by
+            <a href="https://github.com/GalAster/zola-theme-mikoto" target="_blank" rel="noopener noreferrer">Aster</a>
+        </div>
+    </div>
+    
+</footer>
+
+<script type="text/javascript" src=https:&#x2F;&#x2F;blog.oatiz.me&#x2F;lib&#x2F;init.js></script>
+
+</body>
+</html>
