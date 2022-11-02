@@ -1,6 +1,7 @@
 +++
 title = "skywalking5.0部署搭建"
 date = 2018-05-15T16:06:00+08:00
+tags = ["java", "apm", "skywalking"]
 draft = false
 author = "lyraile"
 +++
@@ -159,4 +160,4 @@ thread_pool.bulk.queue_size: 1000
 
 ## 参考链接 {#参考链接}
 
-[skywalking-中文文档](https://github.com/apache/incubator-skywalking/blob/master/docs/README_ZH.md) <br/>
+[skywalking-中文文档](https://github.com/apache/incubator-skywalking/blob/master/docs/README_ZH.md)

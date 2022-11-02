@@ -1,6 +1,8 @@
 +++
 title = "GC学习笔记:GC标记-清除算法(三)"
-date = 2017-08-05T15:56:00+08:00
+date = 2017-08-10T15:56:00+08:00
+tags = ["jvm", "gc"]
+categories = ["Garbage Collection"]
 draft = false
 author = "lyraile"
 +++

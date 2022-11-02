@@ -1,6 +1,8 @@
 +++
 title = "GC学习笔记:GC定义及历史(一)"
 date = 2017-08-01T15:50:00+08:00
+tags = ["jvm", "gc"]
+categories = ["Garbage Collection"]
 draft = false
 author = "lyraile"
 +++

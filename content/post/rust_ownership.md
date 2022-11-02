@@ -1,6 +1,7 @@
 +++
 title = "Rust中所有权,引用,生命周期小记"
 date = 2018-11-02T16:13:00+08:00
+tags = ["rust"]
 draft = false
 author = "lyraile"
 +++
@@ -59,4 +60,4 @@ Resource Acquisition Is Initialization (RAII) <br/>
 用来解决悬垂指针问题 悬垂指针(dangling pointer): <br/>
 指针指向的内存已经被分配给其他自由者 <br/>
 
-TODO ... <br/>
+TODO ...
