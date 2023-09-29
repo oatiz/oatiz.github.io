@@ -1,9 +1,7 @@
 +++
 title = "(一) DBMS系统概述及辅助储存管理"
-date = 2019-04-17T21:12:00+08:00
 tags = ["database"]
-categories = ["Database System Implementation"]
-draft = false
+draft = true
 author = "lyraile"
 +++
 
@@ -40,3 +38,4 @@ author = "lyraile"
 
 
 ## 2.8 记录的修改 {#记录的修改}
+

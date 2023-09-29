@@ -1,6 +1,6 @@
 +++
 title = "建站前言"
-date = 2017-07-28T11:26:00+08:00
+date = 2017-07-28T17:49:00+08:00
 draft = false
 author = "lyraile"
 +++
@@ -25,3 +25,4 @@ author = "lyraile"
 碎碎念结束，愿自己坚持下去。 <br/>
 
 祝好:-)
+

@@ -32,7 +32,7 @@ Resource Acquisition Is Initialization (RAII) <br/>
 
 ## 引用与借用 {#引用与借用}
 
-引用作为方法函数为=借用=, 脱离作用域值不会被丢弃掉 <br/>
+引用作为方法函数为 `借用` , 脱离作用域值不会被丢弃掉 <br/>
 
 
 ### 数据竞争(data race) {#数据竞争data-race}
@@ -61,3 +61,4 @@ Resource Acquisition Is Initialization (RAII) <br/>
 指针指向的内存已经被分配给其他自由者 <br/>
 
 TODO ...
+

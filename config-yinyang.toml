@@ -1,0 +1,33 @@
+baseURL = "https://blog.lyraile.org/"
+languageCode = "en"
+defaultContentLanguage = "en"
+theme = "yinyang"
+contentDir = "content"
+
+[author]
+  name = "lyraile"
+
+[params]
+  math = true
+  headTitle = "Lyraile"
+  mainSections = ["posts"]
+
+[[params.socials]]
+name = "Github"
+link = "https://github.com/oatiz"
+
+[privacy]
+  [privacy.googleAnalytics]
+    anonymizeIP = true      # 12.214.31.144 -> 12.214.31.0
+  [privacy.youtube]
+    privacyEnhanced = true
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+  [markup.highlight]
+    guessSyntax = true
+    noClasses = true
+    style = "bw"
+    tabWidth = 2

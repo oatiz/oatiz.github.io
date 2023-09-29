@@ -18,7 +18,7 @@ System.out.println(s1 == s2); //true
 
 沉思了一下,依我的编码经验给出了结果为true,辣么他接着问这是为什么,于是乎我就说常量是在编译期间存放在常量池中的,他接着问什么是常量池,都有什么东西存放在里面? <br/>
 
-_综上所述_,引出了今天我们的问题 **什么是常量池** ? <br/>
+_综上所述_ ,引出了今天我们的问题 **什么是常量池** ? <br/>
 
 
 ## 定义 {#定义}
@@ -28,7 +28,7 @@ _综上所述_,引出了今天我们的问题 **什么是常量池** ? <br/>
 
 > A run-time constant pool is a per-class or per-interface run-time representation of the constant_pool table in a class file. It contains several kinds of constants, ranging from numeric literals known at compile-time to method and field references that must be resolved at run-time. The run-time constant pool serves a function similar to that of a symbol table for a conventional programming language, although it contains a wider range of data than a typical symbol table. <br/>
 
-**运行时常量池(Runtime Constant Pool)是每一个类或接口的常量池(Constant_Pool)的运行时表示形式,它包括了若干种不同的常量:从编译期可知的数值字面量到必须运行 期解析后才能获得的方法或字段引用。运行时常量池扮演了类似传统语言中符号表(Symbol Table)的角色，不过它存储数据范围比通常意义上的符号表要更为广泛。** <br/>
+**运行时常量池 (Runtime Constant Pool) 是每一个类或接口的常量池(Constant_Pool)的运行时表示形式,它包括了若干种不同的常量:从编译期可知的数值字面量到必须运行 期解析后才能获得的方法或字段引用。运行时常量池扮演了类似传统语言中符号表 (Symbol Table) 的角色，不过它存储数据范围比通常意义上的符号表要更为广泛。** <br/>
 
 
 ### [The Constant Pool](https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.4) {#the-constant-pool}
@@ -529,3 +529,4 @@ Constant pool:
        358: lstore        113
        360: return
 {{< /highlight >}}
+

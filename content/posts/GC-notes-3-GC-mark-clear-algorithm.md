@@ -1,9 +1,7 @@
 +++
 title = "GC学习笔记:GC标记-清除算法(三)"
-date = 2017-08-10T15:56:00+08:00
 tags = ["jvm", "gc"]
-categories = ["Garbage Collection"]
-draft = false
+draft = true
 author = "lyraile"
 +++
 
@@ -62,3 +60,4 @@ author = "lyraile"
 
 
 ## 延迟清除法 {#延迟清除法}
+
