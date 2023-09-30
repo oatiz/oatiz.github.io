@@ -33,10 +33,26 @@ struct Point {
 }  
 {{< /highlight >}}
 
-TODO // ... <br/>
+
+### Payload {#payload}
+
+Qdrant的一个重要特性之一是能够在向量中存储附加信息。 Qdrant允许存储任何可以使用JSON表示的信息。 <br/>
 
 
-## 缩略图 {#缩略图}
+### Collections {#collections}
 
-{{< figure src="/ox-hugo/qdrant_architecture.png" >}} <br/>
+Collections 可以理解为关系型数据库中的表，它的一行就是一个 point 。 <br/>
+
+
+### 缩略图 {#缩略图}
+
+{{< figure src="/ox-hugo/qdrant_architecture.png" caption="<span class=\"figure-number\">Figure 1: </span>qdrant结构图" >}} <br/>
+
+
+## 流程 {#流程}
+
+
+### Points upsert {#points-upsert}
+
+{{< figure src="/ox-hugo/qdrant_points_upsert.png" caption="<span class=\"figure-number\">Figure 2: </span>客户端插入Point流程图" >}} <br/>
 
